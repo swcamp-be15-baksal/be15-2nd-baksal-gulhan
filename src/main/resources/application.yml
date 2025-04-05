@@ -5,8 +5,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    hibernate:
-      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -17,6 +15,7 @@ spring:
       port: ${REDIS_PORT}
       url: jdbc:redis://${REDIS_URL}
       password: ${REDIS_PASSWORD}
+      username: ${REDIS_USERNAME}
 
 mybatis:
   configuration:

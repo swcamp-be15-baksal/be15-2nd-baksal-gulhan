@@ -4,8 +4,9 @@ package com.hanhwa_tae.gulhan.user.command.application.dto.request;
 import com.hanhwa_tae.gulhan.user.annotation.ValidBirth;
 import com.hanhwa_tae.gulhan.user.annotation.ValidEmail;
 import com.hanhwa_tae.gulhan.user.annotation.ValidPhone;
-import com.hanhwa_tae.gulhan.user.command.application.dto.GenderType;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +26,7 @@ public class UserCreateRequest {
     @ValidEmail
     private final String email;
 
-    @NotBlank
+    @NotNull
     private final GenderType gender;
 
     @NotBlank
@@ -37,11 +38,9 @@ public class UserCreateRequest {
     /* 휴대폰 값 검증 따로 생성 */
     private final String phone;
 
-
     private final String address;
 
     @NotBlank
     /* default 값 지정*/
-    private final String countryCode = "82";
-
+    private final String countryCode;
 }

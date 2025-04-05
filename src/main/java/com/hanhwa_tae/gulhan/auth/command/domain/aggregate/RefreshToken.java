@@ -16,10 +16,9 @@ import org.springframework.data.redis.core.index.Indexed;
 //@TimeToLive(unit = @Value())
 public class RefreshToken {
     @Id
-    private String token;
+    private final String token;
 
     @Indexed
-    private String username;
-
+    private final String userId;
 
 }

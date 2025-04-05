@@ -8,10 +8,10 @@ import java.util.regex.Pattern;
 
 public class PhoneValidator implements ConstraintValidator<ValidPhone, String> {
     private static final Pattern PHONE_REGEX =
-            Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$");
+            Pattern.compile("^01[0|1|6|7|8|9]-\\d{3,4}-\\d{4}$");
 
     @Override
-    public boolean isValid(String phone, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(String phone, ConstraintValidatorContext context) {
         return phone != null && PHONE_REGEX.matcher(phone).matches();
     }
 }
