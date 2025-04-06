@@ -10,12 +10,16 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.UserInfo;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserInfoRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
+import com.hanhwa_tae.gulhan.utils.EmailUtil;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +30,13 @@ public class UserCommandService {
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final EmailUtil emailUtil;
 
     @Transactional
     public void registerUser(@Valid UserCreateRequest request) {
+        // TODO 검증 로직 수행
+
+
         // 평민 등급 조회
         Rank defaultRank = userMapper.findRankIdByRankName(RankType.COMMONER.name());
 
@@ -41,12 +49,33 @@ public class UserCommandService {
                 .rankId(defaultRank.getRankId())
                 .build();
 
-
         User user = modelMapper.map(userDto, User.class);
         user.setDefaultRank(defaultRank);
         user.setEncodedPassword(passwordEncoder.encode(request.getPassword()));
 
-        /* 유저 저장 */
+
+
+        /* TODO 유저 저장
+         *  - Redis에 저장하기
+         *      - uuid: {유저 정보 형태}
+         *  - 이메일 보내기 */
+        // 1. Redis에 데이터 저장
+
+        // 2. 이메일 보내기
+        StringBuilder sb = new StringBuilder();
+        sb.append("<h1>이메일 인증<h1>");
+
+        String uuid = UUID.randomUUID().toString();
+        sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
+
+
+        try {
+            emailUtil.sendEmail(user.getEmail(), "[거한] 이메일 인증 입니다.", sb.toString());
+        } catch (MessagingException e) {
+            // TODO 오류 메시지 잡는거 생기면 수정하기
+            e.printStackTrace();
+        }
+
         userRepository.save(user);
 
         /* 유저 상세 정보 저장 */

@@ -22,6 +22,17 @@ spring:
     username: ${GOOGLE_USERNAME}
     password: ${GOOGLE_APP_PASSWORD}
     # 기타 설정 추가하기!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+        debug: true
 
 mybatis:
   configuration:
