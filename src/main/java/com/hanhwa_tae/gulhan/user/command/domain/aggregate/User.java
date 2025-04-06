@@ -3,10 +3,16 @@ package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor
 
 @Entity
-@Getter
 @Table(name = "user")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
