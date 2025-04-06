@@ -27,9 +27,13 @@ public class UserCommandController {
     }
 
     // 이메일 인증
+    /* 사용자가 전송한 내용을 검증해야 함*/
     @GetMapping("/verify-email")
-    public ResponseEntity<Void> verifyEmail(){
+    public ResponseEntity<Void> verifyEmail(
+            @RequestParam(required = true) String uuid
+    ){
         /* TODO: 이메일 인증 로직 필요 */
+        userCommandService.verifyByEmail(uuid);
         
         return ResponseEntity.ok(null);
     }

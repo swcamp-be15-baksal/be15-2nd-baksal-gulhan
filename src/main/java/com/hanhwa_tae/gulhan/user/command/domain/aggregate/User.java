@@ -33,8 +33,4 @@ public class User {
     public void setDefaultRank(Rank rank) {
         this.rank = rank;
     }
-
-    public void setEncodedPassword(String encodedPassword){
-        this.password =encodedPassword;
-    }
 }
