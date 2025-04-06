@@ -16,6 +16,12 @@ spring:
       url: jdbc:redis://${REDIS_URL}
       password: ${REDIS_PASSWORD}
       username: ${REDIS_USERNAME}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_USERNAME}
+    password: ${GOOGLE_APP_PASSWORD}
+    # 기타 설정 추가하기!
 
 mybatis:
   configuration:
