@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "user")
@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userNo;
@@ -24,7 +23,7 @@ public class User {
 
     private String password;
 
-    private String userName;
+    private String username;
 
     @Column(unique = true)
     private String email;
