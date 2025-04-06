@@ -1,7 +1,9 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,11 +13,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comment")
+@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -25,16 +30,16 @@ public class Comment {
     private String content;
 
     @CreatedDate
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
     private DeleteType isDeleted = DeleteType.N;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_no")
-//    private User userNo; // FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no")
+    private User userNo; // FK
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_mate_post_id")
