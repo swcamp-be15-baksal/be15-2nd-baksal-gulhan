@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanhwa_tae.gulhan.travelmatepost.query.mapper.TmpMapper">
-    <select id="selectTravelMatePosts" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpListResponse">
+    <select id="selectTravelMatePosts" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDTO">
         SELECT * FROM travel_mate_post WHERE is_deleted = 'N'
         <if test="title != null">
             AND title LIKE CONCAT('%', #{ title }, '%')
@@ -19,5 +19,9 @@
             AND title LIKE CONCAT('%', #{ title }, '%')
         </if>
         ;
+    </select>
+
+    <select id="selectTmpByTravelMatePostId" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDTO">
+        SELECT * FROM travel_mate_post WHERE is_deleted = 'N' AND travel_mate_post_id = #{ travelMatePostId };
     </select>
 </mapper>

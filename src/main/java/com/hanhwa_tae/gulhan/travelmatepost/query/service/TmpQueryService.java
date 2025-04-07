@@ -3,12 +3,15 @@ package com.hanhwa_tae.gulhan.travelmatepost.query.service;
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
 import com.hanhwa_tae.gulhan.travelmatepost.query.dto.request.TmpSearchRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDTO;
+import com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDetailResponse;
 import com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpListResponse;
 import com.hanhwa_tae.gulhan.travelmatepost.query.mapper.TmpMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.builder.BuilderException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,18 @@ public class TmpQueryService {
                         .totalSize((int) Math.ceil((double) totalPosts / size))
                         .totalPosts(totalPosts)
                         .build())
+                .build();
+    }
+
+    /* 동행글 상세 조회 */
+    public TmpDetailResponse getTmpList(int travelMatePostId) {
+
+        TmpDTO tmp = Optional.ofNullable(
+                tmpMapper.selectTmpByTravelMatePostId(travelMatePostId))
+                .orElseThrow(BuilderException::new);
+
+        return TmpDetailResponse.builder()
+                .tmpDTO(tmp)
                 .build();
     }
 }

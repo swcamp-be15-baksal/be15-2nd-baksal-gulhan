@@ -4,6 +4,4 @@ import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.TravelMateP
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JpaTravelMatePostRepository extends JpaRepository<TravelMatePost, String> {
-
-
 }

@@ -1,4 +1,4 @@
-package com.hanhwa_tae.gulhan.travelmatepost.query.dto.request;
+package com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

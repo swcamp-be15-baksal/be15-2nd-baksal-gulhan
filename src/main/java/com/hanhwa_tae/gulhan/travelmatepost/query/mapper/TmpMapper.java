@@ -8,6 +8,9 @@ import java.util.List;
 
 @Mapper
 public interface TmpMapper {
+
+    TmpDTO selectTmpByTravelMatePostId(Integer travelMatePostId);
+
     List<TmpDTO> selectTravelMatePosts(TmpSearchRequest tmpSearchRequest);
 
     long countPosts(TmpSearchRequest tmpSearchRequest);
