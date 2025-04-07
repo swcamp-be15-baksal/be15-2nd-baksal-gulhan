@@ -28,7 +28,7 @@ public class CartQueryService {
                 carts(carts).
                 pagination(Pagination.builder().
                         currentPage(page).
-                        page((int)Math.ceil((double) totalItems/size)).
+                        totalPage((int)Math.ceil((double) totalItems/size)).
                         size(size).build()).build();
     }
 }
