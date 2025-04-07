@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanhwa_tae.gulhan.cart.query.mapper.CartMapper">
+   <select id="selectCartsByUserId" resultType="CartResponse">
+       SELECT
+            c.cart_id,
+            c.quantity,
+            c.target_type
+       FROM cart c
+       JOIN image a ON(c.target_id = a.target_id)
+       WHERE user_no = { userNO }
+   </select>
+
+    <select id="countCarts" resultType="long">
+        SELECT COUNT(*)
+        FROM cart
+        WHERE user_no = { userNO }
+    </select>
+</mapper>
