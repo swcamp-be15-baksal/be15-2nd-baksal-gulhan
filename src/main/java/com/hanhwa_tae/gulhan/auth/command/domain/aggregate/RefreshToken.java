@@ -12,8 +12,7 @@ import org.springframework.data.redis.core.index.Indexed;
 @Data
 @RequiredArgsConstructor
 @Builder
-@RedisHash
-//@TimeToLive(unit = @Value())
+@RedisHash(timeToLive = 60480000)
 public class RefreshToken {
     @Id
     private final String token;
