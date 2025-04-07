@@ -1,10 +1,13 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.application.service;
 
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.TmpUpdateRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.TravelMatePost;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.repository.JpaTravelMatePostRepository;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.repository.JpaUserRepository;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.TmpInsertRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ public class TmpCmdService {
     private final JpaUserRepository jpaUserRepository;
 
     /* 상품 등록 */
+    @Transactional
         public int createTmp(TmpInsertRequest request) {
 
             TravelMatePost travelMatePost = modelMapper.map(request, TravelMatePost.class);
@@ -30,5 +34,24 @@ public class TmpCmdService {
             return saved.getTravelMatePostId();
 
 
+    }
+
+    /* 상품 수정 */
+    @Transactional
+    public void updatePost(Integer travelMatePostId, TmpUpdateRequest request) {
+        TravelMatePost travelMatePost = jpaTravelMatePostRepository.findById(travelMatePostId)
+                .orElseThrow();
+
+        travelMatePost.updateProductDetails(
+                request.getTitle(),
+                request.getContent(),
+                DeleteType.valueOf(request.getIsDeleted())
+        );
+
+    }
+
+    /* 상품 삭제 */
+    public void deletePost(Integer travelMatePostId) {
+        jpaTravelMatePostRepository.deleteById(travelMatePostId);
     }
 }

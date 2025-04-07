@@ -1,6 +1,17 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request;
 
-public class TmpUpdateRequest {
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
+public class TmpUpdateRequest {
+    @NotBlank
+    private final String title;
+    @NotBlank
+    private final String content;
+
+    private final String isDeleted;
 
 }

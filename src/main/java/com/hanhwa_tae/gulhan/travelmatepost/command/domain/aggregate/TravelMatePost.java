@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 @Table(name = "travel_mate_post")
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter
+@SQLDelete(sql = "UPDATE travel_mate_post SET is_deleted = 'Y' WHERE travel_mate_post_id = ?")
 public class TravelMatePost {
 
     @Id
@@ -50,4 +52,10 @@ public class TravelMatePost {
     @ManyToOne
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
+
+    public void updateProductDetails(@NotBlank String title, @NotBlank String content, DeleteType deleteType) {
+        this.title = title;
+        this.content = content;
+        this.isDeleted = deleteType;
+    }
 }

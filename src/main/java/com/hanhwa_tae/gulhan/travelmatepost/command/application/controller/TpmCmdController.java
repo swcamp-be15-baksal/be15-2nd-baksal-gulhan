@@ -6,6 +6,7 @@ import com.hanhwa_tae.gulhan.travelmatepost.command.application.service.TmpCmdSe
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.TmpInsertRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,9 +26,16 @@ public class TpmCmdController {
         return ResponseEntity.ok(ApiResponse.success(tmpCmdService.createTmp(request)));
     }
 
-    @PutMapping("/board/{userNo}")
-    public ResponseEntity<ApiResponse<Void>> updatePost (@PathVariable Integer userNo, @RequestBody TmpUpdateRequest request) {
-        return null;
+    @PutMapping("/list/{travelMatePostId}")
+    public ResponseEntity<ApiResponse<Void>> updatePost (@PathVariable Integer travelMatePostId, @RequestBody TmpUpdateRequest request) {
+        tmpCmdService.updatePost(travelMatePostId, request);
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @DeleteMapping("/list/{travelMatePostId}")
+    public ResponseEntity<ApiResponse<Void>> deletePost(@PathVariable Integer travelMatePostId){
+        tmpCmdService.deletePost(travelMatePostId);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
 }
