@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
-    private RedisRefreshTokenRepository redisRefreshTokenRepository;
-
+public class AuthCommandServiceImpl implements AuthCommandService {
+    private final RedisRefreshTokenRepository redisRefreshTokenRepository;
 
 }
