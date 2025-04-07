@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Builder
 public class CartDetailResponse {
-    private final List<CartDetailResponse> carts;
+    private final List<CartResponse> carts;
     private final Pagination pagination;
 }
