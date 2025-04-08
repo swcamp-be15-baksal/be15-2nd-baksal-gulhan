@@ -14,10 +14,10 @@ public class Rank {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rankId;
 
+    @Enumerated(EnumType.STRING)
     private RankType rankName;
 
     private Long pointRate; // 적립률
-
 
     @OneToMany(mappedBy = "rank")
     private List<User> users;
