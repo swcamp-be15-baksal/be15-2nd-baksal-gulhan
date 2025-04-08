@@ -26,6 +26,7 @@ public class CartQueryController {
             @PathVariable int user_no, CartSearchRequest cartSearchRequest
     ){
         CartDetailResponse response = cartQueryService.getMyCart(user_no, cartSearchRequest);
+        return ResponseEntity.ok(ApiResponse.success(response));
 
     }
 }

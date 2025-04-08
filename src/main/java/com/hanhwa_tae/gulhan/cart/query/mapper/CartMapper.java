@@ -11,4 +11,5 @@ import java.util.List;
 public interface CartMapper {
     List<CartResponse> selectCartsByUserId(int userId, CartSearchRequest cartSearchRequest);
     long countCarts(int userId);
+
 }

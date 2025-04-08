@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class CartCommandService {
     private final CartRepository cartRepository;
 
-    public int registerCart(CreateCartRequest createCartRequest){
-
+    public int registerCart(int userNo, CreateCartRequest createCartRequest){
+        return 1;
     }
 
 }
