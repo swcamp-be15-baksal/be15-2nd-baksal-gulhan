@@ -6,4 +6,17 @@
     <select id="findRankIdByRankName" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank">
         SELECT rank_id FROM rank WHERE rank_name = #{ rankName}
     </select>
+    <select id="findUserById" resultType="int">
+        SELECT user_id FROM user WHERE user_id = #{ userId }
+    </select>
+    <select id="findUserByEmail" resultType="int">
+        SELECT email FROM user WHERE email = #{ email }
+    </select>
+    <select id="findUserByPhone" resultType="int">
+        SELECT
+            b.phone
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE b.phone = #{ phone }
+    </select>
 </mapper>

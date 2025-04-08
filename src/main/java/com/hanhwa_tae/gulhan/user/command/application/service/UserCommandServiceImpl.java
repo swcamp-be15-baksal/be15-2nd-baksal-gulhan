@@ -38,13 +38,29 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) {
-        // TODO 검증 로직 수행
+        User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
+        User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
+
+        // 중복 유저가 존재할 경우
+        if(duplicateIdUser != null){
+            throw new RuntimeException("중복 아이디가 존재합니다!");
+        }
+
+        // 중복 이메일이 존재할 경우
+        if(duplicateEmailUser != null){
+            throw new RuntimeException("중복 이메일이 존재합니다!");
+        }
 
         // 1. Redis에 데이터 저장
         String uuid = UUID.randomUUID().toString();
 
+        // 1.1. redis에 이미 회원 가입 요청이 저장되어 있을 경우
+        //   => 기존 요청 정보를 지움
+        redisUserRepository.deleteById(request.getUserId());
+
         request.setEncodedPassword(passwordEncoder.encode(request.getPassword()));
 
+        // 1.2. redis에 유저 정보 저장
         try {
             String userData = objectMapper.writeValueAsString(request);
             RedisUser user = RedisUser.builder()
