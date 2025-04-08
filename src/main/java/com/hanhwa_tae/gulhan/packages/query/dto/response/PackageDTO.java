@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class PackageResponse {
+public class PackageDTO {
     private int packageId;
 
     private String title;
@@ -19,6 +19,8 @@ public class PackageResponse {
     private int capacity;
 
     private int currentRegist;
+
+    private String area;
 
     private Timestamp startDate;
 

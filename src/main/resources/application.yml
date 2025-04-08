@@ -1,3 +1,24 @@
+
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/gulhan
+    username: baksal
+    password: baksal
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+
 mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: com.hanhwa_tae.gulhan
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:/com/hanhwa_tae/gulhan/packages/query/mapper/*.xml

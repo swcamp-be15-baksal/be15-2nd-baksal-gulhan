@@ -13,6 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PackageListResponse {
-    private final List<PackageResponse> packageList;
+    private final List<PackageDTO> packages;
     private final Pagination pagination;
 }

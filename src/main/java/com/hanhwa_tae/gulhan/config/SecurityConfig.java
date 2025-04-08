@@ -33,8 +33,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
 //                                .requestMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/auth/refresh").permitAll()
-                                .requestMatchers(HttpMethod.POST, "api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "api/v1/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/packages/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/packages").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()

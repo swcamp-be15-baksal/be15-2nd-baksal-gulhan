@@ -3,10 +3,12 @@ package com.hanhwa_tae.gulhan.packages.query.service;
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
 import com.hanhwa_tae.gulhan.packages.query.dto.request.PackageSearchRequest;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageListResponse;
-import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageResponse;
+import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
 import com.hanhwa_tae.gulhan.packages.query.mapper.PackageMapper;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,23 +17,26 @@ import java.util.List;
 public class PackageQueryService {
     private final PackageMapper packageMapper;
 
-    public PackageResponse getPackageDetail(int packageId) {
-        return packageMapper.selectPackageById(packageId);
-    }
-
-    public PackageListResponse getPackageList(PackageSearchRequest packageSearchRequest) {
-        List<PackageResponse> packageList = packageMapper.selectPackages(packageSearchRequest);
+    @Transactional(readOnly=true)
+    public PackageListResponse getPackages(PackageSearchRequest packageSearchRequest) {
+        List<PackageDTO> packages = packageMapper.selectPackages(packageSearchRequest);
         long totalPackages = packageMapper.countPackages(packageSearchRequest);  // 전체 패키지 수
 
-        Pagination pagination = Pagination.builder()
-                .currentPage(packageSearchRequest.getPage())
-                .totalSize((int)Math.ceil((double) totalPackages / packageSearchRequest.getSize()))
-                .totalPosts(totalPackages)
-                .build();
+        int page = packageSearchRequest.getPage();
+        int size = packageSearchRequest.getSize();
 
         return PackageListResponse.builder()
-                .packageList(packageList)
-                .pagination(pagination)
+                .packages(packages)
+                .pagination(Pagination.builder()
+                        .currentPage(page)
+                        .totalSize((int)Math.ceil((double)totalPackages/size))
+                        .totalPosts(totalPackages)
+                        .build())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public PackageDTO getPackageById(Long packageId) {
+        return packageMapper.selectPackageById(packageId);
     }
 }

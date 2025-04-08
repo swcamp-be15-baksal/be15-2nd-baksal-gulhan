@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanhwa_tae.gulhan.packages.query.mapper.PackageMapper">
+
+    <!-- 패키지 목록 조회 -->
+    <select id="selectPackages" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
+        SELECT
+        package_id,
+        title,
+        price,
+        area,
+        start_date,
+        end_date
+        FROM package
+        WHERE is_deleted = 'N'
+        <trim prefix="AND" prefixOverrides="AND |OR ">
+            <if test="area != null">
+                area = #{area}
+            </if>
+            <if test="startDate != null">
+                AND start_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND end_date &lt;= #{endDate}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+        </trim>
+        ORDER BY start_date
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 목록 개수 조회 -->
+    <select id="countPackages" resultType="long">
+        SELECT COUNT(*)
+        FROM package
+        WHERE is_deleted = 'N'
+        <trim prefix="AND" prefixOverrides="AND |OR ">
+            <if test="area != null">
+                area = #{area}
+            </if>
+            <if test="startDate != null">
+                AND start_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND end_date &lt;= #{endDate}
+            </if>
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+        </trim>
+    </select>
+
+    <!-- 패키지 상세 조회 -->
+    <select id="selectPackageById" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
+        SELECT
+            package_id,
+            title,
+            price,
+            detail,
+            capacity,
+            current_regist,
+            area,
+            start_date,
+            end_date,
+            create_at,
+            guide_name,
+            guide_phone
+        FROM package
+        WHERE package_id = #{packageId}
+          AND is_deleted = 'N'
+    </select>
+
+</mapper>

@@ -34,6 +34,8 @@ public class Packages {
 
     private int currentRegist;
 
+    private String area;
+
     private Timestamp startDate;
 
     private Timestamp endDate;
