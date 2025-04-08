@@ -1,5 +1,6 @@
 package com.hanhwa_tae.gulhan.travelmatepost.query.dto.response;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,7 @@ public class CommentDTO {
 
     private int travelMatePostId;
 
-    private int parentCommentId;
+    private Integer parentCommentId;
 
     private List<CommentDTO> children;
 }

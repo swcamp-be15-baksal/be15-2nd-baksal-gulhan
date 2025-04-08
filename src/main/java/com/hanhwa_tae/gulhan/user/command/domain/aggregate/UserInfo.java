@@ -2,6 +2,7 @@ package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "user_info")
+@Getter
 public class UserInfo {
 
     @Id

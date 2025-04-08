@@ -2,20 +2,19 @@ package com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
-@RequiredArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
-public class TmpUpdateRequest {
+public class CommentInsertRequest {
 
-    @NotBlank(message = "제목을 입력하세요")
-    private final String title;
-    @NotBlank(message = "내용을 입력하세요.")
-    private final String content;
+    private Integer parentCommentId;
+    @NotBlank(message = "댓글 내용 필수 입력")
+    private String content;
 
-    private final String isDeleted;
-
+    @NotBlank(message = "회원 번호는 필수입니다.")
+    private int userNo;
 }

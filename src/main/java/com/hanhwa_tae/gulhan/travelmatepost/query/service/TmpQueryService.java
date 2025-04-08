@@ -76,14 +76,14 @@ public class TmpQueryService {
         Map<Integer, CommentDTO> commentMap = new HashMap<>();
         List<CommentDTO> rootComments = new ArrayList<>();
 
-        // 댓글마다 자식 댓글 리스트를 담을 수 있도록 세팅
+        /*댓글마다 자식 댓글 리스트를 담기*/
         for (CommentDTO comment : comments) {
             comment.setChildren(new ArrayList<>());
             commentMap.put(comment.getCommentId(), comment);
         }
 
         for (CommentDTO comment : comments) {
-            if (comment.getParentCommentId() == 0) { // 부모가 없는 댓글
+            if (comment.getParentCommentId() == null) {
                 rootComments.add(comment);
             } else {
                 CommentDTO parent = commentMap.get(comment.getParentCommentId());

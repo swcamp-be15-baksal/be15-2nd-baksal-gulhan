@@ -2,6 +2,9 @@ package com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.UserInfo;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -13,6 +16,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,7 +28,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comment")
+@Getter @Setter
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE comment SET is_deleted = 'Y' WHERE comment_id = ?")
 public class Comment {
 
     @Id
@@ -50,4 +59,11 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY) // 부모 댓글 (대댓글을 포함한 댓글에 대한 참조)
     @JoinColumn(name = "parent_comment_id")  // 부모 댓글의 외래 키
     private Comment parentCommentId;
+
+
+    public void updateComment(int commentId, String content, User user) {
+        this.commentId = commentId;
+        this.content = content;
+        this.userNo = user;
+    }
 }

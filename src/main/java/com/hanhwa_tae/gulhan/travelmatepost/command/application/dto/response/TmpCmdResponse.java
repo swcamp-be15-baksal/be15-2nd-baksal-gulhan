@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class TmpCommandResponse {
+public class TmpCmdResponse {
     private int travelMatePostId;
 }
