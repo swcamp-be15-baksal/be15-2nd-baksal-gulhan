@@ -54,10 +54,6 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. Redis에 데이터 저장
         String uuid = UUID.randomUUID().toString();
 
-        // 1.1. redis에 이미 회원 가입 요청이 저장되어 있을 경우
-        //   => 기존 요청 정보를 지움
-        redisUserRepository.deleteById(request.getUserId());
-
         request.setEncodedPassword(passwordEncoder.encode(request.getPassword()));
 
         // 1.2. redis에 유저 정보 저장
@@ -106,6 +102,13 @@ public class UserCommandServiceImpl implements UserCommandService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+        // ! 이미 가입된 계정의 경우
+        User duplicateUser = userMapper.findUserByUserId(userRequestDto.getUserId()).orElse(null);
+
+        if(duplicateUser != null){
+            throw new RuntimeException("이미 가입이 완료 되었습니다.");
+        }
+
         // 2. DB에 value 값 가져와서 저장하기
         Rank defaultRank = userMapper.findRankIdByRankName(RankType.COMMONER.name());
 
