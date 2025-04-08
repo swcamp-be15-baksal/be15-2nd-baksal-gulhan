@@ -100,6 +100,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .email(userRequestDto.getEmail())
                 .gender(userRequestDto.getGender())
                 .rankId(defaultRank.getRankId())
+                .loginType(LoginType.GENERAL)
                 .build();
 
         User user = modelMapper.map(userDto, User.class);
