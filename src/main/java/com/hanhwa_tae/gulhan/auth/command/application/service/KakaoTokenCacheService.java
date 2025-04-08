@@ -1,6 +1,6 @@
 package com.hanhwa_tae.gulhan.auth.command.application.service;
 
-import com.hanhwa_tae.gulhan.auth.command.application.dto.KakaoRefreshToken;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
 import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

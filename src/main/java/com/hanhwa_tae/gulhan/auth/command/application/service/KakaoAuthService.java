@@ -1,12 +1,10 @@
 package com.hanhwa_tae.gulhan.auth.command.application.service;
 
-import com.hanhwa_tae.gulhan.auth.command.application.dto.KakaoRefreshToken;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
-import com.hanhwa_tae.gulhan.auth.command.application.dto.KakaoToken;
+import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoTokenRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.IsSocial;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.RankRepository;
@@ -61,7 +59,7 @@ public class KakaoAuthService {
                 .userId(userId)
                 .username(nickname)
                 .token(
-                        KakaoToken.builder()
+                        KakaoTokenRequest.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(response.getRefreshToken())
                                 .build()
