@@ -1,4 +1,4 @@
-package com.hanhwa_tae.gulhan.auth.command.application.dto;
+package com.hanhwa_tae.gulhan.auth.command.domain.aggregate;
 
 import org.springframework.data.annotation.Id;
 import lombok.*;
