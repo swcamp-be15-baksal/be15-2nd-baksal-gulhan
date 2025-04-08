@@ -3,7 +3,7 @@ package com.hanhwa_tae.gulhan.auth.query.service;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.TokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.RefreshToken;
-import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisAuthRepository;
+import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
 import com.hanhwa_tae.gulhan.auth.query.dto.request.LoginRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
@@ -21,7 +21,7 @@ public class AuthQueryServiceImpl implements AuthQueryService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisAuthRepository redisAuthRepository;
+    private final AuthRepository authRepository;
 
     @Override
     public TokenResponse login(LoginRequest request) {
@@ -39,8 +39,8 @@ public class AuthQueryServiceImpl implements AuthQueryService {
 
         // 만약 로그인 된 상태에서 로그인을 요청한다면?
         // ! 기존 refresh 토큰 만료시키고, 새롭게 토큰 발급해주기
-        if(redisAuthRepository.existsById(foundUser.getUserId())){
-            redisAuthRepository.deleteById(foundUser.getUserId());
+        if(authRepository.existsById(foundUser.getUserId())){
+            authRepository.deleteById(foundUser.getUserId());
         }
 
         // 3. access 토큰 발급
@@ -56,7 +56,7 @@ public class AuthQueryServiceImpl implements AuthQueryService {
                 .token(refreshToken)
                 .build();
 
-        redisAuthRepository.save(refreshTokenEntity);
+        authRepository.save(refreshTokenEntity);
         // 6. 사용자에게 토큰 전달
         return TokenResponse.builder()
                 .accessToken(accessToken)

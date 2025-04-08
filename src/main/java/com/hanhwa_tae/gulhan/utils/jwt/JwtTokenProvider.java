@@ -65,13 +65,21 @@ public class JwtTokenProvider {
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new BadCredentialsException("Invalid JWT Token", e);
+            throw new BadCredentialsException("유효하지 않은 요청입니다.", e);
         } catch (ExpiredJwtException e) {
-            throw new BadCredentialsException("Expired JWT Token", e);
+            throw new BadCredentialsException("이미 만료된 로그인 상태입니다.", e);
         } catch (UnsupportedJwtException e) {
-            throw new BadCredentialsException("Unsupported JWT Token", e);
+            throw new BadCredentialsException("지원하지 않는 요청입니다.", e);
         } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException("JWT Token claims empty", e);
+            throw new BadCredentialsException("잘못된 요청입니다.", e);
         }
+    }
+
+    public String getUserIdFromJWT(String refreshToken) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(refreshToken)
+                .getPayload()
+                .getSubject();
     }
 }
