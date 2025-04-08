@@ -8,7 +8,7 @@ public enum RankName {
     CHUNGIN("중인"),
     NOBLE("양반"),
     KING("왕"),
-    SLAVE("노비");
+    SLAVE("노비");    // 우리가 노비겠죠..?
 
     private final String rankName;
 

@@ -23,6 +23,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Gender gender; //'M','F'
 
+    @ManyToOne
     @JoinColumn(name = "rank_id")
-    private int rankId = 1; // 기본 rankId =1 평민, FK
+    private Rank rank; // 기본 rankId =1 평민, FK
 }
