@@ -31,11 +31,18 @@ public class AuthQueryServiceImpl implements AuthQueryService {
         User foundUser = userMapper.findUserByUserId(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다."));
         // 2. 유저 정보 일치 확인하기
-        if (passwordEncoder.matches(request.getPassword(), foundUser.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), foundUser.getPassword())) {
             throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
         /* 여기부터 로그인 성공 */
+
+        // 만약 로그인 된 상태에서 로그인을 요청한다면?
+        // ! 기존 refresh 토큰 만료시키고, 새롭게 토큰 발급해주기
+        if(redisAuthRepository.existsById(foundUser.getUserId())){
+            redisAuthRepository.deleteById(foundUser.getUserId());
+        }
+
         // 3. access 토큰 발급
         String accessToken = jwtTokenProvider.createAccessToken(foundUser.getUserId(), foundUser.getRank().getRankName());
 

@@ -6,7 +6,19 @@
     <select id="findRankIdByRankName" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank">
         SELECT rank_id FROM rank WHERE rank_name = #{ rankName }
     </select>
+
+<!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
+<!--        <result column="">-->
+<!--    </resultMap>>-->
+
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
-        SELECT user_id, password FROM user WHERE user_id = #{ userId } AND password = #{ password }
+        SELECT
+              a.user_id
+            , a.password
+            , b.rank_id as "rank.rank_id"
+            , b.rank_name as "rank.rank_name"
+        FROM user a
+        JOIN rank b ON (a.rank_id=b.rank_id)
+        WHERE user_id = #{ userId }
     </select>
 </mapper>
