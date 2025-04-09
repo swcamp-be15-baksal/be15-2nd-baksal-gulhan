@@ -1,5 +1,8 @@
 package com.hanhwa_tae.gulhan.config;
 
+import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtAuthenticationFilter;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,11 +14,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailService userDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -38,9 +46,15 @@ public class SecurityConfig {
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()
-                );
+                )
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
     }
 }
 
