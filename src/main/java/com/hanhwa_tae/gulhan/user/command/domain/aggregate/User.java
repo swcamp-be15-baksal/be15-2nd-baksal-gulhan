@@ -31,19 +31,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private GenderType gender; //'M','F'
 
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
+
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private Rank rank; // 기본 rankId =2 평민, FK
 
-    @Enumerated(EnumType.STRING)
-    private IsSocial isSocial;  // 'Y','N'
-
-
     public void setDefaultRank(Rank rank) {
         this.rank = rank;
-    }
-
-    public void setEncodedPassword(String encodedPassword){
-        this.password =encodedPassword;
     }
 }

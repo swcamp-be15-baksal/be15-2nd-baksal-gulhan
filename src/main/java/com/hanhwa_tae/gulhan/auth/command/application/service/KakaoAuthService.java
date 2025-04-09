@@ -4,7 +4,7 @@ import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginRes
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoTokenRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.IsSocial;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.LoginType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.RankRepository;
@@ -13,6 +13,8 @@ import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,16 +40,16 @@ public class KakaoAuthService {
         String nickname = (String) userInfo.getProperties().get("nickname");
 
         // 3. DB에 유저 존재 여부 확인
-        User user = userMapper.findUserByUserId(userId);
+        Optional<User> user = userMapper.findUserByUserId(userId);
 
-        if (user == null) {     // 추후 UserNotFoundException 추가 예정 (회원 가입 -> 추가 정보 입력 페이지)
-            user = User.builder()
+        if (user.isEmpty()) {     // 추후 UserNotFoundException 추가 예정 (회원 가입 -> 추가 정보 입력 페이지)
+            User newUser = User.builder()
                     .userId(userId)
                     .userName(nickname)
                     .rank(rankRepository.findByRankName(RankType.COMMONER))
-                    .isSocial(IsSocial.Y)
+                    .loginType(LoginType.KAKAO)
                     .build();
-            userRepository.save(user);
+            userRepository.save(newUser);
         }
 
         // 4. Redis에 refresh token 저장 (회원가입 여부랑 관계 X)

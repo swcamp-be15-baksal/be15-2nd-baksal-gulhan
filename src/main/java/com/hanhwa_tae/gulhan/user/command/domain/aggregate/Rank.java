@@ -17,8 +17,5 @@ public class Rank {
     @Enumerated(EnumType.STRING)
     private RankType rankName;
 
-    private Long pointRate; // 적립률
-
-    @OneToMany(mappedBy = "rank")
-    private List<User> users;
+    private int pointRate; // 적립률
 }

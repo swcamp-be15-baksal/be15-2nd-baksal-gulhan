@@ -3,7 +3,7 @@ package com.hanhwa_tae.gulhan.auth.command.application.service;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
-import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisAuthRepository;
+import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisKakaoAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoAuthProvider {
 
     private final RestTemplate restTemplate;
-    private final RedisAuthRepository redisAuthRepository;
+    private final RedisKakaoAuthRepository redisKakaoAuthRepository;
 
     @Value("${KAKAO_CLIENT_ID}")
     private String clientId;
@@ -90,7 +90,7 @@ public class KakaoAuthProvider {
     }
 
     public KakaoTokenResponse getValidToken(String userId) {
-        KakaoRefreshToken storedToken = redisAuthRepository.findById(userId)
+        KakaoRefreshToken storedToken = redisKakaoAuthRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("저장된 리프레시 토큰이 없습니다."));
 
         long now = System.currentTimeMillis();
@@ -135,7 +135,7 @@ public class KakaoAuthProvider {
                     .createdAt(System.currentTimeMillis())
                     .build();
 
-            redisAuthRepository.save(updatedToken);
+            redisKakaoAuthRepository.save(updatedToken);
         }
 
         return newToken;

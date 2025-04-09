@@ -7,22 +7,29 @@
         SELECT rank_id FROM rank WHERE rank_name = #{ rankName }
     </select>
 
-    <resultMap id="UserResultMap" type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
-        <id property="userId" column="user_id" />
-        <result property="userName" column="user_name" />
-        <result property="email" column="email" />
-        <result property="gender" column="gender" />
-        <result property="rankId" column="rank_id" />
-        <result property="isSocial" column="is_social" />
-    </resultMap>
+<!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
+<!--        <result column="">-->
+<!--    </resultMap>>-->
 
-    <select id="findUserByUserId" resultMap="UserResultMap">
+    <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
-            user_id,
-            user_name,
-            email,
-            gender
-        FROM user
-        WHERE user_id = #{userId}
+              a.user_id
+            , a.password
+            , b.rank_id as "rank.rank_id"
+            , b.rank_name as "rank.rank_name"
+        FROM user a
+        JOIN rank b ON (a.rank_id=b.rank_id)
+        WHERE user_id = #{ userId }
+    </select>
+
+    <select id="findUserByEmail" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT email FROM user WHERE email = #{ email }
+    </select>
+    <select id="findUserByPhone" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT
+            b.phone as "user_info.phone"
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE b.phone = #{ phone }
     </select>
 </mapper>
