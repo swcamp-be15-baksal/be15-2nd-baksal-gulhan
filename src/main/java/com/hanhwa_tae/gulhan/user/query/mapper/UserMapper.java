@@ -16,6 +16,4 @@ public interface UserMapper {
     Optional<User> findUserByPhone(String phone);
 
     Rank findRankIdByRankName(String rankName);
-
-    Optional<User> findUserByUserId(String userId);
 }
