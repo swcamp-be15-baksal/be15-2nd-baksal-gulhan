@@ -53,6 +53,7 @@ public class CartCommandController {
     // 장바구니 모든 품목 삭제
     @DeleteMapping
     public ResponseEntity<ApiResponse<Void>> deleteAllMyCart(){
+        // 유저 로그인 후 정보 받아오는 거 확인하고..
 //        cartCommandService.deleteAllCart();
         return ResponseEntity.ok(ApiResponse.success(null));
 
