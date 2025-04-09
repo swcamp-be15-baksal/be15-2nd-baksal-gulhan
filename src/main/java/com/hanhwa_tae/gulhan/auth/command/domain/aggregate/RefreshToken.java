@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.index.Indexed;
  *  @RequiredArgsConstructor 를 한번에 하는 어노테이션
  */
 @Data
-@RequiredArgsConstructor
 @Builder
 @RedisHash
 //@TimeToLive(unit = @Value())

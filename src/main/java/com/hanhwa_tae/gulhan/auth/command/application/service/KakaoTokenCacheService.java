@@ -18,9 +18,16 @@ public class KakaoTokenCacheService {
                 .userId(userId)
                 .refreshToken(refreshToken)
                 .expiresIn(expiresIn)
+                .createdAt(System.currentTimeMillis())
                 .build();
 
         redisAuthRepository.save(token);
+    }
+
+    public String getRefreshToken(String userId) {
+        return redisAuthRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("리프레시 토큰을 찾을 수 없습니다."))
+                .getRefreshToken();
     }
 
 }

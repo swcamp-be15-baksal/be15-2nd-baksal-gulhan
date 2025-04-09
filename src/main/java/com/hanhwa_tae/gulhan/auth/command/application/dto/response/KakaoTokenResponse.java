@@ -3,11 +3,9 @@ package com.hanhwa_tae.gulhan.auth.command.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Getter
+@Data
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class KakaoTokenResponse {
+public class KakaoTokenResponse {   // 카카오가 준 토큰 응답
 
     @JsonProperty("token_type")
     private String tokenType;
@@ -24,7 +22,6 @@ public class KakaoTokenResponse {
     @JsonProperty("refresh_token_expires_in")
     private long refreshTokenExpiresIn;
 
-    @JsonProperty("scope")
     private String scope;
 }
 

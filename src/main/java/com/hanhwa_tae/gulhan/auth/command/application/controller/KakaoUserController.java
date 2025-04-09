@@ -1,7 +1,7 @@
 package com.hanhwa_tae.gulhan.auth.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginResponse;
-import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
+import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.service.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/oauth/kakao")
 public class KakaoUserController {
 
     private final KakaoAuthService kakaoAuthService;
@@ -22,7 +23,13 @@ public class KakaoUserController {
     @Value("${KAKAO_REDIRECT_URI}")
     private String redirectUri;
 
-    @GetMapping("/login/kakao")
+    @GetMapping("/callback")
+    public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
+        KakaoLoginResponse response = kakaoAuthService.getKakaoToken(code);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/login")
     public RedirectView redirectToKakaoLogin() {
         String kakaoAuthUrl = UriComponentsBuilder.fromHttpUrl("https://kauth.kakao.com/oauth/authorize")
                 .queryParam("client_id", clientId)
@@ -33,12 +40,12 @@ public class KakaoUserController {
         return new RedirectView(kakaoAuthUrl);
     }
 
-
-    @GetMapping("/api/v1/oauth/kakao/callback")
-    public ResponseEntity<?> kakaoCallback(@RequestParam("code") String code) {
-        System.out.println("인가코드 : " + code);
-        KakaoLoginResponse response = kakaoAuthService.getKakaoToken(code);
+    @GetMapping("/refresh")
+    public ResponseEntity<KakaoTokenResponse> refreshToken(@RequestParam String userId) {
+        KakaoTokenResponse response = kakaoAuthService.getRefreshToken(userId);
         return ResponseEntity.ok(response);
     }
+
+
 
 }
