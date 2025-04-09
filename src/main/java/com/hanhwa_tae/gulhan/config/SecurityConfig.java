@@ -1,6 +1,9 @@
 package com.hanhwa_tae.gulhan.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
+import com.hanhwa_tae.gulhan.utils.jwt.CustomAccessDeniedHandler;
+import com.hanhwa_tae.gulhan.utils.jwt.CustomAuthenticationEntryPoint;
 import com.hanhwa_tae.gulhan.utils.jwt.JwtAuthenticationFilter;
 import com.hanhwa_tae.gulhan.utils.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,8 @@ public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailService userDetailsService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
 
     @Bean
@@ -37,6 +42,9 @@ public class SecurityConfig {
                 // 세션 로그인 x -> 토큰 로그인 설정으로 진행한다
                 .sessionManagement(session
                         -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler))
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
                         auth

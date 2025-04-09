@@ -1,7 +1,11 @@
 package com.hanhwa_tae.gulhan.utils.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.common.exception.ErrorResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -36,7 +36,7 @@ public class JwtTokenProvider {
     }
 
 
-    public String createAccessToken(String userId, RankType rank){
+    public String createAccessToken(String userId, String rank){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
         return Jwts.builder()
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-     public String createRefreshToken(String userId, RankType rank){
+     public String createRefreshToken(String userId, String rank){
          Date now = new Date();
          Date expiryDate = new Date(now.getTime() + jwtRefreshExpiration);
          return Jwts.builder()
@@ -66,8 +66,8 @@ public class JwtTokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             throw new BadCredentialsException("유효하지 않은 요청입니다.", e);
-        } catch (ExpiredJwtException e) {
-            throw new BadCredentialsException("이미 만료된 로그인 상태입니다.", e);
+//        } catch (ExpiredJwtException e) {
+//            throw new BadCredentialsException("이미 만료된 로그인 상태입니다.", e);
         } catch (UnsupportedJwtException e) {
             throw new BadCredentialsException("지원하지 않는 요청입니다.", e);
         } catch (IllegalArgumentException e) {
@@ -75,11 +75,19 @@ public class JwtTokenProvider {
         }
     }
 
-    public String getUserIdFromJWT(String refreshToken) {
+    public String getUserIdFromJWT(String token) {
         return Jwts.parser().verifyWith(secretKey)
                 .build()
-                .parseSignedClaims(refreshToken)
+                .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String getRankFromJWT(String token) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("rank", String.class);
     }
 }
