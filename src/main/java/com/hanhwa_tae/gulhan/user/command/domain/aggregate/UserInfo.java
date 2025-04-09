@@ -12,8 +12,11 @@ import java.util.Date;
 @Table(name = "user_info")
 public class UserInfo {
 
+    /* 반대로 조회할 일은 없지 않을까요 ..? (단방향 매핑)*/
     @Id
-    private int userNo; // 1:1 OneToOne 사용..? 1:1 설정하는 방법 잘 모르겠음...
+    @OneToOne
+    @JoinColumn(name = "user_no")
+    private User user;
 
     @Temporal(TemporalType.DATE)
     private Date birth;

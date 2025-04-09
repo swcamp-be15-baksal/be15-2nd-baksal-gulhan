@@ -2,6 +2,7 @@ package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "rank")
 public class Rank {
