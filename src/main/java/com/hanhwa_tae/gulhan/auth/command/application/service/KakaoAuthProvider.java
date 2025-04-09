@@ -2,6 +2,8 @@ package com.hanhwa_tae.gulhan.auth.command.application.service;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
+import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoAuthProvider {
 
     private final RestTemplate restTemplate;
+    private final RedisAuthRepository redisAuthRepository;
 
     @Value("${KAKAO_CLIENT_ID}")
     private String clientId;
@@ -26,12 +29,8 @@ public class KakaoAuthProvider {
     @Value("${KAKAO_REDIRECT_URI}")
     private String redirectUri;
 
-    // 엑세스 토큰 정보 받아오기
+    // 엑세스 & 리프레시 토큰 정보 받아오기
     public KakaoTokenResponse getAccessToken(String code) {
-        System.out.println("clientId: " + clientId);
-        System.out.println("clientSecret: " + clientSecret);
-        System.out.println("redirectUri: " + redirectUri);
-        System.out.println("code: " + code);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -46,16 +45,18 @@ public class KakaoAuthProvider {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
         try {
-            ResponseEntity<KakaoTokenResponse> response =
-                    restTemplate.exchange(
+            ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(
                             "https://kauth.kakao.com/oauth/token",
                             HttpMethod.POST,
                             request,
                             KakaoTokenResponse.class
                     );
+
             return response.getBody();
+
         } catch (HttpClientErrorException e) {
-            System.out.println("Kakao token error: " + e.getStatusCode());
+            System.out.println(e.getResponseBodyAsString());
+            System.out.println("토큰 정보를 받을 수 없습니다 : " + e.getStatusCode());
             System.out.println("Response body: " + e.getResponseBodyAsString());
             throw e;
         }
@@ -63,7 +64,7 @@ public class KakaoAuthProvider {
 
     }
 
-    // 토큰으로 유저 정보 받아 오기
+    // 엑세스 토큰으로 유저 정보 받아 오기
     public KakaoUserResponse getUserInfo(String accessToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);  // Authorization: Bearer ${ACCESS_TOKEN}
@@ -88,6 +89,57 @@ public class KakaoAuthProvider {
         }
     }
 
+    public KakaoTokenResponse getValidToken(String userId) {
+        KakaoRefreshToken storedToken = redisAuthRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("저장된 리프레시 토큰이 없습니다."));
+
+        long now = System.currentTimeMillis();
+        long createdAt = storedToken.getCreatedAt();
+        long expiresIn = storedToken.getExpiresIn() * 1000;
+
+        if (createdAt + expiresIn < now) {
+            throw new IllegalArgumentException("리프레시 토큰이 만료되었습니다. 다시 로그인해주세요.");
+        }
+
+        return requestNewToken(userId, storedToken.getRefreshToken());
+    }
+
+     // refresh token으로 access token 재발급 + redis에 저장된 토큰 갱신
+    private KakaoTokenResponse requestNewToken(String userId, String refreshToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "refresh_token");
+        params.add("client_id", clientId);
+        params.add("refresh_token", refreshToken);
+        params.add("client_secret", clientSecret);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+
+        ResponseEntity<KakaoTokenResponse> response = restTemplate.exchange(
+                "https://kauth.kakao.com/oauth/token",
+                HttpMethod.POST,
+                request,
+                KakaoTokenResponse.class
+        );
+
+        KakaoTokenResponse newToken = response.getBody();
+
+        // refresh token이 새로 발급된 경우
+        if (newToken.getRefreshToken() != null) {
+            KakaoRefreshToken updatedToken = KakaoRefreshToken.builder()
+                    .userId(userId)
+                    .refreshToken(newToken.getRefreshToken())
+                    .expiresIn(newToken.getRefreshTokenExpiresIn())
+                    .createdAt(System.currentTimeMillis())
+                    .build();
+
+            redisAuthRepository.save(updatedToken);
+        }
+
+        return newToken;
+    }
 
 
 

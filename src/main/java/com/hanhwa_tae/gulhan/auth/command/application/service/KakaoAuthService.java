@@ -9,6 +9,7 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.RankRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserRepository;
+import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class KakaoAuthService {
     private final UserRepository userRepository;
     private final RankRepository rankRepository;
     private final KakaoTokenCacheService kakaoTokenCacheService;
+    private final UserMapper userMapper;
 
     @Transactional
     public KakaoLoginResponse getKakaoToken(String code) {
@@ -38,19 +40,19 @@ public class KakaoAuthService {
         String nickname = (String) userInfo.getProperties().get("nickname");
 
         // 3. DB에 유저 존재 여부 확인
-        Optional<User> user = userRepository.findByUserId(userId);
-        if (user.isEmpty()) {
-            // 추후 UserNotFoundException 추가 예정 (회원 가입 -> 추가 정보 입력 페이지)
-            User newUser = User.builder()
+        User user = userMapper.findUserByUserId(userId);
+
+        if (user == null) {     // 추후 UserNotFoundException 추가 예정 (회원 가입 -> 추가 정보 입력 페이지)
+            user = User.builder()
                     .userId(userId)
                     .userName(nickname)
                     .rank(rankRepository.findByRankName(RankType.COMMONER))
                     .isSocial(IsSocial.Y)
                     .build();
-            userRepository.save(newUser);
+            userRepository.save(user);
         }
 
-        // 4. Redis에 토큰 저장 (회원가입 여부랑 관계 X)
+        // 4. Redis에 refresh token 저장 (회원가입 여부랑 관계 X)
         kakaoTokenCacheService.saveKakaoAccessToken(
                 userId, response.getRefreshToken(), response.getExpiresIn()
         );
@@ -66,6 +68,11 @@ public class KakaoAuthService {
                 )
                 .build();
 
+    }
+
+    @Transactional
+    public KakaoTokenResponse getRefreshToken(String userId) {
+        return kakaoAuthProvider.getValidToken(userId);
     }
 
 

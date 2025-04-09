@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 @Data
 @Builder
-@RedisHash(value = "KAKAO:TOKEN", timeToLive = 10000)
+@RedisHash("KAKAO:TOKEN")
 public class KakaoRefreshToken {
 
     @Id
@@ -15,6 +15,8 @@ public class KakaoRefreshToken {
     private String refreshToken;
 
     private long expiresIn;
+
+    private long createdAt;
 
 
 }

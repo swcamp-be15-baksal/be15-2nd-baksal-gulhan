@@ -7,6 +7,25 @@
         SELECT rank_id FROM rank WHERE rank_name = #{ rankName }
     </select>
 
+    <resultMap id="UserResultMap" type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        <id property="userId" column="user_id" />
+        <result property="userName" column="user_name" />
+        <result property="email" column="email" />
+        <result property="gender" column="gender" />
+        <result property="rankId" column="rank_id" />
+        <result property="isSocial" column="is_social" />
+    </resultMap>
+
+    <select id="findUserByUserId" resultMap="UserResultMap">
+        SELECT
+            user_id,
+            user_name,
+            email,
+            gender
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
+
 <!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
 <!--        <result column="">-->
 <!--    </resultMap>>-->
