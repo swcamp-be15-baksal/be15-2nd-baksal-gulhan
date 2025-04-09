@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanhwa_tae.gulhan.dashboard.query.mapper.DashboardQueryMapper">
+
+    <select id="selectPackageList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.PackageQuantityDTO">
+        SELECT
+              a.order_history_type
+            , a.target_id
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * b.price) AS totalPrice
+         FROM order_history a
+         JOIN package b ON (a.target_id = b.package_id)
+        WHERE a.order_history_type = 'PACKAGE'
+        GROUP BY target_id
+        ORDER BY target_id;
+    </select>
+
+    <select id="countPackage" resultType="int">
+        SELECT
+            COUNT(DISTINCT target_id)
+         FROM order_history
+        WHERE order_history_type = 'PACKAGE';
+    </select>
+
+    <select id="selectGoodsList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.GoodsQuantityDTO">
+
+    </select>
+
+    <select id="countGoods" resultType="Integer">
+
+    </select>
+
+    <select id="selectMonthlyList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.MonthlyRevenueDTO">
+
+    </select>
+
+    <select id="countMonthly" resultType="Integer">
+
+    </select>
+
+    <select id="selectDailyList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.DailyRevenueDTO">
+
+    </select>
+
+    <select id="countDaily" resultType="Integer">
+
+    </select>
+
+</mapper>
