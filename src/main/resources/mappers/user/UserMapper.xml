@@ -21,9 +21,6 @@
         JOIN rank b ON (a.rank_id=b.rank_id)
         WHERE user_id = #{ userId }
     </select>
-    <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
-        SELECT user_id FROM user WHERE user_id = #{ userId }
-    </select>
     <select id="findUserByEmail" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT email FROM user WHERE email = #{ email }
     </select>
