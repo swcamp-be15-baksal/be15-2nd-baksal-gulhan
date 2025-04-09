@@ -4,44 +4,49 @@ package com.hanhwa_tae.gulhan.user.command.application.dto.request;
 import com.hanhwa_tae.gulhan.user.annotation.ValidBirth;
 import com.hanhwa_tae.gulhan.user.annotation.ValidEmail;
 import com.hanhwa_tae.gulhan.user.annotation.ValidPhone;
-import com.hanhwa_tae.gulhan.user.command.application.dto.GenderType;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateRequest {
     @NotBlank
-    private final String userId;
+    private String userId;
 
     @NotBlank
-    private final String userName;
+    private String userName;
 
     @NotBlank
-    private final String password;
+    private String password;
 
     @NotBlank
     @ValidEmail
-    private final String email;
+    private String email;
 
-    @NotBlank
-    private final GenderType gender;
+    @NotNull
+    private GenderType gender;
 
     @NotBlank
     @ValidBirth
-    private final String birth;
+    private String birth;
 
     @NotBlank
     @ValidPhone
     /* 휴대폰 값 검증 따로 생성 */
-    private final String phone;
+    private String phone;
 
-
-    private final String address;
+    private String address;
 
     @NotBlank
     /* default 값 지정*/
-    private final String countryCode = "82";
+    private String countryCode;
 
+    public void setEncodedPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
 }
