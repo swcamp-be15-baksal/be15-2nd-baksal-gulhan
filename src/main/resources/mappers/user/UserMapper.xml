@@ -19,6 +19,20 @@
             , b.rank_name as "rank.rank_name"
         FROM user a
         JOIN rank b ON (a.rank_id=b.rank_id)
+        JOIN user_info c ON (a.user_id = c.user_id)
         WHERE user_id = #{ userId }
+          AND c.is_deleted = 'N';
+    </select>
+    <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT
+        a.user_id
+        , a.password
+        , b.rank_id as "rank.rank_id"
+        , b.rank_name as "rank.rank_name"
+        FROM user a
+        JOIN rank b ON (a.rank_id=b.rank_id)
+        JOIN user_info c ON (a.user_id = c.user_id)
+        WHERE user_id = #{ userId }
+          AND c.is_deleted = 'N';
     </select>
 </mapper>
