@@ -5,8 +5,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
   jpa:
-    hibernate:
-      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -17,6 +15,24 @@ spring:
       port: ${REDIS_PORT}
       url: jdbc:redis://${REDIS_URL}
       password: ${REDIS_PASSWORD}
+      username: ${REDIS_USERNAME}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_USERNAME}
+    password: ${GOOGLE_APP_PASSWORD}
+    # 기타 설정 추가하기!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+        debug: true
 
 mybatis:
   configuration:
@@ -24,3 +40,7 @@ mybatis:
   mapper-locations: mappers/**/*.xml
 #  type-aliases-package:
 
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 1800000 # ????? (access token)
+  refresh-expiration: 60480000 # 7일
