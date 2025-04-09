@@ -22,4 +22,14 @@
         WHERE user_id = #{ userId }
           AND c.is_deleted = 'N';
     </select>
+    <select id="findUserByEmail" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT email FROM user WHERE email = #{ email }
+    </select>
+    <select id="findUserByPhone" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT
+            b.phone as "user_info.phone"
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE b.phone = #{ phone }
+    </select>
 </mapper>

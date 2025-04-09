@@ -32,7 +32,6 @@ public class UserCommandController {
     public ResponseEntity<Void> verifyEmail(
             @RequestParam(required = true) String uuid
     ){
-        /* TODO: 이메일 인증 로직 필요 */
         userCommandService.verifyByEmail(uuid);
         
         return ResponseEntity.ok(null);

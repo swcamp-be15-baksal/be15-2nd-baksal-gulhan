@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -24,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token =getJwtFromRequest(request);
-
+        logger.info("토큰 정보 : " + token);
         // 토큰 검증
         // **유효한 경우** if 문 수행
         if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)){
@@ -34,6 +36,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     = new UsernamePasswordAuthenticationToken(
                     userDetail, null,userDetail.getAuthorities()
             );
+            logger.info("필터 수행 유저 ID : " + userDetail.getUserId());
+            logger.info("필터 수행 유저 ID : " + userDetail.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
