@@ -10,7 +10,6 @@ import com.hanhwa_tae.gulhan.auth.query.dto.request.LoginRequest;
 import com.hanhwa_tae.gulhan.auth.query.dto.response.AccessTokenResponse;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 
@@ -94,6 +93,11 @@ public class AuthQueryServiceImpl implements AuthQueryService {
                 // if 존재하지 않을 경우
                 ()-> new BusinessException(ErrorCode.REFRESH_TOKEN_EXPIRATION)
         );
+
+        // ! 리프레쉬 토큰 비교
+        if(!storedRefreshToken.getToken().equals(requestRefreshToken)){
+            throw new BusinessException(ErrorCode.REFRESH_TOKEN_EXPIRATION);
+        }
 
         // 2. access 토큰 재 발행
         String accessToken = jwtTokenProvider.createAccessToken(

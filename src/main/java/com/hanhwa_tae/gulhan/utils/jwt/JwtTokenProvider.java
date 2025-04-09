@@ -1,7 +1,5 @@
 package com.hanhwa_tae.gulhan.utils.jwt;
 
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -66,8 +64,9 @@ public class JwtTokenProvider {
             return true;
         } catch (SecurityException | MalformedJwtException e) {
             throw new BadCredentialsException("유효하지 않은 요청입니다.", e);
+            /* 글로벌 단위에서 캐치 하는 중*/
 //        } catch (ExpiredJwtException e) {
-//            throw new BadCredentialsException("이미 만료된 로그인 상태입니다.", e);
+//            throw new ExpiredJwtException("이미 만료된 로그인 상태입니다.", e);
         } catch (UnsupportedJwtException e) {
             throw new BadCredentialsException("지원하지 않는 요청입니다.", e);
         } catch (IllegalArgumentException e) {

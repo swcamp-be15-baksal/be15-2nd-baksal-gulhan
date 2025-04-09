@@ -1,6 +1,5 @@
 package com.hanhwa_tae.gulhan.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
 import com.hanhwa_tae.gulhan.utils.jwt.CustomAccessDeniedHandler;
 import com.hanhwa_tae.gulhan.utils.jwt.CustomAuthenticationEntryPoint;

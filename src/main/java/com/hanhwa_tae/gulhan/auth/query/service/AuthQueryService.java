@@ -5,7 +5,6 @@ import com.hanhwa_tae.gulhan.auth.command.application.dto.response.TokenResponse
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.auth.query.dto.request.LoginRequest;
 import com.hanhwa_tae.gulhan.auth.query.dto.response.AccessTokenResponse;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public interface AuthQueryService {
 
