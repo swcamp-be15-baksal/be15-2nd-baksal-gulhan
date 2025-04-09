@@ -9,6 +9,12 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
 
+    Optional<User> findUserByUserId(String userId);
+
+    Optional<User> findUserByEmail(String email);
+
+    Optional<User> findUserByPhone(String phone);
+
     Rank findRankIdByRankName(String rankName);
 
     Optional<User> findUserByUserId(String userId);

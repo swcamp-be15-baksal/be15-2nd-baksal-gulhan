@@ -25,6 +25,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private GenderType gender; //'M','F'
 
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
+
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private Rank rank; // 기본 rankId =2 평민, FK
