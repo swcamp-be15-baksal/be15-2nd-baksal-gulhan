@@ -14,8 +14,7 @@ public enum ErrorCode {
     ACCESS_DENIED("10003", "해당 페이지에 대한 조회 권한이 없습니다.", HttpStatus.FORBIDDEN),    // 403
 
 
-    // 장바구니
-    CART_NOT_FOUND("30001", "장바구니에 해당 품목이 없습니다.", HttpStatus.NOT_FOUND), // 404
+    // TODO 나머지 이어서 적어주세요!
 
 
 
