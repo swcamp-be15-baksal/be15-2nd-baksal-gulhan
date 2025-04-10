@@ -1,6 +1,6 @@
 package com.hanhwa_tae.gulhan.packages.query.dto.request;
 
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Gender;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +28,7 @@ public class PackageInsertRequest {
 
     private String guideEmail;
 
-    private Gender guideGender;
+    private GenderType guideGender;
 
     private String guidePhone;
 

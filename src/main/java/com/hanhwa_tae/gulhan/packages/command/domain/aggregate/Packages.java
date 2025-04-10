@@ -1,7 +1,7 @@
 package com.hanhwa_tae.gulhan.packages.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Gender;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
@@ -50,7 +50,7 @@ public class Packages {
     private String guideEmail;
 
     @Enumerated(EnumType.STRING)
-    private Gender guideGender;
+    private GenderType guideGender;
 
     private String guidePhone;
 
@@ -62,7 +62,7 @@ public class Packages {
     public void updatePackage(@NotBlank String title, @NotBlank int price, @NotBlank String detail,
                               @NotBlank int capacity, @NotBlank String area, @NotBlank Timestamp startDate,
                               @NotBlank Timestamp endDate, @NotBlank String guideName, @NotBlank String guideEmail,
-                              @NotBlank Gender guideGender, @NotBlank String guidePhone) {
+                              @NotBlank GenderType guideGender, @NotBlank String guidePhone) {
         this.title = title;
         this.price = price;
         this.detail = detail;

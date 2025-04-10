@@ -1,14 +1,16 @@
 package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userNo;
+    private Long userNo;
 
     @Column(unique = true)
     private String userId;
@@ -21,8 +23,17 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender; //'M','F'
+    private GenderType gender; //'M','F'
 
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
+
+    @ManyToOne
     @JoinColumn(name = "rank_id")
-    private int rankId = 1; // 기본 rankId =1 평민, FK
+    private Rank rank; // 기본 rankId =2 평민, FK
+
+
+    public void setDefaultRank(Rank rank) {
+        this.rank = rank;
+    }
 }
