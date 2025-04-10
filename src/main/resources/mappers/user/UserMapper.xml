@@ -12,7 +12,8 @@
 <!--    </resultMap>>-->
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
-          a.user_id
+          a.user_no
+        , a.user_id
         , a.password
         , b.rank_id as "rank.rank_id"
         , b.rank_name as "rank.rank_name"
@@ -32,16 +33,16 @@
     </select>
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
         SELECT
-              user_id
-            , password
-            , user_name
-            , email
-            , gender
-            , b.birth as "user_info.birth"
-            , b.phone as "user_info.phone"
-            , b.address as "user_info.address"
-        FROM user
-        WHERE user_id = #{ userId }
-        AND is_deleted = 'N'
+              a.user_id
+            , a.user_name
+            , a.email
+            , a.gender
+            , b.birth
+            , b.phone
+            , b.address
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE a.user_id = #{ userId }
+        AND a.is_deleted = 'N'
     </select>
 </mapper>

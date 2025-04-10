@@ -53,7 +53,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "api/v1/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
-//                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
+//                                .requestMatchers(HttpMethod.GET, "/api/v1/users/info").authenticated()
+
 //                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
