@@ -38,7 +38,7 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-#  type-aliases-package:
+  type-aliases-package: com.hanhwa_tae.gulhan.cart.query.dto
 
 jwt:
   secret: ${JWT_SECRET}
