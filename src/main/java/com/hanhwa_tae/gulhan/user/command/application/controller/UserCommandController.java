@@ -1,12 +1,15 @@
 package com.hanhwa_tae.gulhan.user.command.application.controller;
 
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,6 +39,17 @@ public class UserCommandController {
         userCommandService.verifyByEmail(uuid);
         
         return ResponseEntity.ok(null);
+    }
+
+    @PutMapping("/info/update")
+    public ResponseEntity<ApiResponse<Void>> updateUserInfo(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody @Valid UpdateUserInfoRequest request
+            ){
+
+        userCommandService.updateUserInfo(userDetail, request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
 }
