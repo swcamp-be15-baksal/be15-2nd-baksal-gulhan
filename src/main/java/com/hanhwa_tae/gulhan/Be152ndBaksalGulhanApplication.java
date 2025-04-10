@@ -5,7 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.hanhwa_tae.gulhan.packages.query.mapper")
+@MapperScan({
+		"com.hanhwa_tae.gulhan.review.query.mapper",
+		"com.hanhwa_tae.gulhan.packages.query.mapper",
+		"com.hanhwa_tae.gulhan.user.query.mapper"
+})
 public class Be152ndBaksalGulhanApplication {
 
 	public static void main(String[] args) {

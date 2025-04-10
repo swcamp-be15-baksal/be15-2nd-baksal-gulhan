@@ -38,9 +38,4 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
   mapper-locations: mappers/**/*.xml
-#  type-aliases-package:
 
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: 1800000 # ????? (access token)
-  refresh-expiration: 60480000 # 7일

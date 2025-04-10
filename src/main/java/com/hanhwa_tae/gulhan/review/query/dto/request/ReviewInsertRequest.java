@@ -17,4 +17,6 @@ public class ReviewInsertRequest {
     private String detail;
 
     private BigDecimal rating;
+
+    private Long userNo;
 }
