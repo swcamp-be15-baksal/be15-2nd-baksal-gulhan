@@ -1,10 +1,31 @@
 package com.hanhwa_tae.gulhan.dashboard.query.dto.response;
 
-import com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Order;
 import lombok.Getter;
 
 @Getter
 public class OrderAllListDTO {
-    Order order;
+
+    private int orderId;
+
+    private String orderedAt;
+
+    private int totalPrice;
+
+    private int totalPoint;
+
+    private int totalAmount;
+
+    private String shippingNo;
+
+    private String address;
+
+    private String receiver;
+
+    private String receiverPhone;
+
+    private String orderCode;
+
+    private int userNo;
+
     private String userName;
 }

@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/admin/dashboard")
+@RequestMapping("api/v1/admin/dashboard")
 @RequiredArgsConstructor
 public class DashboardQueryController {
 
@@ -29,7 +27,6 @@ public class DashboardQueryController {
 
     /* 패키지 판매수량 조회 */
     @GetMapping("/package")
-//    @PreAuthorize(value = "")
     public ResponseEntity<ApiResponse<PackageQuantityListResponse>> getPackageList(DashboardPackageSearchRequest request) {
         PackageQuantityListResponse response = dashboardQueryService.getPackageList(request);
         return ResponseEntity.ok(ApiResponse.success(response));
