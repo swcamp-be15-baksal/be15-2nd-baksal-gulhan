@@ -15,7 +15,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +31,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final StringRedisTemplate redisTemplate;    // 필요 없을지도..?
+    private final RedisTemplate redisTemplate;    // 필요 없을지도..?
     private final EmailUtil emailUtil;
     private final ObjectMapper objectMapper;
     private final RedisUserRepository redisUserRepository;
