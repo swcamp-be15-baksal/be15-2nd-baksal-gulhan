@@ -9,8 +9,12 @@ import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.builder.BuilderException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.KeyStore;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +24,7 @@ public class CartCommandService {
     // 장바구니에 상품 등록
     @Transactional
     public int registerCart(String id, CreateCartRequest createCartRequest){
+
         User user = userMapper.findUserByUserId(id).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         Cart cart = cartRepository.save(
@@ -36,25 +41,36 @@ public class CartCommandService {
 
     // 장바구니 상품 수정
     @Transactional
-    public void updateCart(int cartId, UpdateCartRequest updateCartRequest){
+    public void updateCart(String id, int cartId, UpdateCartRequest updateCartRequest){
+        Long userNo = userMapper.findUserByUserId(id).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND)).getUserNo();
         Cart cart = cartRepository.findById(cartId).
                 orElseThrow(() -> new BusinessException(ErrorCode.CART_NOT_FOUND));
-
+        if(!cart.getUserNo().getUserNo().equals(userNo)){
+            throw new BusinessException(ErrorCode.USER_NOT_MATCHING);
+        }
 
         cart.updateCartCount(updateCartRequest.getCount());
-
-
     }
     // 장바구니 특정 상품 삭제
     @Transactional
-    public void deleteCart(int cartId){
+    public void deleteCart(String id, int cartId){
+        Long userNo = userMapper.findUserByUserId(id).orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND)).getUserNo();
+
+        Cart cart = cartRepository.findById(cartId).
+                orElseThrow(() -> new BusinessException(ErrorCode.CART_NOT_FOUND));
+        if(!cart.getUserNo().getUserNo().equals(userNo)){
+            throw new BusinessException(ErrorCode.USER_NOT_MATCHING);
+        }
+
         cartRepository.deleteById(cartId);
 
     }
 
     // 장바구니 전체 삭제
     @Transactional
-    public void deleteAllCart(int userId){
-        cartRepository.deleteAllByUserNo(userId);
+    public void deleteAllCart(String userId){
+        Long userNo = userMapper.findUserByUserId(userId).
+                orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND)).getUserNo();
+        cartRepository.deleteAllByUserNo(userNo);
     }
 }

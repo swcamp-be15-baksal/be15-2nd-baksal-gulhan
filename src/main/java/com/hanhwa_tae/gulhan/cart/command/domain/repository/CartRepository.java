@@ -15,4 +15,4 @@ public interface CartRepository{
 
     @Modifying
     @Query("DELETE FROM Cart c WHERE c.userNo.userNo = :userNo")
-    void deleteAllByUserNo(@Param("userNo") int userNo);}
+    void deleteAllByUserNo(@Param("userNo") Long userNo);}

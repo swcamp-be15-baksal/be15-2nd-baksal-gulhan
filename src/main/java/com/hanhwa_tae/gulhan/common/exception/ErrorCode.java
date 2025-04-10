@@ -21,12 +21,13 @@ public enum ErrorCode {
 
     // 장바구니
     CART_NOT_FOUND("20001", "들어있지 않은 장바구니입니다.",HttpStatus.NOT_FOUND),// 404
-
+    USER_NOT_MATCHING("20002", "해당 사용자는 삭제할 수 없습니다.", HttpStatus.UNAUTHORIZED),
 
 
     // 그 외 기타 오류
     VALIDATION_ERROR("50000", "입력 값 검증 오류입니다.", HttpStatus.BAD_REQUEST),
     INTERNAL_SERVER_ERROR("50001", "내부 서버 오류 입니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+
 
 
     private final String code;

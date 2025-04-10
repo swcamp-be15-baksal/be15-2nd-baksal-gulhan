@@ -8,5 +8,4 @@ import lombok.Getter;
 @Getter
 public class CreateCartResponse {
     private int cartId;
-    private int cast;
 }
