@@ -4,10 +4,23 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanhwa_tae.gulhan.user.query.mapper.UserMapper">
     <select id="findRankIdByRankName" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank">
-        SELECT rank_id FROM rank WHERE rank_name = #{ rankName}
+        SELECT rank_id FROM rank WHERE rank_name = #{ rankName }
     </select>
+
+<!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
+<!--        <result column="">-->
+<!--    </resultMap>>-->
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
-        SELECT user_id FROM user WHERE user_id = #{ userId }
+        SELECT
+          a.user_id
+        , a.password
+        , b.rank_id as "rank.rank_id"
+        , b.rank_name as "rank.rank_name"
+        FROM user a
+        JOIN rank b ON (a.rank_id=b.rank_id)
+        JOIN user_info c ON (a.user_no = c.user_no)
+        WHERE user_id = #{ userId }
+          AND c.is_deleted = 'N';
     </select>
     <select id="findUserByEmail" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT email FROM user WHERE email = #{ email }
