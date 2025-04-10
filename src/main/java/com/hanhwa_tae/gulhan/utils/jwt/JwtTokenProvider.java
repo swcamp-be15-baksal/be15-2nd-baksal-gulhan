@@ -1,7 +1,5 @@
 package com.hanhwa_tae.gulhan.utils.jwt;
 
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -36,7 +34,7 @@ public class JwtTokenProvider {
     }
 
 
-    public String createAccessToken(String userId, RankType rank){
+    public String createAccessToken(String userId, String rank){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
         return Jwts.builder()
@@ -48,7 +46,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-     public String createRefreshToken(String userId, RankType rank){
+     public String createRefreshToken(String userId, String rank){
          Date now = new Date();
          Date expiryDate = new Date(now.getTime() + jwtRefreshExpiration);
          return Jwts.builder()
@@ -65,13 +63,30 @@ public class JwtTokenProvider {
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new BadCredentialsException("Invalid JWT Token", e);
-        } catch (ExpiredJwtException e) {
-            throw new BadCredentialsException("Expired JWT Token", e);
+            throw new BadCredentialsException("유효하지 않은 요청입니다.", e);
+            /* 글로벌 단위에서 캐치 하는 중*/
+//        } catch (ExpiredJwtException e) {
+//            throw new ExpiredJwtException("이미 만료된 로그인 상태입니다.", e);
         } catch (UnsupportedJwtException e) {
-            throw new BadCredentialsException("Unsupported JWT Token", e);
+            throw new BadCredentialsException("지원하지 않는 요청입니다.", e);
         } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException("JWT Token claims empty", e);
+            throw new BadCredentialsException("잘못된 요청입니다.", e);
         }
+    }
+
+    public String getUserIdFromJWT(String token) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    public String getRankFromJWT(String token) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("rank", String.class);
     }
 }
