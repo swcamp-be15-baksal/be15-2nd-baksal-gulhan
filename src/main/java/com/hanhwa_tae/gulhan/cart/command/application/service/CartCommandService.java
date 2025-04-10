@@ -6,6 +6,8 @@ import com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Cart;
 import com.hanhwa_tae.gulhan.cart.command.domain.repository.CartRepository;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
+import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +16,18 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CartCommandService {
     private final CartRepository cartRepository;
+    private final UserMapper userMapper;
     // 장바구니에 상품 등록
     @Transactional
-    public int registerCart(CreateCartRequest createCartRequest){
+    public int registerCart(String id, CreateCartRequest createCartRequest){
+        User user = userMapper.findUserByUserId(id).
+                orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         Cart cart = cartRepository.save(
                 Cart.builder().
                         quantity(createCartRequest.getQuantity()).
                         targetType(createCartRequest.getTargetType()).
                         targetId(createCartRequest.getTargetId()).
+                        userNo(user).
                         build()
         );
 
@@ -49,6 +55,6 @@ public class CartCommandService {
     // 장바구니 전체 삭제
     @Transactional
     public void deleteAllCart(int userId){
-        cartRepository.deleteAllByUserId(userId);
+        cartRepository.deleteAllByUserNo(userId);
     }
 }

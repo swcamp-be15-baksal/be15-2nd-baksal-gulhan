@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/api/v1/carts")
 @RequiredArgsConstructor
 public class CartCommandController {
     private final CartCommandService cartCommandService;
@@ -25,7 +25,9 @@ public class CartCommandController {
             @RequestBody @Validated CreateCartRequest createCartRequest,
             Principal principal){
 
-        int cartId = cartCommandService.registerCart(createCartRequest);
+        String id = principal.getName();
+
+        int cartId = cartCommandService.registerCart(id,createCartRequest);
         CreateCartResponse response = CreateCartResponse.
                 builder().
                 cartId(cartId).
