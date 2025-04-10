@@ -1,11 +1,15 @@
 package com.hanhwa_tae.gulhan.auth.query.controller;
 
+import com.hanhwa_tae.gulhan.auth.command.application.dto.request.RefreshTokenRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.TokenResponse;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.auth.query.dto.request.LoginRequest;
+import com.hanhwa_tae.gulhan.auth.query.dto.response.AccessTokenResponse;
 import com.hanhwa_tae.gulhan.auth.query.service.AuthQueryService;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +25,17 @@ public class AuthQueryController {
     public ResponseEntity<ApiResponse<TokenResponse>> login(
             @RequestBody LoginRequest request){
         TokenResponse tokenResponse = authQueryService.login(request);
+
+        return ResponseEntity.ok(ApiResponse.success(tokenResponse));
+    }
+
+    @PostMapping("/token/reissue")
+    public ResponseEntity<ApiResponse<AccessTokenResponse>> reissue(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody RefreshTokenRequest request
+            ){
+
+        AccessTokenResponse tokenResponse = authQueryService.reissue(userDetail, request);
 
         return ResponseEntity.ok(ApiResponse.success(tokenResponse));
     }
