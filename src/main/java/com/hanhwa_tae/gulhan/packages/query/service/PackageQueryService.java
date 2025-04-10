@@ -19,6 +19,8 @@ public class PackageQueryService {
 
     @Transactional(readOnly=true)
     public PackageListResponse getPackages(PackageSearchRequest packageSearchRequest) {
+        packageSearchRequest.calculatePaging();
+
         List<PackageDTO> packages = packageMapper.selectPackages(packageSearchRequest);
         long totalPackages = packageMapper.countPackages(packageSearchRequest);  // 전체 패키지 수
 

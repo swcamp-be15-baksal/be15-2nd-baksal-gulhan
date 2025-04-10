@@ -8,15 +8,19 @@
     <!-- 패키지 목록 조회 -->
     <select id="selectPackages" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
         SELECT
-        package_id,
-        title,
-        price,
-        area,
-        start_date,
-        end_date
-        FROM package
-        WHERE is_deleted = 'N'
-        <trim prefix="AND" prefixOverrides="AND |OR ">
+        p.package_id,
+        p.title,
+        p.price,
+        p.area,
+        p.start_date,
+        p.end_date,
+        COUNT(DISTINCT l.like_id) AS like_count,
+        COUNT(DISTINCT r.review_id) AS review_count
+        FROM  package p
+        LEFT JOIN `like` l on p.package_id = l.target_id AND l.target_type = 'PACKAGE'
+        LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
+        <where>
+            p.is_deleted = 'N'
             <if test="area != null">
                 area = #{area}
             </if>
@@ -29,8 +33,19 @@
             <if test="title != null">
                 AND title LIKE CONCAT('%', #{ title }, '%')
             </if>
-        </trim>
-        ORDER BY start_date
+        </where>
+        GROUP BY p.package_id
+        <choose>
+            <when test="sort == 'like'">
+                ORDER BY like_count DESC
+            </when>
+            <when test="sort == 'review'">
+                ORDER BY review_count DESC
+            </when>
+            <otherwise>
+                ORDER BY p.start_date ASC
+            </otherwise>
+        </choose>
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
@@ -38,10 +53,10 @@
     <select id="countPackages" resultType="long">
         SELECT COUNT(*)
         FROM package
-        WHERE is_deleted = 'N'
-        <trim prefix="AND" prefixOverrides="AND |OR ">
+        <where>
+            is_deleted = 'N'
             <if test="area != null">
-                area = #{area}
+                AND area = #{area}
             </if>
             <if test="startDate != null">
                 AND start_date &gt;= #{startDate}
@@ -50,10 +65,11 @@
                 AND end_date &lt;= #{endDate}
             </if>
             <if test="title != null">
-                AND title LIKE CONCAT('%', #{ title }, '%')
+                AND title LIKE CONCAT('%', #{title}, '%')
             </if>
-        </trim>
+        </where>
     </select>
+
 
     <!-- 패키지 상세 조회 -->
     <select id="selectPackageById" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
@@ -67,7 +83,7 @@
             area,
             start_date,
             end_date,
-            create_at,
+            created_at,
             guide_name,
             guide_phone
         FROM package

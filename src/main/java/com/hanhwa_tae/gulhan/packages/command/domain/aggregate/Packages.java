@@ -5,6 +5,7 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Gender;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -48,10 +49,28 @@ public class Packages {
     private String guideEmail;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Gender guideGender;
 
     private String guidePhone;
 
     @Enumerated(EnumType.STRING)
     private DeleteType isDeleted = DeleteType.N;
+
+
+    public void updatePackage(@NotBlank String title, @NotBlank int price, @NotBlank String detail,
+                              @NotBlank int capacity, @NotBlank String area, @NotBlank Timestamp startDate,
+                              @NotBlank Timestamp endDate, @NotBlank String guideName, @NotBlank String guideEmail,
+                              @NotBlank Gender guideGender, @NotBlank String guidePhone) {
+        this.title = title;
+        this.price = price;
+        this.detail = detail;
+        this.capacity = capacity;
+        this.area = area;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.guideName = guideName;
+        this.guideEmail = guideEmail;
+        this.guideGender = guideGender;
+        this.guidePhone = guidePhone;
+    }
 }

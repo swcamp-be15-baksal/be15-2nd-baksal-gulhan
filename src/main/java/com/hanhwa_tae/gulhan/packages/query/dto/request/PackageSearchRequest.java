@@ -10,18 +10,20 @@ import java.sql.Timestamp;
 @Setter
 public class PackageSearchRequest {
     private String area;
+    private String title;
     private Timestamp startDate;
     private Timestamp endDate;
 
     private Integer page = 1;
     private Integer size = 20;
-    private String title;
 
-    public int getOffset() {
-        return (page - 1) * size;
+    private Integer limit;
+    private Integer offset;
+
+    public void calculatePaging() {
+        this.limit = size;
+        this.offset = (page-1) * size;
     }
 
-    public int getLimit() {
-        return size;
-    }
+    private String sort;
 }
