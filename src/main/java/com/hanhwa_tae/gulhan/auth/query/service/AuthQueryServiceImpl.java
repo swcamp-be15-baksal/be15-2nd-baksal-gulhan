@@ -75,13 +75,13 @@ public class AuthQueryServiceImpl implements AuthQueryService {
     @Override
     public AccessTokenResponse reissue(CustomUserDetail userDetail, RefreshTokenRequest request) {
 //
-        if(userDetail == null){
-            throw new BusinessException(ErrorCode.INVALID_TOKEN);
-        }
+//        if(userDetail == null){
+//            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+//        }
 
         String requestRefreshToken = request.getRefreshToken();
-        log.info("유저 ID : " + userDetail.getUserId());
-        log.info("유저 RANK : " + userDetail.getAuthorities());
+        log.info("유저 ID : " + jwtTokenProvider.getUserIdFromJWT(requestRefreshToken));
+        log.info("유저 RANK : " + jwtTokenProvider.getUserIdFromJWT(requestRefreshToken));
         // refreshtoken 검증
         jwtTokenProvider.validateToken(requestRefreshToken);
 
