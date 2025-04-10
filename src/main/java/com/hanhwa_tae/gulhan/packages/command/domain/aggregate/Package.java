@@ -1,7 +1,7 @@
 package com.hanhwa_tae.gulhan.packages.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Gender;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
@@ -40,7 +40,7 @@ public class Package {
     private String guideEmail;
 
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private GenderType gender;
 
     private String guidePhone;
 
