@@ -12,6 +12,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "package")
@@ -55,6 +56,7 @@ public class Packages {
 
     @Enumerated(EnumType.STRING)
     private DeleteType isDeleted = DeleteType.N;
+
 
 
     public void updatePackage(@NotBlank String title, @NotBlank int price, @NotBlank String detail,

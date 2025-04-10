@@ -6,6 +6,8 @@ import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageListResponse;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
 import com.hanhwa_tae.gulhan.packages.query.mapper.PackageMapper;
 
+import com.hanhwa_tae.gulhan.review.query.dto.response.ReviewDTO;
+import com.hanhwa_tae.gulhan.review.query.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PackageQueryService {
     private final PackageMapper packageMapper;
+    private final ReviewMapper reviewMapper;
 
     @Transactional(readOnly=true)
     public PackageListResponse getPackages(PackageSearchRequest packageSearchRequest) {
@@ -38,7 +41,8 @@ public class PackageQueryService {
     }
 
     @Transactional(readOnly = true)
-    public PackageDTO getPackageById(Long packageId) {
+    public PackageDTO getPackageById(Integer packageId) {
         return packageMapper.selectPackageById(packageId);
     }
 }
+

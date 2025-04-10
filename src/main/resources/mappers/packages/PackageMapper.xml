@@ -51,10 +51,13 @@
 
     <!-- 목록 개수 조회 -->
     <select id="countPackages" resultType="long">
-        SELECT COUNT(*)
-        FROM package
+        SELECT COUNT(*) FROM (
+        SELECT p.package_id
+        FROM package p
+        LEFT JOIN `like` l ON p.package_id = l.target_id AND l.target_type = 'PACKAGE'
+        LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
         <where>
-            is_deleted = 'N'
+            p.is_deleted = 'N'
             <if test="area != null">
                 AND area = #{area}
             </if>
@@ -68,7 +71,10 @@
                 AND title LIKE CONCAT('%', #{title}, '%')
             </if>
         </where>
+        GROUP BY p.package_id
+        )
     </select>
+
 
 
     <!-- 패키지 상세 조회 -->

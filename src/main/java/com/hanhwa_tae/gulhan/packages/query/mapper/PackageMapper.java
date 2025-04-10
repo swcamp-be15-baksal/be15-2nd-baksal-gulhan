@@ -11,5 +11,5 @@ import java.util.List;
 public interface PackageMapper {
     List<PackageDTO> selectPackages(PackageSearchRequest request);
     long countPackages(PackageSearchRequest request);
-    PackageDTO selectPackageById(Long packageId);
+    PackageDTO selectPackageById(Integer packageId);
 }

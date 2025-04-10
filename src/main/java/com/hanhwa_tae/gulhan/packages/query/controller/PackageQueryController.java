@@ -29,9 +29,9 @@ public class PackageQueryController {
     }
 
     // 상세 조회
-    @GetMapping("/list/{id}")
-    public ResponseEntity<ApiResponse<PackageDTO>> getPackageDetail(@PathVariable Long id) {
-        PackageDTO response = packageQueryService.getPackageById(id);
+    @GetMapping("/list/{packageId}")
+    public ResponseEntity<ApiResponse<PackageDTO>> getPackageDetail(@PathVariable Integer packageId) {
+        PackageDTO response = packageQueryService.getPackageById(packageId);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
