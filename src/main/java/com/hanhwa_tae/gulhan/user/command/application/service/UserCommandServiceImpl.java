@@ -118,7 +118,7 @@ public class UserCommandServiceImpl implements UserCommandService {
                 .userName(userRequestDto.getUserName())
                 .email(userRequestDto.getEmail())
                 .gender(userRequestDto.getGender())
-                .rankId(defaultRank.getRankId())
+//                .rankId(defaultRank.getRankId())
                 .loginType(LoginType.GENERAL)
                 .build();
 

@@ -10,6 +10,8 @@ public class PackageQuantityDTO {
 
     private int targetId;
 
+    private String title;
+
     private int totalQuantity;
 
     private int totalPrice;

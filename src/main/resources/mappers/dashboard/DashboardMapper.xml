@@ -8,6 +8,7 @@
         SELECT
               a.order_history_type
             , a.target_id
+            , b.title
             , SUM(a.quantity) AS totalQuantity
             , SUM(a.quantity * b.price) AS totalPrice
          FROM order_history a
@@ -25,27 +26,123 @@
     </select>
 
     <select id="selectGoodsList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.GoodsQuantityDTO">
-
+        SELECT
+              a.order_history_type
+            , a.target_id
+            , b.title
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * b.price) AS totalPrice
+         FROM order_history a
+         JOIN goods b ON (a.target_id = b.goods_id)
+        WHERE a.order_history_type = 'GOODS'
+        GROUP BY target_id
+        ORDER BY target_id;
     </select>
 
-    <select id="countGoods" resultType="Integer">
-
+    <select id="countGoods" resultType="int">
+        SELECT
+            COUNT(DISTINCT target_id)
+         FROM order_history
+        WHERE order_history_type = 'GOODS';
     </select>
 
     <select id="selectMonthlyList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.MonthlyRevenueDTO">
+<!--        DATE_FORMAT(created_at, '%Y-%m') 월별 그룹핑 -->
+        SELECT
+              a.order_history_type
+            , DATE_FORMAT(b.ordered_at, '%Y-%m') AS orderedAt
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * c.price) AS totalPrice
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+         JOIN goods c ON a.target_id = c.goods_id
+        WHERE a.order_history_type = 'GOODS'
+        GROUP BY orderedAt
 
+        UNION ALL
+
+        SELECT
+              a.order_history_type
+            , DATE_FORMAT(b.ordered_at, '%Y-%m') AS orderedAt
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * d.price) AS totalPrice
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+         JOIN package d ON a.target_id = d.package_id
+        WHERE a.order_history_type = 'PACKAGE'
+        GROUP BY orderedAt
+        ORDER BY orderedAt;
     </select>
 
-    <select id="countMonthly" resultType="Integer">
-
+    <select id="countMonthly" resultType="int">
+        SELECT
+            COUNT(DISTINCT DATE_FORMAT(b.ordered_at, '%Y-%m'))
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+        WHERE a.order_history_type IN ('GOODS', 'PACKAGE');
     </select>
 
     <select id="selectDailyList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.DailyRevenueDTO">
+<!--        DATE_FORMAT(created_at, '%Y-%m-%d') 일별 그룹핑 -->
+        SELECT
+              a.order_history_type
+            , DATE_FORMAT(b.ordered_at, '%Y-%m-%d') AS orderedAt
+            , c.title
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * c.price) AS totalPrice
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+         JOIN goods c ON a.target_id = c.goods_id
+        WHERE a.order_history_type = 'GOODS'
+        GROUP BY orderedAt
 
+        UNION ALL
+
+        SELECT
+              a.order_history_type
+            , DATE_FORMAT(b.ordered_at, '%Y-%m-%d') AS orderedAt
+            , d.title
+            , SUM(a.quantity) AS totalQuantity
+            , SUM(a.quantity * d.price) AS totalPrice
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+         JOIN package d ON a.target_id = d.package_id
+        WHERE a.order_history_type = 'PACKAGE'
+        GROUP BY orderedAt
+        ORDER BY orderedAt;
     </select>
 
-    <select id="countDaily" resultType="Integer">
-
+    <select id="countDaily" resultType="int">
+        SELECT
+            COUNT(DISTINCT DATE_FORMAT(b.ordered_at, '%Y-%m-%d'))
+         FROM order_history a
+         JOIN `order` b ON a.order_id = b.order_id
+        WHERE a.order_history_type IN ('GOODS', 'PACKAGE');
     </select>
 
+    <select id="selectOrderList" resultType="com.hanhwa_tae.gulhan.dashboard.query.dto.response.OrderAllListDTO">
+        SELECT
+              a.order_id
+            , a.ordered_at
+            , a.total_price
+            , a.total_point
+            , a.total_amount
+            , a.shipping_no
+            , a.address
+            , a.receiver
+            , a.receiver_phone
+            , a.order_code
+            , a.user_no
+            , b.user_name
+         FROM order a
+         JOIN user b ON a.user_no = b.user_no
+        WHERE shipping_no IS NULL;
+    </select>
+
+    <select id="countOrders" resultType="int">
+        SELECT
+            COUNT(*)
+         FORM order
+        WHERE shipping_no IS NULL;
+    </select>
 </mapper>

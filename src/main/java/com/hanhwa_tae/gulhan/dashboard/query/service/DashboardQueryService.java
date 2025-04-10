@@ -4,6 +4,7 @@ import com.hanhwa_tae.gulhan.common.dto.Pagination;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.request.DashboardDailySearchRequest;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.request.DashboardGoodsSearchRequest;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.request.DashboardMonthlySearchRequest;
+import com.hanhwa_tae.gulhan.dashboard.query.dto.request.DashboardOrderSearchRequest;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.request.DashboardPackageSearchRequest;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.DailyRevenueDTO;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.DailyRevenueListResponse;
@@ -11,6 +12,8 @@ import com.hanhwa_tae.gulhan.dashboard.query.dto.response.GoodsQuantityDTO;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.GoodsQuantityListResponse;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.MonthlyRevenueDTO;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.MonthlyRevenueListResponse;
+import com.hanhwa_tae.gulhan.dashboard.query.dto.response.OrderAllListDTO;
+import com.hanhwa_tae.gulhan.dashboard.query.dto.response.OrderAllListResponse;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.PackageQuantityDTO;
 import com.hanhwa_tae.gulhan.dashboard.query.dto.response.PackageQuantityListResponse;
 import com.hanhwa_tae.gulhan.dashboard.query.mapper.DashboardQueryMapper;
@@ -89,4 +92,19 @@ public class DashboardQueryService {
                 .build();
     }
 
+    public OrderAllListResponse getOrderList(DashboardOrderSearchRequest request) {
+        List<OrderAllListDTO> orderList= dashboardQueryMapper.selectOrderList(request);
+        int totalPosts = dashboardQueryMapper.countOrders(request);
+
+        int page = request.getPage();
+        int size = request.getSize();
+        return OrderAllListResponse.builder()
+                .orderAllList(orderList)
+                .pagination(Pagination.builder()
+                        .currentPage(page)
+                        .size((int) Math.ceil((double) totalPosts / size))
+                        .page(totalPosts)
+                        .build())
+                .build();
+    }
 }
