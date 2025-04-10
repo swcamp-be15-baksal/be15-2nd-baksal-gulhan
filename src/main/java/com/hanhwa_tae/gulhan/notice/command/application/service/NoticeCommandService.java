@@ -4,8 +4,8 @@ import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeInsert
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeUpdateRequest;
 import com.hanhwa_tae.gulhan.notice.command.domain.aggregate.Notice;
 import com.hanhwa_tae.gulhan.notice.command.domain.repository.NoticeRepository;
-import com.hanhwa_tae.gulhan.notice.command.domain.repository.UserRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
+import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,33 +17,28 @@ public class NoticeCommandService {
 
     private final NoticeRepository noticeRepository;
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     /* 공지사항 등록 */
-    public Long createNotice(NoticeInsertRequest request) {
+    public Long createNotice(String id, NoticeInsertRequest request) {
 
-        User user = userRepository.findById(request.getUserNo())
-                .orElseThrow(() -> new RuntimeException("사용자 없음"));
-        if(user.getRankId() != 5){
-            throw new RuntimeException("관리자만 등록가능");
-        }
+        User user = userMapper.findUserByUserId(id)
+                .orElseThrow( () -> new RuntimeException("관리자 없음"));
 
         Notice newNotice = modelMapper.map(request, Notice.class);
-        newNotice.setUserNo(user);
+        newNotice.setUser(user);
 
         Notice notice = noticeRepository.save(newNotice);
 
         return notice.getNoticeId();
     }
 
-    /* 공지사항 수정 */
+    /* 공지사항 수정 - 수정한 관리자 id로 바꿈 */
     @Transactional
-    public void updateNotice(Long noticeId, NoticeUpdateRequest request) {
-        User user = userRepository.findById(request.getUserNo())
+    public void updateNotice(String id, Long noticeId, NoticeUpdateRequest request) {
+
+        User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new RuntimeException("사용자없음"));
-        if(user.getRankId() != 5){
-            throw new RuntimeException("관리자만 등록가능");
-        }
 
         Notice notice =noticeRepository.findById(noticeId)
                         .orElseThrow(() -> new RuntimeException("게시글 없음"));
@@ -56,12 +51,6 @@ public class NoticeCommandService {
     }
 
     public void deleteNotice(Long noticeId) {
-        // 받아올 방법이 토큰 넘기는거말곤 없을듯..?
-//        User user = userRepository.findById(userNo)
-//                .orElseThrow(() -> new RuntimeException("사용자없음"));
-//        if(user.getRankId() != 5){
-//            throw new RuntimeException("관리자만 등록가능");
-//        }
 
         noticeRepository.deleteById(noticeId);
     }

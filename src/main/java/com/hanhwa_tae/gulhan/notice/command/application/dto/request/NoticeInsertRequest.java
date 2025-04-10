@@ -13,8 +13,4 @@ public class NoticeInsertRequest {
 
     @NotBlank(message = "내용입력은 필수입니다.")
     private String content;
-
-    /* 지울 예정 */
-    private int userNo;
-
 }

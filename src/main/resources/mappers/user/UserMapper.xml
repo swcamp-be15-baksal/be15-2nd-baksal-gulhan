@@ -13,6 +13,7 @@
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
           a.user_id
+        , a.user_no
         , a.password
         , b.rank_id as "rank.rank_id"
         , b.rank_name as "rank.rank_name"

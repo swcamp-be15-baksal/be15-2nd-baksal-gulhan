@@ -14,5 +14,4 @@ public class NoticeUpdateRequest {
     @NotBlank(message = "내용입력필수")
     private String content;
 
-    private int userNo;
 }

@@ -40,11 +40,12 @@ public class Notice {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
-    private User userNo; // FK
+    private User user; // FK
 
     public void updateNotice(@NotBlank(message = "제목입력필수") String title, @NotBlank(message = "내용입력필수") String content, User user) {
         this.title = title;
         this.content = content;
-        this.userNo = user;
+        this.user = user;
     }
+
 }
