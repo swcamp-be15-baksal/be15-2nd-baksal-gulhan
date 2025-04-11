@@ -34,8 +34,8 @@ public class PackageQueryService {
                 .packages(packages)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int)Math.ceil((double)totalPackages/size))
-                        .totalPosts(totalPackages)
+                        .totalPage((int)Math.ceil((double)totalPackages/size))
+                        .size(size)
                         .build())
                 .build();
     }

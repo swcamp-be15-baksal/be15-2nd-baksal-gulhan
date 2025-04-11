@@ -122,7 +122,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         UserCreateDTO userDto = UserCreateDTO.builder()
                 .userId(userRequestDto.getUserId())
                 .password(userRequestDto.getPassword())
-                .userName(userRequestDto.getUserName())
+                .username(userRequestDto.getUsername())
                 .email(userRequestDto.getEmail())
                 .gender(userRequestDto.getGender())
                 .rankId((long) defaultRank.getRankId())
