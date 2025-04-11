@@ -16,6 +16,7 @@ public class RefreshToken {
     @Id
     private final String userId;
 
+    private final Long userNo;
     private final String token;
 
 }

@@ -1,12 +1,15 @@
 package com.hanhwa_tae.gulhan.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -37,22 +40,22 @@ public class RedisConfig {
 
     /* 이메일 인증할 때는 이거 쓰기! */
     /* Object 타입이 바뀌면 어떡하지 ??*/
-//    @Bean
-//    public RedisTemplate<String, Object> redisEmailTemplate() {
-//        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory());
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//
+    @Bean
+    public RedisTemplate<String, Object> redisEmailTemplate() {
+        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
 //        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer();
-//
-//        /* Jackson2JsonRedisSerializer: JSON 값을 그대로 저장하는 Serializer
-//        * https://github.com/binghe819/TIL/blob/master/Spring/Redis/redis%20serializer/serializer.md#2-4-stringredisserializer*/
-//        redisTemplate.setKeySerializer(new Jackson2JsonRedisSerializer<>(String.class));
-//        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class)); // 여기가 답이 없네..
-//
-//        return redisTemplate;
-//    }
+
+        /* Jackson2JsonRedisSerializer: JSON 값을 그대로 저장하는 Serializer
+        * https://github.com/binghe819/TIL/blob/master/Spring/Redis/redis%20serializer/serializer.md#2-4-stringredisserializer*/
+        redisTemplate.setKeySerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class)); // 여기가 답이 없네..
+
+        return redisTemplate;
+    }
 
     /* 로그인 저장할 때는 이거 쓰기!*/
     /* 그냥 이걸로 쓰기..*/

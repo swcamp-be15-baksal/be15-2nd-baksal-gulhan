@@ -1,5 +1,7 @@
 package com.hanhwa_tae.gulhan.utils.jwt;
 
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.common.exception.custom.UnAuthorizationException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -34,24 +36,26 @@ public class JwtTokenProvider {
     }
 
 
-    public String createAccessToken(String userId, String rank){
+    public String createAccessToken(String userId,Long userNo, String rank){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
         return Jwts.builder()
                 .subject(userId)
                 .claim("rank", rank)
+                .claim("userNo",userNo)
                 .issuedAt(now)            // 발행일
                 .expiration(expiryDate)   // 종료일
                 .signWith(secretKey)     // 서명 키 설정
                 .compact();
     }
 
-     public String createRefreshToken(String userId, String rank){
+     public String createRefreshToken(String userId, Long userNo, String rank){
          Date now = new Date();
          Date expiryDate = new Date(now.getTime() + jwtRefreshExpiration);
          return Jwts.builder()
                  .subject(userId)         // 제목 (기본 속성)
                  .claim("rank", rank)    // 내용 (추가 속성)
+                 .claim("userNo",userNo)
                  .issuedAt(now)             // 발행일
                  .expiration(expiryDate)    // 종료일
                  .signWith(secretKey)       // 서명 키 설정
@@ -63,7 +67,7 @@ public class JwtTokenProvider {
             Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
             return true;
         } catch (SecurityException | MalformedJwtException e) {
-            throw new BadCredentialsException("유효하지 않은 요청입니다.", e);
+            throw new UnAuthorizationException(ErrorCode.UNAUTHORIZED_REQUEST);
             /* 글로벌 단위에서 캐치 하는 중*/
 //        } catch (ExpiredJwtException e) {
 //            throw new ExpiredJwtException("이미 만료된 로그인 상태입니다.", e);
@@ -88,5 +92,13 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("rank", String.class);
+    }
+
+    public Long getUserNoFromJWT(String token) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("userNo", Long.class);
     }
 }
