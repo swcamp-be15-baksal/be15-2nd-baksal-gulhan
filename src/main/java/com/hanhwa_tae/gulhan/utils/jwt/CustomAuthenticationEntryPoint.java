@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 
 /* 인증 */
@@ -21,9 +22,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ErrorCode errorCode = ErrorCode.ACCESS_TOKEN_EXPIRED;
 
-        jwtErrorResponse.setErrorResponse(response, errorCode);
+        jwtErrorResponse.setErrorResponse(response, ErrorCode.INVALID_TOKEN);
 
     }
 }
