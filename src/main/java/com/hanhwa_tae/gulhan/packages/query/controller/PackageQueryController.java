@@ -7,14 +7,11 @@ import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
 import com.hanhwa_tae.gulhan.packages.query.service.PackageQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/packages")
+@RequestMapping("/api/v1/packages")
 @RequiredArgsConstructor
 public class PackageQueryController {
 
@@ -22,7 +19,7 @@ public class PackageQueryController {
 
     // 목록 조회
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<PackageListResponse>> getPackages(PackageSearchRequest request) {
+    public ResponseEntity<ApiResponse<PackageListResponse>> getPackages(@ModelAttribute PackageSearchRequest request) {
         PackageListResponse response = packageQueryService.getPackages(request);
 
         return ResponseEntity.ok(ApiResponse.success(response));
