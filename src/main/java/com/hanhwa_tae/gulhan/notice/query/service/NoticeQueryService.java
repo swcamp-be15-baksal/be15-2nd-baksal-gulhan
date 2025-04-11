@@ -32,8 +32,8 @@ public class NoticeQueryService {
                 .tmpList(noticeDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts((int) totalPosts)
+                        .size(size)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
                         .build())
                 .build();
     }
