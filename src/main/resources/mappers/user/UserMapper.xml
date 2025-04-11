@@ -19,6 +19,7 @@
 <!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
 <!--        <result column="">-->
 <!--    </resultMap>>-->
+
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
           a.user_no
