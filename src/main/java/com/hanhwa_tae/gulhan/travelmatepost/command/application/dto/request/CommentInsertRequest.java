@@ -15,6 +15,4 @@ public class CommentInsertRequest {
     @NotBlank(message = "댓글 내용 필수 입력")
     private String content;
 
-    @NotBlank(message = "회원 번호는 필수입니다.")
-    private int userNo;
 }

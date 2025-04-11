@@ -7,7 +7,6 @@ import lombok.Getter;
 @Entity
 @Getter
 @Table(name = "user")
-@Getter
 public class User {
 
     @Id

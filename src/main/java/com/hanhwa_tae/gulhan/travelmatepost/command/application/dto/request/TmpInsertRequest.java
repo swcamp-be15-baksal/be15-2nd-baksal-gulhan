@@ -10,6 +10,4 @@ public class TmpInsertRequest {
 
     private String content;
 
-    private int userNo;
-
 }
