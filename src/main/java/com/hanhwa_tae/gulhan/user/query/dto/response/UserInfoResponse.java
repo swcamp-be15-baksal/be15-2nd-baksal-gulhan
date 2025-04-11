@@ -11,7 +11,7 @@ import java.util.Date;
 public class UserInfoResponse {
     private final String userId;
 
-    private final String userName;
+    private final String username;
     private final String email;
     private final GenderType gender;
     private final Date birth;

@@ -19,7 +19,7 @@ public class UserCreateRequest {
     private String userId;
 
     @NotBlank
-    private String userName;
+    private String username;
 
     @NotBlank
     private String password;

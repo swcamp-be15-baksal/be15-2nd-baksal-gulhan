@@ -7,6 +7,7 @@ import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserInfoCreateDTO;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.ChangeUserPasswordRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.*;
@@ -122,7 +123,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         UserCreateDTO userDto = UserCreateDTO.builder()
                 .userId(userRequestDto.getUserId())
                 .password(userRequestDto.getPassword())
-                .userName(userRequestDto.getUserName())
+                .username(userRequestDto.getUsername())
                 .email(userRequestDto.getEmail())
                 .gender(userRequestDto.getGender())
                 .rankId((long) defaultRank.getRankId())
@@ -179,5 +180,33 @@ public class UserCommandServiceImpl implements UserCommandService {
             userInfoRepository.save(userInfo);
         }
         userRepository.save(user);
+    }
+
+    @Override
+    public void chageUserPassword(CustomUserDetail userDetail, ChangeUserPasswordRequest request) {
+        Long userNo = userDetail.getUserNo();
+
+        String requestPassword = request.getPassword();
+        String requestConfirmPassword = request.getConfirmPassword();
+
+        /* 비밀번호 확인과 동일한 경우 에러 출력 */
+        if(!requestPassword.equals(requestConfirmPassword)){
+            throw new BusinessException(ErrorCode.PASSWORD_CONFIRM_FAILED);
+        }
+
+
+        User foundUser = userRepository.findUserByUserNo(userNo)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 비밀번호가 동일한 경우
+        if (passwordEncoder.matches(requestPassword, foundUser.getPassword())) {
+            throw new BusinessException(ErrorCode.SAME_PASSWORD);
+        }
+
+        // 패스워드 인코딩
+        String encodedPassword = passwordEncoder.encode(requestPassword);
+        foundUser.setUpdateUser(encodedPassword);
+
+        userRepository.save(foundUser);
     }
 }
