@@ -33,4 +33,6 @@ public class PackageDTO {
 
     private String guidePhone;
 
+    private int remaining;
+
 }

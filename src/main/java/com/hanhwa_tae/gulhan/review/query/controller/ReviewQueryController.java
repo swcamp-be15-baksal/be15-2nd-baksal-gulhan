@@ -7,19 +7,19 @@ import com.hanhwa_tae.gulhan.review.query.service.ReviewQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
 public class ReviewQueryController {
     private final ReviewQueryService reviewQueryService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<ReviewListResponse>> getReview(ReviewSearchRequest request) {
+    public ResponseEntity<ApiResponse<ReviewListResponse>> getReview(@ModelAttribute ReviewSearchRequest request) {
         ReviewListResponse response = reviewQueryService.getReview(request);
-
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
