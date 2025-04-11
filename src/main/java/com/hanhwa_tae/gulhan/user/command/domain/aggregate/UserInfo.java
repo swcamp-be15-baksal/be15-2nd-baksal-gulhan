@@ -1,6 +1,5 @@
 package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
-import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,10 +37,12 @@ public class UserInfo {
     @LastModifiedDate
     private Timestamp updated_at;
 
-    @Enumerated(EnumType.STRING)
-    private DeleteType isDeleted = DeleteType.N; // 삭제여부 soft
-
     private String address;
 
     private String countryCode = "82";
+
+    public void setUpdateUserInfo(String address, String phone) {
+        this.address = address;
+        this.phone = phone;
+    }
 }
