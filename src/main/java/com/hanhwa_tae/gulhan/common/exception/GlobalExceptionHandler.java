@@ -1,6 +1,7 @@
 package com.hanhwa_tae.gulhan.common.exception;
 
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
+import com.hanhwa_tae.gulhan.common.exception.custom.PageNotFoundException;
 import com.hanhwa_tae.gulhan.common.exception.custom.UnAuthorizationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.coyote.Response;
@@ -66,6 +67,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Void>> handleException() {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+
+        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
+
+        return new ResponseEntity<>(response, errorCode.getHttpStatus());
+    }
+
+    @ExceptionHandler(PageNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handlePageNotFoundException() {
+        ErrorCode errorCode = ErrorCode.PAGE_NOT_FOUND;
 
         ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
 

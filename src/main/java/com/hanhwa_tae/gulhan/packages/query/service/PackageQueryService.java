@@ -1,6 +1,8 @@
 package com.hanhwa_tae.gulhan.packages.query.service;
 
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.common.exception.custom.PageNotFoundException;
 import com.hanhwa_tae.gulhan.packages.query.dto.request.PackageSearchRequest;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageListResponse;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
@@ -43,6 +45,8 @@ public class PackageQueryService {
         PackageDTO dto = packageMapper.selectPackageById(packageId);
         if (dto != null) {
             dto.setRemaining(dto.getCapacity() - dto.getCurrentRegist());
+        } else {
+            throw new PageNotFoundException(ErrorCode.PAGE_NOT_FOUND);
         }
         return dto;
     }

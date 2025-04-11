@@ -22,6 +22,9 @@ public enum ErrorCode {
     INVALID_TOKEN("11003", "토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST), // 400
     // TODO 나머지 이어서 적어주세요!
 
+    // package & goods & review
+    PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
+
 
 
     // 그 외 기타 오류

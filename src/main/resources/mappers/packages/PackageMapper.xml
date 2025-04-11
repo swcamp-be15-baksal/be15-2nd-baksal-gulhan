@@ -59,16 +59,16 @@
         <where>
             p.is_deleted = 'N'
             <if test="area != null">
-                AND area = #{area}
+                AND p.area = #{area}
             </if>
             <if test="startDate != null">
-                AND start_date &gt;= #{startDate}
+                AND p.start_date &gt;= #{startDate}
             </if>
             <if test="endDate != null">
-                AND end_date &lt;= #{endDate}
+                AND p.end_date &lt;= #{endDate}
             </if>
             <if test="title != null">
-                AND title LIKE CONCAT('%', #{title}, '%')
+                AND p.title LIKE CONCAT('%', #{title}, '%')
             </if>
         </where>
         GROUP BY p.package_id
