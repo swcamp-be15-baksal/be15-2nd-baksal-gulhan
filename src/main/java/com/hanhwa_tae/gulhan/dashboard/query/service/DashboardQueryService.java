@@ -30,7 +30,7 @@ public class DashboardQueryService {
 
     public PackageQuantityListResponse getPackageList(DashboardPackageSearchRequest request) {
         List<PackageQuantityDTO> paackgeQuantityDTOList= dashboardQueryMapper.selectPackageList(request);
-        int totalPosts = dashboardQueryMapper.countPackage(request);
+        long totalPosts = dashboardQueryMapper.countPackage(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -38,15 +38,15 @@ public class DashboardQueryService {
                 .packageList(paackgeQuantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalPage((int) Math.ceil((double) totalPosts / size))
                         .size(size)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
                         .build())
                 .build();
     }
 
     public GoodsQuantityListResponse getGoodsList(DashboardGoodsSearchRequest request) {
         List<GoodsQuantityDTO> goodsQuantityDTOList= dashboardQueryMapper.selectGoodsList(request);
-        int totalPosts = dashboardQueryMapper.countGoods(request);
+        long totalPosts = dashboardQueryMapper.countGoods(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -54,15 +54,15 @@ public class DashboardQueryService {
                 .goodsQuantityList(goodsQuantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
+                        .size(size)
                         .totalPage((int) Math.ceil((double) totalPosts / size))
-                        .size(totalPosts)
                         .build())
                 .build();
     }
 
     public MonthlyRevenueListResponse getMonthly(DashboardMonthlySearchRequest request) {
         List<MonthlyRevenueDTO> quantityDTOList= dashboardQueryMapper.selectMonthlyList(request);
-        int totalPosts = dashboardQueryMapper.countMonthly(request);
+        long totalPosts = dashboardQueryMapper.countMonthly(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -70,15 +70,15 @@ public class DashboardQueryService {
                 .monthlyRevenueList(quantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
+                        .size(size)
                         .totalPage((int) Math.ceil((double) totalPosts / size))
-                        .size(totalPosts)
                         .build())
                 .build();
     }
 
     public DailyRevenueListResponse getDaily(DashboardDailySearchRequest request) {
         List<DailyRevenueDTO> quantityDTOList= dashboardQueryMapper.selectDailyList(request);
-        int totalPosts = dashboardQueryMapper.countDaily(request);
+        long totalPosts = dashboardQueryMapper.countDaily(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -86,15 +86,15 @@ public class DashboardQueryService {
                 .dailyRevenueList(quantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
+                        .size(size)
                         .totalPage((int) Math.ceil((double) totalPosts / size))
-                        .size(totalPosts)
                         .build())
                 .build();
     }
 
     public OrderAllListResponse getOrderList(DashboardOrderSearchRequest request) {
         List<OrderAllListDTO> orderList= dashboardQueryMapper.selectOrderList(request);
-        int totalPosts = dashboardQueryMapper.countOrders(request);
+        long totalPosts = dashboardQueryMapper.countOrders(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -102,8 +102,8 @@ public class DashboardQueryService {
                 .orderAllList(orderList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
+                        .size(size)
                         .totalPage((int) Math.ceil((double) totalPosts / size))
-                        .size(totalPosts)
                         .build())
                 .build();
     }
