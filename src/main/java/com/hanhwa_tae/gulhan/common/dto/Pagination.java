@@ -1,5 +1,6 @@
 package com.hanhwa_tae.gulhan.common.dto;
 
+
 import lombok.Builder;
 import lombok.Getter;
 

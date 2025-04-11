@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 public class Be152ndBaksalGulhanApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(Be152ndBaksalGulhanApplication.class, args);
 	}
-
 }
