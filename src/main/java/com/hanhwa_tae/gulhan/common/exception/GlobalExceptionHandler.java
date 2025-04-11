@@ -4,7 +4,7 @@ import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.common.exception.custom.PageNotFoundException;
 import com.hanhwa_tae.gulhan.common.exception.custom.UnAuthorizationException;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.coyote.Response;
+import jakarta.mail.MessagingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -51,6 +51,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleUnAuthorizationException(UnAuthorizationException e){
         ErrorCode errorCode = ErrorCode.UNAUTHORIZED_REQUEST;
 
+        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
+
+        return new ResponseEntity<>(response, errorCode.getHttpStatus());
+    }
+
+    @ExceptionHandler(MessagingException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMessagingException(MessagingException e){
+        ErrorCode errorCode = ErrorCode.SEND_EMAIL_FAILED;
         ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
 
         return new ResponseEntity<>(response, errorCode.getHttpStatus());

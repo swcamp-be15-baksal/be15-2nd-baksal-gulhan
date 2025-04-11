@@ -1,7 +1,6 @@
 package com.hanhwa_tae.gulhan.cart.command.application.controller;
 
 
-import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.cart.command.application.dto.request.CreateCartRequest;
 import com.hanhwa_tae.gulhan.cart.command.application.dto.request.UpdateCartRequest;
@@ -9,7 +8,6 @@ import com.hanhwa_tae.gulhan.cart.command.application.dto.response.CreateCartRes
 import com.hanhwa_tae.gulhan.cart.command.application.service.CartCommandService;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.config.CustomEditorConfigurer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
