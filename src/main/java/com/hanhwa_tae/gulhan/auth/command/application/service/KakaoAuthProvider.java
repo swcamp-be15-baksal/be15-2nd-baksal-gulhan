@@ -3,7 +3,6 @@ package com.hanhwa_tae.gulhan.auth.command.application.service;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
-import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
 import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisKakaoAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
