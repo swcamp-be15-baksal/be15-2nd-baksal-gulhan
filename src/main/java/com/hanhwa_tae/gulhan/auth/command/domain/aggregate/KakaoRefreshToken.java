@@ -1,8 +1,11 @@
 package com.hanhwa_tae.gulhan.auth.command.domain.aggregate;
 
+import lombok.Builder;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
-import lombok.*;
 import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
+import org.springframework.data.redis.core.index.Indexed;
 
 @Data
 @Builder
@@ -10,13 +13,12 @@ import org.springframework.data.redis.core.RedisHash;
 public class KakaoRefreshToken {
 
     @Id
+    private String token;
+
+    @Indexed
     private String userId;
 
-    private String refreshToken;
-
-    private long expiresIn;
-
-    private long createdAt;
-
-
+    @TimeToLive
+    private Long expiresIn;
 }
+

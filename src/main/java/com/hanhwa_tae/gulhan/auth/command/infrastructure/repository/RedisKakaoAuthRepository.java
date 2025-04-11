@@ -1,8 +1,10 @@
 package com.hanhwa_tae.gulhan.auth.command.infrastructure.repository;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
-import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RedisKakaoAuthRepository extends CrudRepository<KakaoRefreshToken, String>, AuthRepository {
+import java.util.Optional;
+
+public interface RedisKakaoAuthRepository extends CrudRepository<KakaoRefreshToken, String>  {
+    Optional<KakaoRefreshToken> findByUserId(String userId);
 }

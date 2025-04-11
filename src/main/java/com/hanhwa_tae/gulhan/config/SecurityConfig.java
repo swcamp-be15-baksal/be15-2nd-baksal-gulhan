@@ -39,7 +39,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/oauth/**",
                                         "/login/**",
                                         "/api/v1/users/**",
-                                        "/api둠v1/auth/**"
+                                        "/api/v1/auth/**"
                                 ).permitAll()
                                 .anyRequest().permitAll()   // 테스트 땜에 열어
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
