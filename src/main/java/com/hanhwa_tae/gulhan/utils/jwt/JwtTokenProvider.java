@@ -36,24 +36,26 @@ public class JwtTokenProvider {
     }
 
 
-    public String createAccessToken(String userId, String rank){
+    public String createAccessToken(String userId,Long userNo, String rank){
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpiration);
         return Jwts.builder()
                 .subject(userId)
                 .claim("rank", rank)
+                .claim("userNo",userNo)
                 .issuedAt(now)            // 발행일
                 .expiration(expiryDate)   // 종료일
                 .signWith(secretKey)     // 서명 키 설정
                 .compact();
     }
 
-     public String createRefreshToken(String userId, String rank){
+     public String createRefreshToken(String userId, Long userNo, String rank){
          Date now = new Date();
          Date expiryDate = new Date(now.getTime() + jwtRefreshExpiration);
          return Jwts.builder()
                  .subject(userId)         // 제목 (기본 속성)
                  .claim("rank", rank)    // 내용 (추가 속성)
+                 .claim("userNo",userNo)
                  .issuedAt(now)             // 발행일
                  .expiration(expiryDate)    // 종료일
                  .signWith(secretKey)       // 서명 키 설정
@@ -90,5 +92,13 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("rank", String.class);
+    }
+
+    public Long getUserNoFromJWT(String token) {
+        return Jwts.parser().verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("userNo", Long.class);
     }
 }

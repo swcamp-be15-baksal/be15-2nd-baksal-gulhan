@@ -35,10 +35,10 @@ public class AuthQueryServiceImpl implements AuthQueryService {
         // 1. DB에서 유저 정보 존재 확인 (user 도메인에서 확인하기)
 
         User foundUser = userMapper.findUserByUserId(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다."));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_LOGIN_REQUEST));
         // 2. 유저 정보 일치 확인하기
         if (!passwordEncoder.matches(request.getPassword(), foundUser.getPassword())) {
-            throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다.");
+            throw new BusinessException(ErrorCode.INVALID_LOGIN_REQUEST);
         }
 
         /* 여기부터 로그인 성공 */
@@ -49,11 +49,13 @@ public class AuthQueryServiceImpl implements AuthQueryService {
             authRepository.deleteById(foundUser.getUserId());
         }
 
+        log.info("로그인 유저 NO : " + foundUser.getUserNo());
+
         // 3. access 토큰 발급
-        String accessToken = jwtTokenProvider.createAccessToken(foundUser.getUserId(), foundUser.getRank().getRankName().name());
+        String accessToken = jwtTokenProvider.createAccessToken(foundUser.getUserId(), foundUser.getUserNo(), foundUser.getRank().getRankName().name());
 
         // 4. refresh 토큰 발급
-        String refreshToken = jwtTokenProvider.createRefreshToken(foundUser.getUserId(), foundUser.getRank().getRankName().name());
+        String refreshToken = jwtTokenProvider.createRefreshToken(foundUser.getUserId(), foundUser.getUserNo(), foundUser.getRank().getRankName().name());
 
         // 5. db에 userId:refreshToken 형태로 저장
         RefreshToken refreshTokenEntity = RefreshToken
@@ -86,6 +88,9 @@ public class AuthQueryServiceImpl implements AuthQueryService {
 
         String userId = jwtTokenProvider.getUserIdFromJWT(requestRefreshToken);
         String rank = jwtTokenProvider.getRankFromJWT(requestRefreshToken);
+        Long userNo = jwtTokenProvider.getUserNoFromJWT(requestRefreshToken);
+
+        log.info("재발 유저 No : " + userNo);
 
         // 1. Redis에서 refresh 토큰 존재 확인
         RefreshToken storedRefreshToken = authRepository.findById(userId).orElseThrow(
@@ -101,6 +106,7 @@ public class AuthQueryServiceImpl implements AuthQueryService {
         // 2. access 토큰 재 발행
         String accessToken = jwtTokenProvider.createAccessToken(
                 userId,
+                userNo,
                 rank
         );
 

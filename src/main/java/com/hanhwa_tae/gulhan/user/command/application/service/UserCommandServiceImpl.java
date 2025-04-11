@@ -50,12 +50,12 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         // 중복 유저가 존재할 경우
         if (duplicateIdUser != null) {
-            throw new RuntimeException("중복 아이디가 존재합니다!");
+            throw new BusinessException(ErrorCode.DUPLICATE_ID_EXISTS);
         }
 
         // 중복 이메일이 존재할 경우
         if (duplicateEmailUser != null) {
-            throw new RuntimeException("중복 이메일이 존재합니다!");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL_EXISTS);
         }
 
         // 1. Redis에 데이터 저장

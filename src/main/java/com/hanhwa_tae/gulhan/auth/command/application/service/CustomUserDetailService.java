@@ -27,6 +27,7 @@ public class CustomUserDetailService implements UserDetailsService {
         log.info("발견한 유저 : " +  user.getUserId());
         return CustomUserDetail.builder()
                 .userId(user.getUserId())
+                .userNo(user.getUserNo())
                 .password(user.getPassword())
                 .authorities(Collections.singleton(
                         new SimpleGrantedAuthority(
