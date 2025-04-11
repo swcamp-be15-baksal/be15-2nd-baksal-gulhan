@@ -1,6 +1,8 @@
 package com.hanhwa_tae.gulhan.goods.query.service;
 
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.common.exception.custom.PageNotFoundException;
 import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsSearchRequest;
 import com.hanhwa_tae.gulhan.goods.query.dto.response.GoodsDTO;
 import com.hanhwa_tae.gulhan.goods.query.dto.response.GoodsListResponse;
@@ -38,7 +40,13 @@ public class GoodsQueryService {
 
     @Transactional(readOnly = true)
     public GoodsDTO getGoodsById(Integer goodsId) {
-        return goodsMapper.selectGoodsById(goodsId);
+        GoodsDTO dto = goodsMapper.selectGoodsById(goodsId);
+        if (dto != null) {
+            dto.setRemaining(dto.getQuantity() - dto.getSold());
+        } else {
+            throw new PageNotFoundException(ErrorCode.PAGE_NOT_FOUND);
+        }
+        return dto;
     }
 
 

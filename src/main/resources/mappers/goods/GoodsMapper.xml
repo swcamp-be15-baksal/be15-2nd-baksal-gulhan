@@ -83,6 +83,7 @@
             g.title,
             g.detail,
             g.quantity,
+            g.sold,
             g.price,
             g.created_at,
             gc.category_name,

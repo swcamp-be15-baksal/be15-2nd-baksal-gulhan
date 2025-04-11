@@ -26,6 +26,10 @@ public class Goods {
 
     private int quantity;
 
+    private int sold;
+
+    private int remaining;
+
     private int price;
 
     @CreatedDate

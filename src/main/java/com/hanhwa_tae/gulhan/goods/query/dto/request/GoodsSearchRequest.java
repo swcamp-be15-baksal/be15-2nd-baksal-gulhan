@@ -13,6 +13,8 @@ public class GoodsSearchRequest {
     private String title;
     private String detail;
     private Integer quantity;
+    private Integer sold;
+    private Integer remaining;
     private Integer price;
     private Integer goodsCategoryId;
     private Timestamp createdAt;

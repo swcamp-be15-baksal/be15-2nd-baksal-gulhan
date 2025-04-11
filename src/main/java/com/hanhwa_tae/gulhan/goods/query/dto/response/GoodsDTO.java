@@ -13,6 +13,8 @@ public class GoodsDTO {
     private String title;
     private String detail;
     private int quantity;
+    private int sold;
+    private int remaining;
     private int price;
     private Timestamp createdAt;
     private int goodsCategoryId;
