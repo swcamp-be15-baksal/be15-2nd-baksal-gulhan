@@ -1,5 +1,6 @@
 package com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import java.util.Collection;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class CustomUserDetail implements UserDetails {
     private final String userId;
     private final Long userNo;

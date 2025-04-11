@@ -20,13 +20,13 @@ public class UserCommandController {
     private final UserCommandService userCommandService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(
+    public ResponseEntity<ApiResponse<Void>> register(
             @RequestBody @Valid UserCreateRequest request
     ) {
         userCommandService.registerUser(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(null);
+                .body(ApiResponse.success(null));
 //                .body(ApiResponse.success(null));
     }
 

@@ -64,10 +64,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleException() {
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
 
-        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
+        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage() + e.getMessage());
 
         return new ResponseEntity<>(response, errorCode.getHttpStatus());
     }
