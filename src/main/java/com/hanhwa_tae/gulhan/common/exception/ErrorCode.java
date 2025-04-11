@@ -22,6 +22,10 @@ public enum ErrorCode {
     INVALID_TOKEN("11003", "토큰이 유효하지 않습니다.", HttpStatus.BAD_REQUEST), // 400
     // TODO 나머지 이어서 적어주세요!
 
+    // 장바구니
+    CART_NOT_FOUND("20001", "들어있지 않은 장바구니입니다.",HttpStatus.NOT_FOUND),// 404
+    USER_NOT_MATCHING("20002", "해당 사용자는 삭제할 수 없습니다.", HttpStatus.UNAUTHORIZED),
+
 
 
     // 그 외 기타 오류

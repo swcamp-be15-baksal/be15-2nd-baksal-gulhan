@@ -9,8 +9,8 @@
 
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
-        a.user_no
-        ,a.user_id
+          a.user_no
+        , a.user_id
         , a.password
         , b.rank_id as "rank.rank_id"
         , b.rank_name as "rank.rank_name"
@@ -27,5 +27,19 @@
         FROM user a
         JOIN user_info b ON (a.user_no = b.user_no)
         WHERE b.phone = #{ phone }
+    </select>
+    <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
+        SELECT
+        a.user_id
+        , a.user_name
+        , a.email
+        , a.gender
+        , b.birth
+        , b.phone
+        , b.address
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE a.user_id = #{ userId }
+        AND a.is_deleted = 'N'
     </select>
 </mapper>
