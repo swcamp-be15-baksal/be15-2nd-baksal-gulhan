@@ -9,12 +9,14 @@ import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserInfoCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindPasswordRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.*;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserInfoRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.gulhan.user.command.infrastructure.RedisUserRepository;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import com.hanhwa_tae.gulhan.utils.EmailUtil;
+import com.hanhwa_tae.gulhan.utils.RandomStringGenerator;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final EmailUtil emailUtil;
     private final ObjectMapper objectMapper;
     private final RedisUserRepository redisUserRepository;
+    private final RandomStringGenerator randomStringGenerator;
 
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) {
@@ -178,6 +181,29 @@ public class UserCommandServiceImpl implements UserCommandService {
             userInfo.setUpdateUserInfo(request.getAddress(), request.getPhone());
             userInfoRepository.save(userInfo);
         }
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void findUserPassword(UserFindPasswordRequest request) throws MessagingException {
+        String requestUserId = request.getUserId();
+        String requestEmail = request.getEmail();
+
+        // 1. 유저 존재 확인
+        User user = userRepository.findUserByUserIdAndEmail(requestUserId, requestEmail)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+        // 2. 해당 유저의 이메일로 임시 비밀번호 전송
+        StringBuilder sb = new StringBuilder();
+
+        String tempPassword = randomStringGenerator.getRandomString(15);
+
+        sb.append("<h1>임시 비밀번호<h1>");
+        sb.append("<h2>임시 비밀번호 : ").append(tempPassword).append("<h2>");
+
+        emailUtil.sendEmail(request.getEmail(), "[걸한] 임시 비밀번호 입니다.", sb.toString());
+
+        user.setUpdateUser(passwordEncoder.encode(tempPassword));
         userRepository.save(user);
     }
 }
