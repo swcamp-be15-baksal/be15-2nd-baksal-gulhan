@@ -39,6 +39,12 @@
             <when test="sort == 'review'">
                 ORDER BY review_count DESC
             </when>
+            <when test="sort == 'highPrice'">
+                ORDER BY g.price DESC
+            </when>
+            <when test="sort == 'lowPrice'">
+                ORDER BY g.price ASC
+            </when>
             <otherwise>
                 ORDER BY g.title ASC
             </otherwise>
