@@ -15,8 +15,10 @@ public enum ErrorCode {
     DUPLICATE_EMAIL_EXISTS("10004", "중복 이메일이 존재합니다.", HttpStatus.BAD_REQUEST),
     DUPLICATE_ID_EXISTS("10005", "중복 아이디가 존재합니다.", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND("10006", "해당 유저를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    USER_ALREADY_DELETED("10007", "이미 탈퇴 처리 된 회원 입니다.", HttpStatus.BAD_REQUEST),
-    ALREADY_ADDITIONAL_INFO_EXISTS("10008", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
+    SAME_PASSWORD("10007", "이전 비밀번호와 동일합니다.", HttpStatus.BAD_REQUEST),
+    PASSWORD_CONFIRM_FAILED("10008", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    USER_ALREADY_DELETED("10009", "이미 탈퇴 처리 된 회원 입니다.", HttpStatus.BAD_REQUEST),
+    ALREADY_ADDITIONAL_INFO_EXISTS("10010", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
 
     // 카카오 인증
     KAKAO_AUTH_FAILED("20001", "카카오 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),

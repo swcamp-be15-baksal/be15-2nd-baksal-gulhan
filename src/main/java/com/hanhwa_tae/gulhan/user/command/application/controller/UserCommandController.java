@@ -2,6 +2,7 @@ package com.hanhwa_tae.gulhan.user.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.ChangeUserPasswordRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
@@ -48,6 +49,16 @@ public class UserCommandController {
             ){
 
         userCommandService.updateUserInfo(userDetail, request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @PutMapping("/change/password")
+    public ResponseEntity<ApiResponse<Void>> changeUserPassword(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody @Valid ChangeUserPasswordRequest request
+    ){
+        userCommandService.chageUserPassword(userDetail, request);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
