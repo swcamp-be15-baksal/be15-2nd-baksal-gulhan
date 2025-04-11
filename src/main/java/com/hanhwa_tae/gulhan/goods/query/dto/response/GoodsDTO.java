@@ -3,6 +3,8 @@ package com.hanhwa_tae.gulhan.goods.query.dto.response;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -13,5 +15,5 @@ public class GoodsDTO {
     private int quantity;
     private int price;
     private int createdAt;
-    private int goodsCategoryName;
+    private String goodsCategoryName;
 }
