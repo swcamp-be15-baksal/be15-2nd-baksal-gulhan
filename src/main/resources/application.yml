@@ -48,4 +48,7 @@ jwt:
 
 payment:
   toss:
-    test_client_api_key:
+    test_client_api_key: ${toss_client_key}
+    test_secrete_api_key: ${toss_secret_key}
+    success_url: ${success_url}
+    fail_url: ${fail_url}

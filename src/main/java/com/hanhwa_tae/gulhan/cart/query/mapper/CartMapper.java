@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface CartMapper {
-
+    List<CartResponse> selectAllCartByUserNo(Long userNo);
     List<CartResponse> selectCartsByUserNo(Long userNo, CartSearchRequest cartSearchRequest);
     long countCarts(Long userNo);
 
