@@ -9,5 +9,4 @@ public class TmpInsertRequest {
     private String title;
 
     private String content;
-
 }

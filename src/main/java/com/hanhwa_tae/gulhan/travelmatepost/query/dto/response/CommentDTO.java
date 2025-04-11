@@ -1,11 +1,9 @@
 package com.hanhwa_tae.gulhan.travelmatepost.query.dto.response;
 
-import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter @Setter
 public class CommentDTO {
@@ -25,6 +23,4 @@ public class CommentDTO {
     private int travelMatePostId;
 
     private Integer parentCommentId;
-
-    private List<CommentDTO> children;
 }

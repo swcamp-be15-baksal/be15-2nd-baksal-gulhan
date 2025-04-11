@@ -1,12 +1,13 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.application.service;
 
-import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.TmpUpdateRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.TravelMatePost;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.repository.JpaTravelMatePostRepository;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.TmpInsertRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
-import com.hanhwa_tae.gulhan.user.command.infrastructure.JpaUserRepository;
+import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,39 +19,55 @@ public class TmpCmdService {
 
     private final ModelMapper modelMapper;
     private final JpaTravelMatePostRepository  jpaTravelMatePostRepository;
-    private final JpaUserRepository jpaUserRepository;
+    private final UserMapper userMapper;
 
-    /* 상품 등록 */
+    /* 동행글 등록 */
     @Transactional
-        public int createTmp(TmpInsertRequest request) {
+        public int createTmp(String id, TmpInsertRequest request) {
 
-//            TravelMatePost travelMatePost = modelMapper.map(request, TravelMatePost.class);
-//            User user = jpaUserRepository.findById(request.getUserNo())
-//                    .orElseThrow(() -> new RuntimeException("사용자 없음"));
-//            travelMatePost.setUser(user);
-//
-//            TravelMatePost saved = jpaTravelMatePostRepository.save(travelMatePost);
+            TravelMatePost travelMatePost = modelMapper.map(request, TravelMatePost.class);
+            User user = userMapper.findUserByUserId(id)
+                    .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-            return 1; //saved.getTravelMatePostId();
+            travelMatePost.setUser(user);
 
+            TravelMatePost saved = jpaTravelMatePostRepository.save(travelMatePost);
+
+            return saved.getTravelMatePostId();
     }
 
-    /* 상품 수정 */
+    /* 동행글 수정 */
     @Transactional
-    public void updatePost(Integer travelMatePostId, TmpUpdateRequest request) {
+    public void updatePost(String id, Integer travelMatePostId, TmpUpdateRequest request) {
         TravelMatePost travelMatePost = jpaTravelMatePostRepository.findById(travelMatePostId)
-                .orElseThrow();
+                .orElseThrow( () -> new BusinessException(ErrorCode.POST_NOT_FOUND));
+
+        User user = userMapper.findUserByUserId(id)
+                        .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if(!user.getUserNo().equals(travelMatePost.getUser().getUserNo())) {
+            throw new BusinessException(ErrorCode.POST_NOT_OWNED);
+        }
 
         travelMatePost.updateProductDetails(
                 request.getTitle(),
-                request.getContent(),
-                DeleteType.valueOf(request.getIsDeleted())
+                request.getContent()
         );
-
     }
 
     /* 상품 삭제 */
-    public void deletePost(Integer travelMatePostId) {
+    public void deletePost(String id, Integer travelMatePostId) {
+
+        TravelMatePost travelMatePost = jpaTravelMatePostRepository.findById(travelMatePostId)
+                .orElseThrow( () -> new BusinessException(ErrorCode.POST_NOT_FOUND));
+
+        User user = userMapper.findUserByUserId(id)
+                        .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if(!user.getUserNo().equals(travelMatePost.getUser().getUserNo())) {
+            throw new BusinessException(ErrorCode.POST_NOT_OWNED);
+        }
+
         jpaTravelMatePostRepository.deleteById(travelMatePostId);
     }
 }

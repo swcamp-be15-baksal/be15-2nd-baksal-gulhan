@@ -4,11 +4,11 @@ import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetai
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentInsertRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentUpdateRequest;
-import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.response.CommentCmdResponse;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.service.CommentCmdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,16 +36,24 @@ public class CommentCmdController {
     }
 
     /* 댓글 수정 */
-    @PutMapping
-    public ResponseEntity<ApiResponse<Void>> updateComment(@RequestBody CommentUpdateRequest request) {
-        commentCmdService.updateComment(request);
+    @PutMapping("/{commentId}")
+    public ResponseEntity<ApiResponse<Void>> updateComment(
+            @AuthenticationPrincipal CustomUserDetail customUserDetail,
+            @PathVariable int commentId,
+            @RequestBody @Validated CommentUpdateRequest request) {
+        String id = customUserDetail.getUserId();
+        commentCmdService.updateComment(id, commentId,request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     /* 댓글 삭제 */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<ApiResponse<Void>> deleteComment(@PathVariable int commentId) {
-        commentCmdService.deleteComment(commentId);
+    public ResponseEntity<ApiResponse<Void>> deleteComment(
+            @AuthenticationPrincipal CustomUserDetail customUserDetail,
+            @PathVariable int commentId
+    ) {
+        String id = customUserDetail.getUserId();
+        commentCmdService.deleteComment(id, commentId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

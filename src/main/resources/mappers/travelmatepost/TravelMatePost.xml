@@ -4,11 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanhwa_tae.gulhan.travelmatepost.query.mapper.TmpMapper">
     <select id="selectTravelMatePosts" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDTO">
-        SELECT * FROM travel_mate_post WHERE is_deleted = 'N'
+        SELECT
+              a.travel_mate_post_id
+            , a.title
+            , a.created_at
+            , b.user_id
+         FROM travel_mate_post a
+         JOIN `user` b ON (a.user_no = b.user_no)
+        WHERE a.is_deleted = 'N'
         <if test="title != null">
             AND title LIKE CONCAT('%', #{ title }, '%')
         </if>
-        ORDER BY created_at DESC;
+        ORDER BY created_at DESC
+        LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
     <select id="countPosts" resultType="long">
@@ -18,20 +26,20 @@
         <if test="title != null">
             AND title LIKE CONCAT('%', #{ title }, '%')
         </if>
-        ;
+        LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="selectTmpByTravelMatePostId" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDTO">
+    <select id="selectTmpByTravelMatePostId" resultType="com.hanhwa_tae.gulhan.travelmatepost.query.dto.response.TmpDetailDTO">
         SELECT
             a.travel_mate_post_id,
             a.title,
             a.content,
             a.created_at,
             a.updated_at,
-            a.user_no,
             b.user_id
-        FROM travel_mate_post a
-        JOIN user b ON (a.user_no = b.user_no)
-        WHERE is_deleted = 'N' AND travel_mate_post_id = #{ travelMatePostId };
+         FROM travel_mate_post a
+         JOIN `user` b ON (a.user_no = b.user_no)
+        WHERE a.is_deleted = 'N'
+          AND travel_mate_post_id = #{ travelMatePostId };
     </select>
 </mapper>

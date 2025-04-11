@@ -5,8 +5,6 @@ import com.hanhwa_tae.gulhan.packages.query.dto.request.PackageSearchRequest;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageListResponse;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
 import com.hanhwa_tae.gulhan.packages.query.mapper.PackageMapper;
-
-import com.hanhwa_tae.gulhan.review.query.dto.response.ReviewDTO;
 import com.hanhwa_tae.gulhan.review.query.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,8 +32,8 @@ public class PackageQueryService {
                 .packages(packages)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int)Math.ceil((double)totalPackages/size))
-                        .totalPosts(totalPackages)
+                        .size(size)
+                        .totalPage((int)Math.ceil((double)totalPackages/size))
                         .build())
                 .build();
     }

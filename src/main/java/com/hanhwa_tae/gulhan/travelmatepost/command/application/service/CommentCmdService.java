@@ -1,6 +1,7 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.application.service;
 
-import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentInsertRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentUpdateRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.Comment;
@@ -28,10 +29,10 @@ public class CommentCmdService {
     public void insertComment(String id, int travelMatePostId, CommentInsertRequest commentInsertRequest) {
 
         User user = userMapper.findUserByUserId(id)
-                .orElseThrow( () -> new RuntimeException("회원 없음"));
+                .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         TravelMatePost travelMatePost = jpaTravelMatePostRepository.findById(travelMatePostId)
-                .orElseThrow( () -> new RuntimeException("게시글 없음"));
+                .orElseThrow( () -> new BusinessException(ErrorCode.POST_NOT_FOUND));
 
         Comment parentComment;
         if(commentInsertRequest.getParentCommentId() != null) {
@@ -52,15 +53,40 @@ public class CommentCmdService {
 
     /* 댓글 수정 */
     @Transactional
-    public void updateComment(CommentUpdateRequest commentUpdateRequest) {
+    public void updateComment(String id, int commentId, CommentUpdateRequest commentUpdateRequest) {
 
+        User user = userMapper.findUserByUserId(id)
+                .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
+        Comment newComment = jpaCommentRepository.findById(commentId)
+                .orElseThrow( () -> new BusinessException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (!user.getUserNo().equals(newComment.getUserNo().getUserNo())) {
+            throw new BusinessException(ErrorCode.COMMENT_NOT_OWNED);
+        }
+
+        Comment comment = modelMapper.map(newComment, Comment.class);
+
+        comment.updateComment(
+                commentUpdateRequest.getContent()
+        );
     }
 
     /* 댓글 삭제 */
     @Transactional
-    public void deleteComment(int commentId) {
-        jpaCommentRepository.deleteById(commentId);
+    public void deleteComment(String id, int commentId) {
+
+        User user = userMapper.findUserByUserId(id)
+                .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        Comment newComment = jpaCommentRepository.findById(commentId)
+                .orElseThrow( () -> new BusinessException(ErrorCode.COMMENT_NOT_FOUND));
+
+        if (!user.getUserNo().equals(newComment.getUserNo().getUserNo())) {
+            throw new BusinessException(ErrorCode.COMMENT_NOT_OWNED);
+        }
+
+        jpaCommentRepository.deleteById(newComment.getCommentId());
     }
 
 }

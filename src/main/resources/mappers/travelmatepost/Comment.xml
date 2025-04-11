@@ -17,7 +17,12 @@
         JOIN user b ON (a.user_no = b.user_no)
         WHERE a.is_deleted = 'N'
         AND a.travel_mate_post_id = #{ travelMatePostId }
-<!--        SELECT * FROM comment  a.is_deleted = 'N'-->
-<!--        WHERE travel_mate_post_id = #{ travelMatePostId };-->
+    </select>
+
+    <select id="commentCount" resultType="long">
+        SELECT
+            COUNT(*)
+         FROM comment
+         WHERE travel_mate_post_id = #{ travelMatePostId }
     </select>
 </mapper>

@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface CommentMapper {
     List<CommentDTO> selectCommentByTravelMatePostId(int travelMatePostId);
+    long commentCount(int travelMatePostId);
 }

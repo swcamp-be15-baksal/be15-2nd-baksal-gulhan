@@ -21,7 +21,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -53,9 +52,9 @@ public class TravelMatePost {
     @JoinColumn(name = "user_no", nullable = false)
     private User user;
 
-    public void updateProductDetails(@NotBlank String title, @NotBlank String content, DeleteType deleteType) {
-        this.title = title;
-        this.content = content;
-        this.isDeleted = deleteType;
+
+    public void updateProductDetails(@NotBlank(message = "제목을 입력하세요") String title, @NotBlank(message = "내용을 입력하세요.") String content) {
+        if(title != null) this.title = title;
+        if(content != null) this.content = content;
     }
 }

@@ -2,9 +2,6 @@ package com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.UserInfo;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
@@ -61,9 +58,7 @@ public class Comment {
     private Comment parentCommentId;
 
 
-    public void updateComment(int commentId, String content, User user) {
-        this.commentId = commentId;
+    public void updateComment(@NotBlank(message = "내용입력은 필수입니다.") String content) {
         this.content = content;
-        this.userNo = user;
     }
 }

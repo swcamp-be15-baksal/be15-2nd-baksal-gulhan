@@ -1,18 +1,15 @@
 package com.hanhwa_tae.gulhan.travelmatepost.query.dto.response;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
+@Builder
 @Getter
-@Setter
-public class TmpDTO {
-
+public class TmpDetailDTO {
     private int travelMatePostId;
-
     private String title;
-
+    private String content;
     private String createdAt;
-
+    private String updatedAt;
     private String userId;
-
 }
