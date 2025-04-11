@@ -12,6 +12,8 @@ public interface UserMapper {
 
     Optional<User> findUserByUserId(String userId);
 
+    Optional<User> findUserByUserIdAndEmail(String userId, String email);
+
     Optional<User> findUserByEmail(String email);
 
     Optional<User> findUserByPhone(String phone);

@@ -4,7 +4,9 @@ import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetai
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindPasswordRequest;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,15 @@ public class UserCommandController {
             ){
 
         userCommandService.updateUserInfo(userDetail, request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @PostMapping("/find/password")
+    public ResponseEntity<ApiResponse<Void>> findUserPassword(
+            @RequestBody @Valid UserFindPasswordRequest request
+    ) throws MessagingException {
+        userCommandService.findUserPassword(request);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
