@@ -2,33 +2,30 @@ package com.hanhwa_tae.gulhan.user.command.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserInfoCreateDTO;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.*;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserInfoRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserRepository;
+import com.hanhwa_tae.gulhan.user.command.infrastructure.RedisUserIdRepository;
 import com.hanhwa_tae.gulhan.user.command.infrastructure.RedisUserRepository;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import com.hanhwa_tae.gulhan.utils.EmailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserCommandServiceImpl implements UserCommandService {
@@ -42,20 +39,21 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final EmailUtil emailUtil;
     private final ObjectMapper objectMapper;
     private final RedisUserRepository redisUserRepository;
+    private final RedisUserIdRepository redisUserIdRepository;
 
     //    @Transactional
-    public void registerUser(@Valid UserCreateRequest request) {
+    public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
         User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
         User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
 
         // 중복 유저가 존재할 경우
         if (duplicateIdUser != null) {
-            throw new BusinessException(ErrorCode.DUPLICATE_ID_EXISTS);
+            throw new RuntimeException("중복 아이디가 존재합니다!");
         }
 
         // 중복 이메일이 존재할 경우
         if (duplicateEmailUser != null) {
-            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL_EXISTS);
+            throw new RuntimeException("중복 이메일이 존재합니다!");
         }
 
         // 1. Redis에 데이터 저장
@@ -81,12 +79,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         sb.append("<h1>이메일 인증<h1>");
         sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
 
-        try {
-            emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
-        } catch (MessagingException e) {
-            // TODO 오류 메시지 잡는거 생기면 수정하기
-            e.printStackTrace();
-        }
+        emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
 
         /* 이 아래는 verify 된 유저가 수행해야할 로직임 */
         // 평민 등급 조회
@@ -98,7 +91,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. 일치하는 uuid가 redis에 존재하는지 확인
 //        String userData = redisTemplate.opsForValue().get(uuid);
         RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new RuntimeException("이메일 인증 시간이 만료되었습니다.")
+                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
         );
 
         // 2. redis 데이터 지워주기
@@ -149,35 +142,49 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
-    @Transactional
-    public void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request) {
-        if (userDetail == null) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN);
-        }
+    public void findUserId(UserFindIdRequest request) throws MessagingException {
 
-        String userId = userDetail.getUserId();
+        String requestEmail = request.getEmail();
 
-        User user = userRepository.findUserByUserId(userId).orElseThrow(
-                () -> new BusinessException(ErrorCode.USER_NOT_FOUND)
+        // 1. DB에 해당 이메일을 가진 유저가 존재하는지 확인
+        User user = userMapper.findUserByEmail(requestEmail)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 2. 해당 유저의 이메일에 인증 요청을 보냄
+        StringBuilder sb = new StringBuilder();
+
+        String uuid = UUID.randomUUID().toString();
+
+        sb.append("<h1>이메일 인증<h1>");
+        sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
+
+        emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
+
+        // 3. resdis에 인증번호 : ID 형태로 저장
+        RedisUserId redisUserId = RedisUserId
+                .builder()
+                .uuid(uuid)
+                .userId(user.getUserId())
+                .build();
+
+        redisUserIdRepository.save(redisUserId);
+        // 4. 인증 완료 시 : ID를 부분 마스킹해서 내뱉어줌
+    }
+
+    @Override
+    public void verifyFindUserId(String uuid) {
+        RedisUserId redisUserId = redisUserIdRepository.findById(uuid).orElseThrow(
+                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
         );
 
-        String rawPassword = request.getPassword();
+        String userId = redisUserId.getUserId();
 
-        String newPassword = passwordEncoder.encode(rawPassword);
+        int maskingStartIdx = (int)Math.ceil(userId.length() * 0.3);
 
-        userDetail.getAuthorities().forEach(v ->
-                log.info(v.toString()));
+        String realValue = userId.substring(maskingStartIdx);
 
-        boolean isSlave = userDetail.getAuthorities()
-                .contains(new SimpleGrantedAuthority("SLAVE"));
-        user.setUpdateUser(newPassword);
 
-        log.info("관리자 여부 : " + isSlave);
-        if (!isSlave) {
-            UserInfo userInfo = userInfoRepository.findByUserNo(user.getUserNo());
-            userInfo.setUpdateUserInfo(request.getAddress(), request.getPhone());
-            userInfoRepository.save(userInfo);
-        }
-        userRepository.save(user);
     }
+
+
 }

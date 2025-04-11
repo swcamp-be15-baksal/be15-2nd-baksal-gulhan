@@ -1,15 +1,14 @@
 package com.hanhwa_tae.gulhan.user.command.application.controller;
 
-import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,7 +21,7 @@ public class UserCommandController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(
             @RequestBody @Valid UserCreateRequest request
-    ) {
+    ) throws MessagingException {
         userCommandService.registerUser(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -37,19 +36,32 @@ public class UserCommandController {
             @RequestParam(required = true) String uuid
     ){
         userCommandService.verifyByEmail(uuid);
-        
+
         return ResponseEntity.ok(null);
     }
 
-    @PutMapping("/info/update")
-    public ResponseEntity<ApiResponse<Void>> updateUserInfo(
-            @AuthenticationPrincipal CustomUserDetail userDetail,
-            @RequestBody @Valid UpdateUserInfoRequest request
-            ){
+    @PostMapping("/find/id")
+    public ResponseEntity<ApiResponse<Void>> findUserId(
+            @RequestBody UserFindIdRequest request
+    ) throws MessagingException {
+        userCommandService.findUserId(request);
 
-        userCommandService.updateUserInfo(userDetail, request);
-
-        return ResponseEntity.ok(ApiResponse.success(null));
+        /* 이메일 인증 요청 */
+        return ResponseEntity.ok(null);
     }
+
+    @GetMapping("/find/id/verify")
+    public ResponseEntity<ApiResponse<Void>> verifyFindUserId(
+            @RequestParam(required = true) String uuid
+    )  {
+        userCommandService.verifyFindUserId(uuid);
+
+        /* 이메일 인증 요청 */
+        return ResponseEntity.ok(null);
+    }
+
+
+//    @PostMapping("/find/password")
+
 
 }

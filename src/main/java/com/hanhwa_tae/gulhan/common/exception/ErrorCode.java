@@ -27,8 +27,9 @@ public enum ErrorCode {
     // 그 외 기타 오류
     VALIDATION_ERROR("50000", "입력 값 검증 오류입니다.", HttpStatus.BAD_REQUEST),
     INTERNAL_SERVER_ERROR("50001", "내부 서버 오류 입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED);
-
+    UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
+    SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST);
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;

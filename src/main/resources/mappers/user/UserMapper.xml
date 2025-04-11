@@ -7,42 +7,25 @@
         SELECT rank_id FROM rank WHERE rank_name = #{ rankName }
     </select>
 
-<!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
-<!--        <result column="">-->
-<!--    </resultMap>>-->
     <select id="findUserByUserId" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
-          a.user_no
-        , a.user_id
+        a.user_no
+        ,a.user_id
         , a.password
         , b.rank_id as "rank.rank_id"
         , b.rank_name as "rank.rank_name"
         FROM user a
         JOIN rank b ON (a.rank_id=b.rank_id)
-        WHERE user_id = #{ userId }
+        WHERE user_id = #{ userId } AND is_deleted = 'N'
     </select>
     <select id="findUserByEmail" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
-        SELECT email FROM user WHERE email = #{ email }
+        SELECT user_id, email FROM user WHERE email = #{ email } AND is_deleted = 'N'
     </select>
     <select id="findUserByPhone" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
         SELECT
-            b.phone as "user_info.phone"
+        b.phone as "user_info.phone"
         FROM user a
         JOIN user_info b ON (a.user_no = b.user_no)
         WHERE b.phone = #{ phone }
-    </select>
-    <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
-        SELECT
-              a.user_id
-            , a.user_name
-            , a.email
-            , a.gender
-            , b.birth
-            , b.phone
-            , b.address
-        FROM user a
-        JOIN user_info b ON (a.user_no = b.user_no)
-        WHERE a.user_id = #{ userId }
-        AND a.is_deleted = 'N'
     </select>
 </mapper>
