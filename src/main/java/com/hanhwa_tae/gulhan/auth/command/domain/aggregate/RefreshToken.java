@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.RedisHash;
  *  @RequiredArgsConstructor 를 한번에 하는 어노테이션
  */
 @Data
-@RequiredArgsConstructor
 @Builder
 @RedisHash(timeToLive = 60480000)
 public class RefreshToken {
