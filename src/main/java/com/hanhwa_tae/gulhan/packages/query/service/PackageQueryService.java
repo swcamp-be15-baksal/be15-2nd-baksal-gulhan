@@ -8,7 +8,6 @@ import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageListResponse;
 import com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO;
 import com.hanhwa_tae.gulhan.packages.query.mapper.PackageMapper;
 
-import com.hanhwa_tae.gulhan.review.query.mapper.ReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ public class PackageQueryService {
     @Transactional(readOnly=true)
     public PackageListResponse getPackages(PackageSearchRequest packageSearchRequest) {
         packageSearchRequest.calculatePaging();
-
         List<PackageDTO> packages = packageMapper.selectPackages(packageSearchRequest);
         long totalPackages = packageMapper.countPackages(packageSearchRequest);  // 전체 패키지 수
 

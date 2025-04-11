@@ -54,6 +54,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()

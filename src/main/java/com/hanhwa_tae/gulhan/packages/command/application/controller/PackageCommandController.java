@@ -31,9 +31,4 @@ public class PackageCommandController {
         packageCommandService.deletePackage(packageId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
-
-
-
-
-
 }

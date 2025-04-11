@@ -38,8 +38,8 @@ public class DashboardQueryService {
                 .packageList(paackgeQuantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts(totalPosts)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
+                        .size(size)
                         .build())
                 .build();
     }
@@ -54,8 +54,8 @@ public class DashboardQueryService {
                 .goodsQuantityList(goodsQuantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts(totalPosts)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
+                        .size(totalPosts)
                         .build())
                 .build();
     }
@@ -70,8 +70,8 @@ public class DashboardQueryService {
                 .monthlyRevenueList(quantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts(totalPosts)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
+                        .size(totalPosts)
                         .build())
                 .build();
     }
@@ -86,8 +86,8 @@ public class DashboardQueryService {
                 .dailyRevenueList(quantityDTOList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts(totalPosts)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
+                        .size(totalPosts)
                         .build())
                 .build();
     }
@@ -102,8 +102,8 @@ public class DashboardQueryService {
                 .orderAllList(orderList)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int) Math.ceil((double) totalPosts / size))
-                        .totalPosts(totalPosts)
+                        .totalPage((int) Math.ceil((double) totalPosts / size))
+                        .size(totalPosts)
                         .build())
                 .build();
     }

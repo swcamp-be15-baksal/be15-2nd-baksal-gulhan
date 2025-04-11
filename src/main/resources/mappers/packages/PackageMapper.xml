@@ -72,7 +72,7 @@
             </if>
         </where>
         GROUP BY p.package_id
-        )
+        ) AS filtered_packages
     </select>
 
 
