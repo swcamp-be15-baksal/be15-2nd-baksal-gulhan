@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/packages")
+@RequestMapping("/api/v1/packages")
 @RequiredArgsConstructor
 public class PackageCommandController {
 
@@ -31,9 +31,4 @@ public class PackageCommandController {
         packageCommandService.deletePackage(packageId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
-
-
-
-
-
 }

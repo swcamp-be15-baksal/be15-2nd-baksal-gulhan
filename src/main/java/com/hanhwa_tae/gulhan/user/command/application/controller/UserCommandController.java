@@ -37,7 +37,7 @@ public class UserCommandController {
             @RequestParam(required = true) String uuid
     ){
         userCommandService.verifyByEmail(uuid);
-        
+
         return ResponseEntity.ok(null);
     }
 
