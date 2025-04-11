@@ -33,7 +33,7 @@ public class PlaceQueryService {
                 .pagination(Pagination.builder()
                         .currentPage(page)
                         .totalPage((int)Math.ceil((double) totalPlaces / size))
-                        .totalPlaces(totalPlaces)
+                        .size(size)
                         .build())
                 .build();
     }
