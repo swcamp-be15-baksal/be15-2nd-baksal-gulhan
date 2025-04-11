@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Builder
 public class NoticeListResponse {
-    private final List<NoticeDTO> tmpList;
+    private final List<NoticeListDTO> tmpList;
     private final Pagination pagination;
 }

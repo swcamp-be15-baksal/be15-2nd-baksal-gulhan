@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class NoticeDTO {
+public class NoticeDetailDTO {
 
     private int noticeId;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private int userNo;
+    private String userId;
 }

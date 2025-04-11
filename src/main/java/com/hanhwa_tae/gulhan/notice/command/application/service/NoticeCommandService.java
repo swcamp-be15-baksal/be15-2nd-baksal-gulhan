@@ -3,7 +3,7 @@ package com.hanhwa_tae.gulhan.notice.command.application.service;
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeInsertRequest;
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeUpdateRequest;
 import com.hanhwa_tae.gulhan.notice.command.domain.aggregate.Notice;
-import com.hanhwa_tae.gulhan.notice.command.domain.repository.NoticeRepository;
+import com.hanhwa_tae.gulhan.notice.command.domain.repository.JpaNoticeRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class NoticeCommandService {
 
-    private final NoticeRepository noticeRepository;
+    private final JpaNoticeRepository jpaNoticeRepository;
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
 
@@ -28,7 +28,7 @@ public class NoticeCommandService {
         Notice newNotice = modelMapper.map(request, Notice.class);
         newNotice.setUser(user);
 
-        Notice notice = noticeRepository.save(newNotice);
+        Notice notice = jpaNoticeRepository.save(newNotice);
 
         return notice.getNoticeId();
     }
@@ -40,7 +40,7 @@ public class NoticeCommandService {
         User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new RuntimeException("사용자없음"));
 
-        Notice notice =noticeRepository.findById(noticeId)
+        Notice notice = jpaNoticeRepository.findById(noticeId)
                         .orElseThrow(() -> new RuntimeException("게시글 없음"));
 
         notice.updateNotice(
@@ -52,6 +52,6 @@ public class NoticeCommandService {
 
     public void deleteNotice(Long noticeId) {
 
-        noticeRepository.deleteById(noticeId);
+        jpaNoticeRepository.deleteById(noticeId);
     }
 }

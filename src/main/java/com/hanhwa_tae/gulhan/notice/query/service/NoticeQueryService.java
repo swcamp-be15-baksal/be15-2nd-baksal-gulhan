@@ -2,8 +2,9 @@ package com.hanhwa_tae.gulhan.notice.query.service;
 
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
 import com.hanhwa_tae.gulhan.notice.query.dto.request.NoticeSearchRequest;
-import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeDTO;
+import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeDetailDTO;
 import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeDetailResponse;
+import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeListDTO;
 import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeListResponse;
 import com.hanhwa_tae.gulhan.notice.query.mapper.NoticeMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class NoticeQueryService {
     /* 공지사항 목록 조회 */
     public NoticeListResponse getNoticeList(NoticeSearchRequest request) {
 
-        List<NoticeDTO> noticeDTOList = noticeMapper.selectNotices(request);
+        List<NoticeListDTO> noticeDTOList = noticeMapper.selectNotices(request);
         long totalPosts = noticeMapper.countPosts(request);
 
         int page = request.getPage();
@@ -39,9 +40,9 @@ public class NoticeQueryService {
 
     /* 공지사항 상세 조회 */
     public NoticeDetailResponse getNoticeList(int noticeId) {
-        NoticeDTO noticeDTO = Optional.ofNullable(
+        NoticeDetailDTO noticeDTO = Optional.ofNullable(
                         noticeMapper.selectDetailNotice(noticeId))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow( () -> new RuntimeException("게시글 없음"));
 
         return NoticeDetailResponse.builder()
                 .noticeDTO(noticeDTO)

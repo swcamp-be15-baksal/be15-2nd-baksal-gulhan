@@ -6,6 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class NoticeDetailResponse {
-
-    private final NoticeDTO noticeDTO;
+    private final NoticeDetailDTO noticeDTO;
 }
