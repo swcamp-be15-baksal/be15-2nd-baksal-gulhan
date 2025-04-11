@@ -8,9 +8,12 @@ import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.RefreshToken;
 import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
 import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisKakaoAuthRepository;
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.LoginType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.RankRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
@@ -25,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class KakaoAuthService {
 
-    private final KakaoTokenProvider kakaoAuthProvider;
+    private final KakaoAuthProvider kakaoAuthProvider;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthRepository authRepository;
     private final RedisKakaoAuthRepository redisKakaoAuthRepository;
@@ -111,5 +114,28 @@ public class KakaoAuthService {
             authRepository.deleteById(userId); // JWT 리프레시 토큰 삭제
             redisKakaoAuthRepository.deleteById(kakaoRefreshToken); // 카카오 리프레시 토큰 삭ㅈ
     }
+
+    @Transactional
+    public void withdraw(String userId, String accessToken) {
+        User user = userMapper.findUserByUserId(userId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if (user.getIsDeleted() == DeleteType.Y) {
+            throw new BusinessException(ErrorCode.USER_ALREADY_DELETED);
+        }
+
+        if (user.getLoginType() == LoginType.KAKAO) {
+            kakaoAuthProvider.unlink(accessToken);
+        }
+
+        user.setIsDeleted(DeleteType.Y);
+
+        authRepository.deleteById(userId);
+        redisKakaoAuthRepository.findById(userId).ifPresent(token ->
+                redisKakaoAuthRepository.deleteById(token.getToken())
+        );
+    }
+
+
 
 }

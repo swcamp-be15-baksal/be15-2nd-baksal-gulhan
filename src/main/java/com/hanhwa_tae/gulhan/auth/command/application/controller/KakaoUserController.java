@@ -2,14 +2,17 @@ package com.hanhwa_tae.gulhan.auth.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoLogoutRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoRefreshRequest;
+import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoWithdrawRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.service.KakaoAuthService;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import jakarta.validation.Valid;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -67,6 +70,13 @@ public class KakaoUserController {
                 request.getRefreshToken()
         );
         return ResponseEntity.ok(ApiResponse.success("카카오 계정 로그아웃에 성공했습니다."));
+    }
+
+    // 카카오 계정 연결끊기 (탈퇴)
+    @PostMapping("/withdraw")
+    public ResponseEntity<ApiResponse<String>> withdraw(@RequestBody @Valid KakaoWithdrawRequest request) {
+        kakaoAuthService.withdraw(request.getUserId(), request.getAccessToken());
+        return ResponseEntity.ok(ApiResponse.success("회원 탈퇴 및 카카오 계정 연결 해제가 완료되었습니다."));
     }
 
 
