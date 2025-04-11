@@ -32,6 +32,13 @@ public enum ErrorCode {
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
 
+    //동행글
+    COMMENT_NOT_OWNED("30001","본인이 작성한 댓글이 아닙니다.", HttpStatus.BAD_REQUEST),
+    COMMENT_NOT_FOUND("30002","댓글 정보를 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+    POST_NOT_FOUND("30003","해당 번호에 게시글은 없습니다.",HttpStatus.NOT_FOUND),
+    POST_NOT_OWNED("30004","본인이 작성한 게시글이 아닙니다.", HttpStatus.BAD_REQUEST),
+
+
 
     // 그 외 기타 오류
     VALIDATION_ERROR("50000", "입력 값 검증 오류입니다.", HttpStatus.BAD_REQUEST),
