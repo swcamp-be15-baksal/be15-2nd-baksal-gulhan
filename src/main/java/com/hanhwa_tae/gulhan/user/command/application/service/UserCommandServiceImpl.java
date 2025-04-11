@@ -2,8 +2,12 @@ package com.hanhwa_tae.gulhan.user.command.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserInfoCreateDTO;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.*;
 import com.hanhwa_tae.gulhan.user.command.domain.repository.UserInfoRepository;
@@ -14,14 +18,17 @@ import com.hanhwa_tae.gulhan.utils.EmailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserCommandServiceImpl implements UserCommandService {
@@ -31,7 +38,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
-    private final RedisTemplate redisTemplate;    // 필요 없을지도..?
+    private final StringRedisTemplate redisTemplate;    // 필요 없을지도..?
     private final EmailUtil emailUtil;
     private final ObjectMapper objectMapper;
     private final RedisUserRepository redisUserRepository;
@@ -42,13 +49,13 @@ public class UserCommandServiceImpl implements UserCommandService {
         User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
 
         // 중복 유저가 존재할 경우
-        if(duplicateIdUser != null){
-            throw new RuntimeException("중복 아이디가 존재합니다!");
+        if (duplicateIdUser != null) {
+            throw new BusinessException(ErrorCode.DUPLICATE_ID_EXISTS);
         }
 
         // 중복 이메일이 존재할 경우
-        if(duplicateEmailUser != null){
-            throw new RuntimeException("중복 이메일이 존재합니다!");
+        if (duplicateEmailUser != null) {
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL_EXISTS);
         }
 
         // 1. Redis에 데이터 저장
@@ -105,7 +112,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // ! 이미 가입된 계정의 경우
         User duplicateUser = userMapper.findUserByUserId(userRequestDto.getUserId()).orElse(null);
 
-        if(duplicateUser != null){
+        if (duplicateUser != null) {
             throw new RuntimeException("이미 가입이 완료 되었습니다.");
         }
 
@@ -139,5 +146,38 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
         userInfoRepository.save(userInfo);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request) {
+        if (userDetail == null) {
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+        }
+
+        String userId = userDetail.getUserId();
+
+        User user = userRepository.findUserByUserId(userId).orElseThrow(
+                () -> new BusinessException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        String rawPassword = request.getPassword();
+
+        String newPassword = passwordEncoder.encode(rawPassword);
+
+        userDetail.getAuthorities().forEach(v ->
+                log.info(v.toString()));
+
+        boolean isSlave = userDetail.getAuthorities()
+                .contains(new SimpleGrantedAuthority("SLAVE"));
+        user.setUpdateUser(newPassword);
+
+        log.info("관리자 여부 : " + isSlave);
+        if (!isSlave) {
+            UserInfo userInfo = userInfoRepository.findByUserNo(user.getUserNo());
+            userInfo.setUpdateUserInfo(request.getAddress(), request.getPhone());
+            userInfoRepository.save(userInfo);
+        }
+        userRepository.save(user);
     }
 }

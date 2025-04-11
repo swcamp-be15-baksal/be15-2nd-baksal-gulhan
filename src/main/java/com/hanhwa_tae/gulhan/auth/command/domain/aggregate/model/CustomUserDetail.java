@@ -10,7 +10,8 @@ import java.util.Collection;
 @Getter
 @Builder
 public class CustomUserDetail implements UserDetails {
-    private final String userId;    // DB PK 값으로 요거 쓰자!
+    private final String userId;
+    private final Long userNo;
     private final String password;
     private final Collection<? extends GrantedAuthority> authorities;
 

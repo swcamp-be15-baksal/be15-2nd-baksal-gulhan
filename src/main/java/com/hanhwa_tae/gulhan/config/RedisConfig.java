@@ -47,6 +47,8 @@ public class RedisConfig {
 
         ObjectMapper objectMapper = new ObjectMapper();
 
+//        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer();
+
         /* Jackson2JsonRedisSerializer: JSON 값을 그대로 저장하는 Serializer
         * https://github.com/binghe819/TIL/blob/master/Spring/Redis/redis%20serializer/serializer.md#2-4-stringredisserializer*/
         redisTemplate.setKeySerializer(new Jackson2JsonRedisSerializer<>(String.class));
