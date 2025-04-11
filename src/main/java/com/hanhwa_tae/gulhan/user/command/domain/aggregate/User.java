@@ -1,13 +1,17 @@
 package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
-@Getter
 @Table(name = "user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userNo;
@@ -17,7 +21,7 @@ public class User {
 
     private String password;
 
-    private String userName;
+    private String username;
 
     @Column(unique = true)
     private String email;
@@ -28,12 +32,18 @@ public class User {
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
+    @Enumerated(EnumType.STRING)
+    private DeleteType isDeleted = DeleteType.N; // 삭제여부 soft
+
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private Rank rank; // 기본 rankId =2 평민, FK
 
-
     public void setDefaultRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public void setUpdateUser(String password){
+        this.password = password;
     }
 }

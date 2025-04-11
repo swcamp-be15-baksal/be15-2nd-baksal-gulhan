@@ -24,7 +24,7 @@ public class Place {
     private String restDate;
 
     @Enumerated(EnumType.STRING)
-    private Category category; //enum : 'MUSEUM','HISTORIC_SITE','FOLK_VILLAGE'
+    private CategoryType category; //enum : 'MUSEUM','HISTORIC_SITE','FOLK_VILLAGE'
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")

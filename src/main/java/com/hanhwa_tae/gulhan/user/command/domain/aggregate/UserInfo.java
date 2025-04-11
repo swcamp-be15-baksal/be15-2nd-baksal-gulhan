@@ -1,8 +1,10 @@
 package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
-import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,6 +16,9 @@ import java.util.Date;
 @Getter
 @Table(name = "user_info")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfo {
     @Id
     private Long userNo;
@@ -38,10 +43,12 @@ public class UserInfo {
     @LastModifiedDate
     private Timestamp updated_at;
 
-    @Enumerated(EnumType.STRING)
-    private DeleteType isDeleted = DeleteType.N; // 삭제여부 soft
-
     private String address;
 
     private String countryCode = "82";
+
+    public void setUpdateUserInfo(String address, String phone) {
+        this.address = address;
+        this.phone = phone;
+    }
 }
