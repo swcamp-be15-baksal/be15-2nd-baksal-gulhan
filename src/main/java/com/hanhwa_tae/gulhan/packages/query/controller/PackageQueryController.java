@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/packages")
+@RequestMapping("/api/v1/packages")
 @RequiredArgsConstructor
 public class PackageQueryController {
 

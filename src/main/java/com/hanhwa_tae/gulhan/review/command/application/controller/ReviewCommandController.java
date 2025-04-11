@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/review")
+@RequestMapping("/api/v1/review")
 @RequiredArgsConstructor
 public class ReviewCommandController {
     private final ReviewCommandService reviewCommandService;
