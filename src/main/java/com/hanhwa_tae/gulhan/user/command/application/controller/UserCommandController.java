@@ -63,4 +63,13 @@ public class UserCommandController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    @GetMapping("/withdraw")
+    public ResponseEntity<ApiResponse<Void>> withdrawUser(
+            @AuthenticationPrincipal CustomUserDetail userDetail
+    ){
+        userCommandService.withdrawUser(userDetail);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
 }
