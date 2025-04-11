@@ -3,7 +3,6 @@ package com.hanhwa_tae.gulhan.goods.query.dto.response;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 
 @Getter
