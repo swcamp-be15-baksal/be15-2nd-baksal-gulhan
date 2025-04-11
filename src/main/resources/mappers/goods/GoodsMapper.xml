@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanhwa_tae.gulhan.goods.query.mapper.GoodsMapper">
+
+    <!-- 패키지 목록 조회 -->
+    <select id="selectGoods" resultType="com.hanhwa_tae.gulhan.goods.query.dto.response.GoodsDTO">
+        SELECT
+            g.goods_id,
+            g.title,
+            g.quantity,
+            g.price,
+            gc.category_name,
+            COUNT(DISTINCT l.like_id) AS like_count,
+            COUNT(DISTINCT r.review_id) AS review_count
+        FROM goods g
+        LEFT JOIN `like` l on g.goods_id = l.target_id AND l.target_type = 'GOODS'
+        LEFT JOIN review r ON g.goods_id = r.target_id AND r.target_type = 'GOODS' AND r.is_deleted = 'N'
+        LEFT JOIN goods_category gc ON g.goods_category_id = gc.goods_category_id
+        <where>
+            g.is_deleted = 'N'
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+            <if test="categoryFilter != null and categoryFilter.size > 0">
+                AND g.goods_category_id IN
+                <foreach item="id" collection="categoryFilter" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY g.goods_id
+        <choose>
+            <when test="sort == 'like'">
+                ORDER BY like_count DESC
+            </when>
+            <when test="sort == 'review'">
+                ORDER BY review_count DESC
+            </when>
+            <otherwise>
+                ORDER BY g.title ASC
+            </otherwise>
+        </choose>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 목록 개수 조회 -->
+    <select id="countGoods" resultType="long">
+        SELECT COUNT(*) FROM (
+        SELECT g.goods_id
+        FROM goods g
+        LEFT JOIN `like` l on g.goods_id = l.target_id AND l.target_type = 'GOODS'
+        LEFT JOIN review r ON g.goods_id = r.target_id AND r.target_type = 'GOODS' AND r.is_deleted = 'N'
+        LEFT JOIN goods_category gc ON g.goods_category_id = gc.goods_category_id
+        <where>
+            g.is_deleted = 'N'
+            <if test="title != null">
+                AND title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+            <if test="categoryFilter != null and categoryFilter.size > 0">
+                AND g.goods_category_id IN
+                <foreach item="id" collection="categoryFilter" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        GROUP BY g.goods_id
+        )
+    </select>
+
+    <!-- 굿즈 상세 조회 -->
+    <select id="selectGoodsById" resultType="com.hanhwa_tae.gulhan.goods.query.dto.response.GoodsDTO">
+        SELECT
+            g.goods_id,
+            g.title,
+            g.detail,
+            g.quantity,
+            g.price,
+            g.created_at,
+            gc.category_name,
+            COUNT(DISTINCT l.like_id) AS like_count,
+            COUNT(DISTINCT r.review_id) AS review_count
+        FROM goods g
+            LEFT JOIN `like` l on g.goods_id = l.target_id AND l.target_type = 'GOODS'
+            LEFT JOIN review r ON g.goods_id = r.target_id AND r.target_type = 'GOODS' AND r.is_deleted = 'N'
+            LEFT JOIN goods_category gc ON g.goods_category_id = gc.goods_category_id
+        WHERE g.goods_id = #{goodsId}
+        AND g.is_deleted = 'N'
+    </select>
+</mapper>
