@@ -15,4 +15,6 @@ public interface UserCommandService {
     void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request);
 
     void chageUserPassword(CustomUserDetail userDetail, @Valid ChangeUserPasswordRequest request);
+
+    void withdrawUser(CustomUserDetail userDetail);
 }

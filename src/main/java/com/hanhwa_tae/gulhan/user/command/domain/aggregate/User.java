@@ -44,4 +44,8 @@ public class User {
     public void setUpdateUser(String password){
         this.password = password;
     }
+
+    public void setWithdrawUser(){
+        this.isDeleted = DeleteType.Y;
+    }
 }

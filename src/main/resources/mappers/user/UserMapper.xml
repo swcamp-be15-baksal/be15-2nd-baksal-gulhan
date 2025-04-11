@@ -46,4 +46,19 @@
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
     </select>
+    <select id="findUserByUserNo" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT
+              user_no
+            , user_id
+            , password
+            , email
+            , gender
+            , rank_id
+            , login_type
+            , is_deleted
+            , username
+        FROM
+            user
+        WHERE user_no = #{userNo} AND is_deleted = 'N'
+    </select>
 </mapper>

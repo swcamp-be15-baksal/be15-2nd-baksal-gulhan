@@ -3,6 +3,7 @@ package com.hanhwa_tae.gulhan.user.command.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
@@ -183,6 +184,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
+    @Transactional
     public void chageUserPassword(CustomUserDetail userDetail, ChangeUserPasswordRequest request) {
         Long userNo = userDetail.getUserNo();
 
@@ -208,5 +210,23 @@ public class UserCommandServiceImpl implements UserCommandService {
         foundUser.setUpdateUser(encodedPassword);
 
         userRepository.save(foundUser);
+    }
+
+    @Override
+    @Transactional
+    public void withdrawUser(CustomUserDetail userDetail) {
+        Long userNo = userDetail.getUserNo();
+
+        User user = userRepository.findUserByUserNo(userNo).orElseThrow(
+                () -> new BusinessException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        if(user.getIsDeleted().equals(DeleteType.Y)){
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        user.setWithdrawUser();
+
+        userRepository.save(user);
     }
 }
