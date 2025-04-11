@@ -4,12 +4,17 @@ import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.common.domain.TargetType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "review")
 public class Review {
@@ -41,4 +46,9 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_no")
     private User userNo; // FK
+
+    public void updateReview(@NotBlank String detail, @NotBlank BigDecimal rating) {
+        this.detail = detail;
+        this.rating = rating;
+    }
 }
