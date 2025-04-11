@@ -3,6 +3,7 @@ package com.hanhwa_tae.gulhan.user.command.application.controller;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.response.UserFindIdResponse;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -34,7 +35,7 @@ public class UserCommandController {
     @GetMapping("/verify-email")
     public ResponseEntity<Void> verifyEmail(
             @RequestParam(required = true) String uuid
-    ){
+    ) {
         userCommandService.verifyByEmail(uuid);
 
         return ResponseEntity.ok(null);
@@ -51,13 +52,15 @@ public class UserCommandController {
     }
 
     @GetMapping("/find/id/verify")
-    public ResponseEntity<ApiResponse<Void>> verifyFindUserId(
+    public ResponseEntity<ApiResponse<UserFindIdResponse>> verifyFindUserId(
             @RequestParam(required = true) String uuid
-    )  {
-        userCommandService.verifyFindUserId(uuid);
+    ) {
+        String maskedUserId = userCommandService.verifyFindUserId(uuid);
 
         /* 이메일 인증 요청 */
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        UserFindIdResponse.builder().maskedUserId(maskedUserId).build()));
     }
 
 

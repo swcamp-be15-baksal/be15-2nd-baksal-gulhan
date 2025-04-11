@@ -13,5 +13,5 @@ public interface UserCommandService {
 
     void findUserId(UserFindIdRequest request) throws MessagingException;
 
-    void verifyFindUserId(String uuid);
+    String verifyFindUserId(String uuid);
 }

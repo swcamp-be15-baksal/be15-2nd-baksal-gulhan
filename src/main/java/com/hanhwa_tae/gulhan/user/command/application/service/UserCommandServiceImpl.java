@@ -172,7 +172,7 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
-    public void verifyFindUserId(String uuid) {
+    public String verifyFindUserId(String uuid) {
         RedisUserId redisUserId = redisUserIdRepository.findById(uuid).orElseThrow(
                 () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
         );
@@ -181,9 +181,10 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         int maskingStartIdx = (int)Math.ceil(userId.length() * 0.3);
 
-        String realValue = userId.substring(maskingStartIdx);
+        String realValue = userId.substring(0, maskingStartIdx);
+        String maskingValue = "*".repeat(userId.length() - maskingStartIdx);
 
-
+        return realValue + maskingValue;
     }
 
 
