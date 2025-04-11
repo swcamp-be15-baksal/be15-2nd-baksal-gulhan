@@ -2,17 +2,16 @@ package com.hanhwa_tae.gulhan.auth.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoLogoutRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoRefreshRequest;
+import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoAdditionalInfoRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoWithdrawRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.service.KakaoAuthService;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import jakarta.validation.Valid;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -49,8 +48,18 @@ public class KakaoUserController {
     @GetMapping("/callback")
     public ResponseEntity<ApiResponse<KakaoLoginResponse>> kakaoCallback(@RequestParam("code") String code) {
         log.info("카카오 로그인 요청 시작: code={}", code);
-        KakaoLoginResponse response = kakaoAuthService.getKakaoToken(code);
+        KakaoLoginResponse response = kakaoAuthService.login(code);
         return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    // 추가 정보 입력
+    @PostMapping("/additional-info")
+    public ResponseEntity<ApiResponse<String>> addKakaoUserInfo(
+            @RequestBody @Valid KakaoAdditionalInfoRequest request
+    ) {
+        log.info("추가 회원 정보 입력 호출");
+        kakaoAuthService.updateKakaoUserInfo(request);
+        return ResponseEntity.ok(ApiResponse.success("추가 정보 등록이 완료되었습니다."));
     }
 
     // 카카오 엑세스 토큰 갱신 요청
