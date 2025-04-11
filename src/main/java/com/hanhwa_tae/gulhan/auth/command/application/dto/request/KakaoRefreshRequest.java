@@ -8,12 +8,5 @@ import lombok.Data;
 @Builder
 public class KakaoRefreshRequest {
     @NotBlank
-    private String userId;
-
-    @NotBlank
-    private String accessToken;
-
-    @NotBlank
     private String refreshToken;
-
 }

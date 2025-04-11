@@ -101,7 +101,7 @@ public class KakaoAuthService {
 
     @Transactional
     public KakaoTokenResponse refreshTokenByKakao(String refreshToken) {
-        log.info("refresh token: {}", refreshToken);
+        log.info("카카오 토큰 갱신 호출, refresh token: {}", refreshToken);
         return kakaoAuthProvider.requestNewToken(refreshToken);
     }
 

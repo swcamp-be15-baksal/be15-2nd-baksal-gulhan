@@ -52,13 +52,13 @@ public class KakaoUserController {
 
     // 카카오 엑세스 토큰 갱신 요청
     @PostMapping("/refresh")
-    public ResponseEntity<ApiResponse<KakaoTokenResponse>> refreshToken(@RequestBody @Valid KakaoRefreshRequest request) {
+    public ResponseEntity<ApiResponse<KakaoTokenResponse>> refresh(@RequestBody @Valid KakaoRefreshRequest request) {
         KakaoTokenResponse response = kakaoAuthService.refreshTokenByKakao(request.getRefreshToken());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
     // 카카오 계정 로그아웃
-    @PostMapping("/logout")
+   @PostMapping("/logout")
     public ResponseEntity<ApiResponse<String>> logout(@RequestBody @Valid KakaoLogoutRequest request) {
         log.info("카카오 로그아웃 요청: userId={}", request.getUserId());
         kakaoAuthService.logout(
