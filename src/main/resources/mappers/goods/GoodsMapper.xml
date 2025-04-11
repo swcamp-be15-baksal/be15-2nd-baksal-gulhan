@@ -73,7 +73,7 @@
             </if>
         </where>
         GROUP BY g.goods_id
-        )
+        ) AS filtered_goods
     </select>
 
     <!-- 굿즈 상세 조회 -->

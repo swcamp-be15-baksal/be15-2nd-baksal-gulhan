@@ -30,8 +30,8 @@ public class GoodsQueryService {
                 .goods(goods)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-                        .totalSize((int)Math.ceil((double)totalGoods/size))
-                        .totalPosts(totalGoods)
+                        .totalPage((int)Math.ceil((double)totalGoods/size))
+                        .size(size)
                         .build())
                 .build();
     }

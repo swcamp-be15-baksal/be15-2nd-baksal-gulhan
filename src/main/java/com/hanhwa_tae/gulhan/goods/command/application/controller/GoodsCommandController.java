@@ -3,6 +3,7 @@ package com.hanhwa_tae.gulhan.goods.command.application.controller;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.goods.command.application.service.GoodsCommandService;
 import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsInsertRequest;
+import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class GoodsCommandController {
     }
 
     @PutMapping("/list/{goodsId}")
-    public ResponseEntity<ApiResponse<Void>> updateGoods (@PathVariable Integer goodsId, @RequestBody GoodsInsertRequest request) {
+    public ResponseEntity<ApiResponse<Void>> updateGoods (@PathVariable Integer goodsId, @RequestBody GoodsUpdateRequest request) {
         goodsCommandService.updateGoods(goodsId, request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

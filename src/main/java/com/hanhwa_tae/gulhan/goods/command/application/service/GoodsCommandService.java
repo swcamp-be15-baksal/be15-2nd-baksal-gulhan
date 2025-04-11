@@ -5,6 +5,7 @@ import com.hanhwa_tae.gulhan.goods.command.domain.aggregate.Goods;
 import com.hanhwa_tae.gulhan.goods.command.domain.aggregate.GoodsCategory;
 import com.hanhwa_tae.gulhan.goods.command.domain.repository.JpaGoodsRepository;
 import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsInsertRequest;
+import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsUpdateRequest;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,18 +17,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class GoodsCommandService {
     private final ModelMapper modelMapper;
     private final JpaGoodsRepository jpaGoodsRepository;
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Transactional
     public int insertGoods(GoodsInsertRequest request) {
         Goods goods = modelMapper.map(request, Goods.class);
+
+
+        GoodsCategory categoryRef = entityManager.getReference(GoodsCategory.class, request.getGoodsCategoryId());
+        goods.setGoodsCategoryId(categoryRef);
+
         Goods newGoods = jpaGoodsRepository.save(goods);
 
         return newGoods.getGoodsId();
     }
 
     @Transactional
-    public void updateGoods(Integer goodsId, GoodsInsertRequest request) {
+    public void updateGoods(Integer goodsId, GoodsUpdateRequest request) {
         Goods goods = jpaGoodsRepository.findById(goodsId).orElseThrow();
         GoodsCategory categoryRef = entityManager.getReference(GoodsCategory.class, request.getGoodsCategoryId());
 
