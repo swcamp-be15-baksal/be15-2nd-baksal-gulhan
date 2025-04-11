@@ -59,6 +59,12 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/packages/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/packages").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
+                                .requestMatchers("/api/v1/oauth/**",
+                                        "/login/**",
+                                        "/api/v1/users/**",
+                                        "/api/v1/auth/**"
+                                ).permitAll()
+                                .anyRequest().permitAll()   // 테스트 땜에 열어
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
