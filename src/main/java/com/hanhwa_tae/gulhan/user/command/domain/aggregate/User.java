@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -40,6 +41,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private Rank rank; // 기본 rankId =2 평민, FK
+
+    @Enumerated(EnumType.STRING)
+    private IsSocial isSocial;  // 'Y','N'
 
 
     public void setDefaultRank(Rank rank) {
