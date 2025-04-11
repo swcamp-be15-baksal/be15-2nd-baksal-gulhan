@@ -25,6 +25,9 @@ public enum ErrorCode {
     // 장바구니
     CART_NOT_FOUND("20001", "들어있지 않은 장바구니입니다.",HttpStatus.NOT_FOUND),// 404
     USER_NOT_MATCHING("20002", "해당 사용자는 삭제할 수 없습니다.", HttpStatus.UNAUTHORIZED),
+    // package & goods & review
+    PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
+
 
     //동행글
     COMMENT_NOT_OWNED("30001","본인이 작성한 댓글이 아닙니다.", HttpStatus.BAD_REQUEST),

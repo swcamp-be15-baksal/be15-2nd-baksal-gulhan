@@ -30,7 +30,7 @@ public class DashboardQueryService {
 
     public PackageQuantityListResponse getPackageList(DashboardPackageSearchRequest request) {
         List<PackageQuantityDTO> paackgeQuantityDTOList= dashboardQueryMapper.selectPackageList(request);
-        int totalPosts = dashboardQueryMapper.countPackage(request);
+        long totalPosts = dashboardQueryMapper.countPackage(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -46,7 +46,7 @@ public class DashboardQueryService {
 
     public GoodsQuantityListResponse getGoodsList(DashboardGoodsSearchRequest request) {
         List<GoodsQuantityDTO> goodsQuantityDTOList= dashboardQueryMapper.selectGoodsList(request);
-        int totalPosts = dashboardQueryMapper.countGoods(request);
+        long totalPosts = dashboardQueryMapper.countGoods(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -62,7 +62,7 @@ public class DashboardQueryService {
 
     public MonthlyRevenueListResponse getMonthly(DashboardMonthlySearchRequest request) {
         List<MonthlyRevenueDTO> quantityDTOList= dashboardQueryMapper.selectMonthlyList(request);
-        int totalPosts = dashboardQueryMapper.countMonthly(request);
+        long totalPosts = dashboardQueryMapper.countMonthly(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -78,7 +78,7 @@ public class DashboardQueryService {
 
     public DailyRevenueListResponse getDaily(DashboardDailySearchRequest request) {
         List<DailyRevenueDTO> quantityDTOList= dashboardQueryMapper.selectDailyList(request);
-        int totalPosts = dashboardQueryMapper.countDaily(request);
+        long totalPosts = dashboardQueryMapper.countDaily(request);
 
         int page = request.getPage();
         int size = request.getSize();
@@ -94,7 +94,7 @@ public class DashboardQueryService {
 
     public OrderAllListResponse getOrderList(DashboardOrderSearchRequest request) {
         List<OrderAllListDTO> orderList= dashboardQueryMapper.selectOrderList(request);
-        int totalPosts = dashboardQueryMapper.countOrders(request);
+        long totalPosts = dashboardQueryMapper.countOrders(request);
 
         int page = request.getPage();
         int size = request.getSize();
