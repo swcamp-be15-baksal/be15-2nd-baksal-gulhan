@@ -46,6 +46,7 @@ public class GoodsQueryService {
         } else {
             throw new PageNotFoundException(ErrorCode.PAGE_NOT_FOUND);
         }
+        dto.setAvgRating(dto.getAvgRating());
         return dto;
     }
 

@@ -3,6 +3,7 @@ package com.hanhwa_tae.gulhan.goods.query.dto.response;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
@@ -16,6 +17,7 @@ public class GoodsDTO {
     private int sold;
     private int remaining;
     private int price;
+    private BigDecimal avgRating;
     private Timestamp createdAt;
     private int goodsCategoryId;
     private String goodsCategoryName;

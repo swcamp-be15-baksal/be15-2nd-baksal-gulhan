@@ -14,7 +14,8 @@
             g.price,
             gc.category_name,
             COUNT(DISTINCT l.like_id) AS like_count,
-            COUNT(DISTINCT r.review_id) AS review_count
+            COUNT(DISTINCT r.review_id) AS review_count,
+            ROUND(AVG(r.rating), 1) AS avg_rating
         FROM goods g
         LEFT JOIN `like` l on g.goods_id = l.target_id AND l.target_type = 'GOODS'
         LEFT JOIN review r ON g.goods_id = r.target_id AND r.target_type = 'GOODS' AND r.is_deleted = 'N'
@@ -88,7 +89,8 @@
             g.created_at,
             gc.category_name,
             COUNT(DISTINCT l.like_id) AS like_count,
-            COUNT(DISTINCT r.review_id) AS review_count
+            COUNT(DISTINCT r.review_id) AS review_count,
+            ROUND(AVG(r.rating), 1) AS avg_rating
         FROM goods g
             LEFT JOIN `like` l on g.goods_id = l.target_id AND l.target_type = 'GOODS'
             LEFT JOIN review r ON g.goods_id = r.target_id AND r.target_type = 'GOODS' AND r.is_deleted = 'N'
