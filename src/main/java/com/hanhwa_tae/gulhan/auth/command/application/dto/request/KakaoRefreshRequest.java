@@ -14,6 +14,6 @@ public class KakaoRefreshRequest {
     private String accessToken;
 
     @NotBlank
-    private String kakaoRefreshToken;
+    private String refreshToken;
 
 }

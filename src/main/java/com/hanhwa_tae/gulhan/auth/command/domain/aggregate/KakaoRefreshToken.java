@@ -20,5 +20,7 @@ public class KakaoRefreshToken {
 
     @TimeToLive
     private Long expiresIn;
+
+    private Long createdAt;
 }
 

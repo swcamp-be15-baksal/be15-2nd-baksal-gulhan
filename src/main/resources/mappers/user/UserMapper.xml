@@ -16,16 +16,6 @@
         <result property="isSocial" column="is_social" />
     </resultMap>
 
-    <select id="findUserByUserId" resultMap="UserResultMap">
-        SELECT
-            user_id,
-            user_name,
-            email,
-            gender
-        FROM user
-        WHERE user_id = #{userId}
-    </select>
-
 <!--    <resultMap type="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User" id="Rank">-->
 <!--        <result column="">-->
 <!--    </resultMap>>-->

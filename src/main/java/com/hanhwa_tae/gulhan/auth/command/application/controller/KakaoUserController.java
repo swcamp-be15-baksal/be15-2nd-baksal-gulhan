@@ -53,7 +53,7 @@ public class KakaoUserController {
     // 카카오 엑세스 토큰 갱신 요청
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<KakaoTokenResponse>> refreshToken(@RequestBody @Valid KakaoRefreshRequest request) {
-        KakaoTokenResponse response = kakaoAuthService.refreshTokenByKakao(request.getKakaoRefreshToken());
+        KakaoTokenResponse response = kakaoAuthService.refreshTokenByKakao(request.getRefreshToken());
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
@@ -63,8 +63,8 @@ public class KakaoUserController {
         log.info("카카오 로그아웃 요청: userId={}", request.getUserId());
         kakaoAuthService.logout(
                 request.getUserId(),
-                request.getKakaoAccessToken(),
-                request.getKakaoRefreshToken()
+                request.getAccessToken(),
+                request.getRefreshToken()
         );
         return ResponseEntity.ok(ApiResponse.success("카카오 계정 로그아웃에 성공했습니다."));
     }

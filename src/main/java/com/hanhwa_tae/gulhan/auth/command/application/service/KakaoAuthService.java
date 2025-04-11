@@ -2,8 +2,12 @@ package com.hanhwa_tae.gulhan.auth.command.application.service;
 
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoLoginResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
-import com.hanhwa_tae.gulhan.auth.command.application.dto.request.KakaoTokenRequest;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
+import com.hanhwa_tae.gulhan.auth.command.application.dto.response.TokenResponse;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.RefreshToken;
+import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
+import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisKakaoAuthRepository;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.LoginType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
@@ -16,8 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -25,12 +27,11 @@ public class KakaoAuthService {
 
     private final KakaoTokenProvider kakaoAuthProvider;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RedisAuthRepository redisAuthRepository;
+    private final AuthRepository authRepository;
     private final RedisKakaoAuthRepository redisKakaoAuthRepository;
 
     private final UserRepository userRepository;
     private final RankRepository rankRepository;
-    private final KakaoTokenCacheService kakaoTokenCacheService;
     private final UserMapper userMapper;
 
     @Transactional
@@ -71,13 +72,14 @@ public class KakaoAuthService {
         redisKakaoAuthRepository.save(refreshToken);
 
         // 우리 서비스에서 쓰일 JWT 엑세스 토큰, 리프레시 토큰 발급
+        Long userNo = actualUser.getUserNo();
         RankType rank = actualUser.getRank().getRankName();
 
-        String jwtAccessToken = jwtTokenProvider.createAccessToken(userId, rank);
-        String jwtRefreshToken = jwtTokenProvider.createRefreshToken(userId, rank);
+        String jwtAccessToken = jwtTokenProvider.createAccessToken(userId, userNo, rank.name());
+        String jwtRefreshToken = jwtTokenProvider.createRefreshToken(userId, userNo, rank.name());
 
         // Redis에 JWT 리프레시 토큰 저장
-        redisAuthRepository.save(
+        authRepository.save(
                 RefreshToken.builder()
                         .userId(userId)
                         .token(jwtRefreshToken)
@@ -99,13 +101,14 @@ public class KakaoAuthService {
 
     @Transactional
     public KakaoTokenResponse refreshTokenByKakao(String refreshToken) {
+        log.info("refresh token: {}", refreshToken);
         return kakaoAuthProvider.requestNewToken(refreshToken);
     }
 
     @Transactional
     public void logout(String userId, String accessToken, String kakaoRefreshToken) {
             kakaoAuthProvider.logout(accessToken);  // 카카오 로그아웃
-            redisAuthRepository.deleteById(userId); // JWT 리프레시 토큰 삭제
+            authRepository.deleteById(userId); // JWT 리프레시 토큰 삭제
             redisKakaoAuthRepository.deleteById(kakaoRefreshToken); // 카카오 리프레시 토큰 삭ㅈ
     }
 

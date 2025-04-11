@@ -48,8 +48,7 @@ public class SecurityConfig {
                                 .accessDeniedHandler(accessDeniedHandler))
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
-<<<<<<< HEAD
-                        auth
+                                auth
 //                                .requestMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/auth/refresh").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
@@ -62,23 +61,10 @@ public class SecurityConfig {
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-=======
-                        auth.requestMatchers("/api/v1/oauth/**",
-                                        "/login/**",
-                                        "/api/v1/users/**",
-                                        "/api/v1/auth/**"
-                                ).permitAll()
-                                .anyRequest().permitAll()   // 테스트 땜에 열어
-//                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
+                ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
-                );
->>>>>>> cd430ab (Feat: kakao 로그인/회원가입 기능 개발 #8)
-
-        return http.build();
-    }
+            return http.build();
+        }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(){

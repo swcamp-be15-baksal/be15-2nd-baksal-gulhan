@@ -3,7 +3,8 @@ package com.hanhwa_tae.gulhan.auth.command.application.service;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.KakaoRefreshToken;
-import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisAuthRepository;
+import com.hanhwa_tae.gulhan.auth.command.domain.repository.AuthRepository;
+import com.hanhwa_tae.gulhan.auth.command.infrastructure.repository.RedisKakaoAuthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class KakaoAuthProvider {
 
     private final RestTemplate restTemplate;
-    private final RedisAuthRepository redisAuthRepository;
+    private final RedisKakaoAuthRepository redisKakaoAuthRepository;
 
     @Value("${KAKAO_CLIENT_ID}")
     private String clientId;
@@ -90,18 +91,18 @@ public class KakaoAuthProvider {
     }
 
     public KakaoTokenResponse getValidToken(String userId) {
-        KakaoRefreshToken storedToken = redisAuthRepository.findById(userId)
+        KakaoRefreshToken storedToken = redisKakaoAuthRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("저장된 리프레시 토큰이 없습니다."));
 
-        long now = System.currentTimeMillis();
-        long createdAt = storedToken.getCreatedAt();
-        long expiresIn = storedToken.getExpiresIn() * 1000;
+        Long now = System.currentTimeMillis();
+        Long createdAt = storedToken.getCreatedAt();
+        Long expiresIn = storedToken.getExpiresIn() * 1000;
 
         if (createdAt + expiresIn < now) {
             throw new IllegalArgumentException("리프레시 토큰이 만료되었습니다. 다시 로그인해주세요.");
         }
 
-        return requestNewToken(userId, storedToken.getRefreshToken());
+        return requestNewToken(userId, storedToken.getToken());
     }
 
      // refresh token으로 access token 재발급 + redis에 저장된 토큰 갱신
@@ -130,12 +131,12 @@ public class KakaoAuthProvider {
         if (newToken.getRefreshToken() != null) {
             KakaoRefreshToken updatedToken = KakaoRefreshToken.builder()
                     .userId(userId)
-                    .refreshToken(newToken.getRefreshToken())
+                    .token(newToken.getRefreshToken())
                     .expiresIn(newToken.getRefreshTokenExpiresIn())
                     .createdAt(System.currentTimeMillis())
                     .build();
 
-            redisAuthRepository.save(updatedToken);
+            redisKakaoAuthRepository.save(updatedToken);
         }
 
         return newToken;
