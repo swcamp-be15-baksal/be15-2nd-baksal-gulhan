@@ -20,9 +20,8 @@ public class GoodsCommandService {
     private final EntityManager entityManager;
 
     @Transactional
-    public int insertGoods(GoodsInsertRequest request) {
+    public int insertGoods( GoodsInsertRequest request) {
         Goods goods = modelMapper.map(request, Goods.class);
-
 
         GoodsCategory categoryRef = entityManager.getReference(GoodsCategory.class, request.getGoodsCategoryId());
         goods.setGoodsCategoryId(categoryRef);
@@ -35,6 +34,7 @@ public class GoodsCommandService {
     @Transactional
     public void updateGoods(Integer goodsId, GoodsUpdateRequest request) {
         Goods goods = jpaGoodsRepository.findById(goodsId).orElseThrow();
+
         GoodsCategory categoryRef = entityManager.getReference(GoodsCategory.class, request.getGoodsCategoryId());
 
         goods.updateGoods(
