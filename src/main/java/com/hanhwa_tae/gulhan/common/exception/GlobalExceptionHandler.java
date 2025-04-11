@@ -4,7 +4,6 @@ import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.common.exception.custom.PageNotFoundException;
 import com.hanhwa_tae.gulhan.common.exception.custom.UnAuthorizationException;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
@@ -65,10 +64,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleException() {
+    public ResponseEntity<ApiResponse<Void>> handleException(Exception e) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
 
-        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage());
+        ApiResponse<Void> response = ApiResponse.failure(errorCode.getCode(), errorCode.getMessage() + e.getMessage());
 
         return new ResponseEntity<>(response, errorCode.getHttpStatus());
     }

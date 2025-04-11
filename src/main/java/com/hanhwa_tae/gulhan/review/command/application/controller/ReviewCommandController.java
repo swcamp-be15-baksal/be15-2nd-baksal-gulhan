@@ -1,7 +1,6 @@
 package com.hanhwa_tae.gulhan.review.command.application.controller;
 
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.packages.command.application.service.PackageCommandService;
 import com.hanhwa_tae.gulhan.review.command.application.service.ReviewCommandService;
 import com.hanhwa_tae.gulhan.review.query.dto.request.ReviewInsertRequest;
 import lombok.RequiredArgsConstructor;
