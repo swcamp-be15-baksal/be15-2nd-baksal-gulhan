@@ -36,7 +36,7 @@ public class NoticeCommandController {
 
         Long noticeId = noticeCommandService.createNotice(id, request);
 
-        NoticeCommandResponse response =NoticeCommandResponse.builder()
+        NoticeCommandResponse response = NoticeCommandResponse.builder()
                 .noticeId(noticeId)
                 .build();
 

@@ -1,6 +1,8 @@
 package com.hanhwa_tae.gulhan.notice.query.service;
 
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.notice.query.dto.request.NoticeSearchRequest;
 import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeDetailDTO;
 import com.hanhwa_tae.gulhan.notice.query.dto.response.NoticeDetailResponse;
@@ -42,7 +44,7 @@ public class NoticeQueryService {
     public NoticeDetailResponse getNoticeList(int noticeId) {
         NoticeDetailDTO noticeDTO = Optional.ofNullable(
                         noticeMapper.selectDetailNotice(noticeId))
-                .orElseThrow( () -> new RuntimeException("게시글 없음"));
+                .orElseThrow( () -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
 
         return NoticeDetailResponse.builder()
                 .noticeDTO(noticeDTO)

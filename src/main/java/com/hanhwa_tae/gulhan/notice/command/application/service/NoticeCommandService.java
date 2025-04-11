@@ -1,5 +1,8 @@
 package com.hanhwa_tae.gulhan.notice.command.application.service;
 
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.common.exception.BusinessException;
+import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeInsertRequest;
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeUpdateRequest;
 import com.hanhwa_tae.gulhan.notice.command.domain.aggregate.Notice;
@@ -23,7 +26,7 @@ public class NoticeCommandService {
     public Long createNotice(String id, NoticeInsertRequest request) {
 
         User user = userMapper.findUserByUserId(id)
-                .orElseThrow( () -> new RuntimeException("관리자 없음"));
+                .orElseThrow( () -> new BusinessException(ErrorCode.ADMIN_NOT_MATCHING));
 
         Notice newNotice = modelMapper.map(request, Notice.class);
         newNotice.setUser(user);
@@ -38,10 +41,10 @@ public class NoticeCommandService {
     public void updateNotice(String id, Long noticeId, NoticeUpdateRequest request) {
 
         User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new RuntimeException("사용자없음"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.ADMIN_NOT_MATCHING));
 
         Notice notice = jpaNoticeRepository.findById(noticeId)
-                        .orElseThrow(() -> new RuntimeException("게시글 없음"));
+                        .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
 
         notice.updateNotice(
                 request.getTitle(),
@@ -50,7 +53,16 @@ public class NoticeCommandService {
         );
     }
 
+    /* 공지사항 삭제 - soft delete */
+    @Transactional
     public void deleteNotice(Long noticeId) {
+
+        Notice notice = jpaNoticeRepository.findById(noticeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
+
+        if(!notice.getIsDeleted().equals(DeleteType.N)) {
+            throw new BusinessException(ErrorCode.NOTICE_NOT_FOUND);
+        }
 
         jpaNoticeRepository.deleteById(noticeId);
     }
