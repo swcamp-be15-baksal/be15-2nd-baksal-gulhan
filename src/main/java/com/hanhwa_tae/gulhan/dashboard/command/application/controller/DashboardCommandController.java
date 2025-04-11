@@ -24,6 +24,7 @@ public class DashboardCommandController {
             @PathVariable Long orderId,
             @RequestBody @Validated OrderUpdateRequest orderUpdateRequest
             ) {
+
         dashboardCommandService.updateOrder(orderId, orderUpdateRequest);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

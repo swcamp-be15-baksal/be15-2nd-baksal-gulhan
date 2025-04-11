@@ -53,7 +53,7 @@ public class DashboardQueryController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    /* 주문내역 - 운송장번호입력을 위한 폼 운송장 번호 null 조회 */
+    /* 주문내역 - 운송장번호입력을 위한 폼 운송장 번호 = null 조회 */
     @GetMapping("/orders")
     public ResponseEntity<ApiResponse<OrderAllListResponse>> getOrderList(DashboardOrderSearchRequest request) {
         OrderAllListResponse response = dashboardQueryService.getOrderList(request);
