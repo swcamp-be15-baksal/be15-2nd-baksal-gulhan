@@ -30,8 +30,8 @@ public class ReviewQueryService {
                 .review(review)
                 .pagination(Pagination.builder()
                         .currentPage(page)
-//                        .totalSize((int)Math.ceil((double)totalReview/size))
-//                        .totalPosts(totalReview)
+                        .totalPage((int)Math.ceil((double)totalReview/size))
+                        .size(size)
                         .build())
                 .build();
     }
