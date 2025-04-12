@@ -14,6 +14,7 @@ public class PackageSearchRequest {
     private Timestamp startDate;
     private Timestamp endDate;
 
+
     private Integer page = 1;
     private Integer size = 20;
 

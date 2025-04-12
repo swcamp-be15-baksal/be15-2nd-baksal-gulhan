@@ -31,14 +31,20 @@ public enum ErrorCode {
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
+    //공지사항
+    NOTICE_NOT_FOUND("40001","존재하지않거나 삭제된 게시글 입니다.", HttpStatus.NOT_FOUND),
+    ADMIN_NOT_MATCHING("40002", "해당 사용자는 관리자가 아닙니다.", HttpStatus.UNAUTHORIZED),
+
+
+
 
 
     // 그 외 기타 오류
     VALIDATION_ERROR("50000", "입력 값 검증 오류입니다.", HttpStatus.BAD_REQUEST),
     INTERNAL_SERVER_ERROR("50001", "내부 서버 오류 입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
-    UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED);
-
-
+    UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
+    SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST);
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;
