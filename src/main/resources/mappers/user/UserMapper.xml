@@ -42,4 +42,24 @@
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
     </select>
+
+    <select id="findReviewByUserNoAndTargetType" resultType="com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review">
+        SELECT
+              review_id
+            , target_id
+            , target_type
+            , detail
+            , created_at
+            , rating
+            , user_no
+        FROM
+            review
+        WHERE
+            target_type = #{targetType}
+        AND
+            user_no = #{ userNo }
+        AND
+            is_deleted = 'N'
+        ORDER BY updated_at DESC
+    </select>
 </mapper>
