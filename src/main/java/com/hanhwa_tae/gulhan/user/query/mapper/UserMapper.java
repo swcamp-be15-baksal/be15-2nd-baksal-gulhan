@@ -4,6 +4,7 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
 import org.apache.ibatis.annotations.Mapper;
+
 import java.util.Optional;
 
 @Mapper
