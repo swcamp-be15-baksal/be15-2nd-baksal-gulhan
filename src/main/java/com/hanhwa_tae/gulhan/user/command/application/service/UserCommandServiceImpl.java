@@ -2,10 +2,13 @@ package com.hanhwa_tae.gulhan.user.command.application.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserInfoCreateDTO;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.ChangeUserPasswordRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.*;
@@ -18,14 +21,17 @@ import com.hanhwa_tae.gulhan.utils.EmailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserCommandServiceImpl implements UserCommandService {
@@ -41,19 +47,20 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RedisUserRepository redisUserRepository;
     private final RedisUserIdRepository redisUserIdRepository;
 
+
     //    @Transactional
-    public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
+    public void registerUser(@Valid UserCreateRequest request)  throws MessagingException {
         User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
         User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
 
         // 중복 유저가 존재할 경우
         if (duplicateIdUser != null) {
-            throw new RuntimeException("중복 아이디가 존재합니다!");
+            throw new BusinessException(ErrorCode.DUPLICATE_ID_EXISTS);
         }
 
         // 중복 이메일이 존재할 경우
         if (duplicateEmailUser != null) {
-            throw new RuntimeException("중복 이메일이 존재합니다!");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL_EXISTS);
         }
 
         // 1. Redis에 데이터 저장
@@ -81,6 +88,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
 
+
         /* 이 아래는 verify 된 유저가 수행해야할 로직임 */
         // 평민 등급 조회
     }
@@ -91,7 +99,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. 일치하는 uuid가 redis에 존재하는지 확인
 //        String userData = redisTemplate.opsForValue().get(uuid);
         RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
+                () -> new RuntimeException("이메일 인증 시간이 만료되었습니다.")
         );
 
         // 2. redis 데이터 지워주기
@@ -142,6 +150,39 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     @Override
+    @Transactional
+    public void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request) {
+        if (userDetail == null) {
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+        }
+
+        String userId = userDetail.getUserId();
+
+        User user = userRepository.findUserByUserId(userId).orElseThrow(
+                () -> new BusinessException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        String rawPassword = request.getPassword();
+
+        String newPassword = passwordEncoder.encode(rawPassword);
+
+        userDetail.getAuthorities().forEach(v ->
+                log.info(v.toString()));
+
+        boolean isSlave = userDetail.getAuthorities()
+                .contains(new SimpleGrantedAuthority("SLAVE"));
+        user.setUpdateUser(newPassword);
+
+        log.info("관리자 여부 : " + isSlave);
+        if (!isSlave) {
+            UserInfo userInfo = userInfoRepository.findByUserNo(user.getUserNo());
+            userInfo.setUpdateUserInfo(request.getAddress(), request.getPhone());
+            userInfoRepository.save(userInfo);
+        }
+        userRepository.save(user);
+    }
+
+    @Override
     public void findUserId(UserFindIdRequest request) throws MessagingException {
 
         String requestEmail = request.getEmail();
@@ -187,5 +228,31 @@ public class UserCommandServiceImpl implements UserCommandService {
         return realValue + maskingValue;
     }
 
+    @Override
+    public void changeUserPassword(CustomUserDetail userDetail, ChangeUserPasswordRequest request) {
+        Long userNo = userDetail.getUserNo();
 
+        String requestPassword = request.getPassword();
+        String requestConfirmPassword = request.getConfirmPassword();
+
+        /* 비밀번호 확인과 동일한 경우 에러 출력 */
+        if(!requestPassword.equals(requestConfirmPassword)){
+            throw new BusinessException(ErrorCode.PASSWORD_CONFIRM_FAILED);
+        }
+
+
+        User foundUser = userRepository.findUserByUserNo(userNo)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 비밀번호가 동일한 경우
+        if (passwordEncoder.matches(requestPassword, foundUser.getPassword())) {
+            throw new BusinessException(ErrorCode.SAME_PASSWORD);
+        }
+
+        // 패스워드 인코딩
+        String encodedPassword = passwordEncoder.encode(requestPassword);
+        foundUser.setUpdateUser(encodedPassword);
+
+        userRepository.save(foundUser);
+    }
 }

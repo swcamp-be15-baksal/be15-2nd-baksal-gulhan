@@ -1,6 +1,9 @@
 package com.hanhwa_tae.gulhan.user.command.application.controller;
 
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.ChangeUserPasswordRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.response.UserFindIdResponse;
@@ -10,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,6 +45,17 @@ public class UserCommandController {
         return ResponseEntity.ok(null);
     }
 
+    @PutMapping("/info/update")
+    public ResponseEntity<ApiResponse<Void>> updateUserInfo(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody @Valid UpdateUserInfoRequest request
+            ){
+
+        userCommandService.updateUserInfo(userDetail, request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
     @PostMapping("/find/id")
     public ResponseEntity<ApiResponse<Void>> findUserId(
             @RequestBody UserFindIdRequest request
@@ -63,8 +78,14 @@ public class UserCommandController {
                         UserFindIdResponse.builder().maskedUserId(maskedUserId).build()));
     }
 
+    @PutMapping("/change/password")
+    public ResponseEntity<ApiResponse<Void>> changeUserPassword(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody @Valid ChangeUserPasswordRequest request
+    ){
+        userCommandService.changeUserPassword(userDetail, request);
 
-//    @PostMapping("/find/password")
-
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
 
 }

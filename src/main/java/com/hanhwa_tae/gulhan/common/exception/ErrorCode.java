@@ -15,6 +15,9 @@ public enum ErrorCode {
     DUPLICATE_EMAIL_EXISTS("10004", "중복 이메일이 존재합니다.", HttpStatus.BAD_REQUEST),
     DUPLICATE_ID_EXISTS("10005", "중복 아이디가 존재합니다.", HttpStatus.BAD_REQUEST),
     USER_NOT_FOUND("10006", "해당 유저를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    SAME_PASSWORD("10007", "이전 비밀번호와 동일합니다.", HttpStatus.BAD_REQUEST),
+    PASSWORD_CONFIRM_FAILED("10008", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+
 
     // JWT
     ACCESS_TOKEN_EXPIRED("11001", "Access Token이 만료되었습니다.", HttpStatus.UNAUTHORIZED),   // 401
