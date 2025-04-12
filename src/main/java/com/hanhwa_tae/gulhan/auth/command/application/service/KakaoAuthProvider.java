@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoTokenResponse;
 import com.hanhwa_tae.gulhan.auth.command.application.dto.response.KakaoUserResponse;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
-import com.hanhwa_tae.gulhan.common.exception.KakaoAuthException;
+import com.hanhwa_tae.gulhan.common.exception.custom.KakaoAuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
