@@ -31,7 +31,7 @@
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
         SELECT
         a.user_id
-        , a.user_name
+        , a.username
         , a.email
         , a.gender
         , b.birth
