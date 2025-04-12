@@ -2,9 +2,8 @@ package com.hanhwa_tae.gulhan.user.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindPasswordRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.*;
+import com.hanhwa_tae.gulhan.user.command.application.dto.response.UserFindIdResponse;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
@@ -24,7 +23,7 @@ public class UserCommandController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(
             @RequestBody @Valid UserCreateRequest request
-    ) {
+    ) throws MessagingException {
         userCommandService.registerUser(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -59,6 +58,38 @@ public class UserCommandController {
             @RequestBody @Valid UserFindPasswordRequest request
     ) throws MessagingException {
         userCommandService.findUserPassword(request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @PostMapping("/find/id")
+    public ResponseEntity<ApiResponse<Void>> findUserId(
+            @RequestBody UserFindIdRequest request
+    ) throws MessagingException {
+        userCommandService.findUserId(request);
+
+        /* 이메일 인증 요청 */
+        return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/find/id/verify")
+    public ResponseEntity<ApiResponse<UserFindIdResponse>> verifyFindUserId(
+            @RequestParam(required = true) String uuid
+    ) {
+        String maskedUserId = userCommandService.verifyFindUserId(uuid);
+
+        /* 이메일 인증 요청 */
+        return ResponseEntity.ok(
+                ApiResponse.success(
+                        UserFindIdResponse.builder().maskedUserId(maskedUserId).build()));
+    }
+
+    @PutMapping("/change/password")
+    public ResponseEntity<ApiResponse<Void>> changeUserPassword(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody @Valid ChangeUserPasswordRequest request
+    ){
+        userCommandService.changeUserPassword(userDetail, request);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }

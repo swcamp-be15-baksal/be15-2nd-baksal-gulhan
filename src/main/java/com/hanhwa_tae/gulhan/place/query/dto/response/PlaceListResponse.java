@@ -1,4 +1,4 @@
-package com.hanhwa_tae.gulhan.dashboard.query.dto.response;
+package com.hanhwa_tae.gulhan.place.query.dto.response;
 
 import com.hanhwa_tae.gulhan.common.dto.Pagination;
 import lombok.Builder;
@@ -8,9 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class PackageQuantityListResponse {
-
-    private final List<PackageQuantityDTO> packageList;
-
+public class PlaceListResponse {
+    private final List<PlaceDto> places;
     private final Pagination pagination;
 }
