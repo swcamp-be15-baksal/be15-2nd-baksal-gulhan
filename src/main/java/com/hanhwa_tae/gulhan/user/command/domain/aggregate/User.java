@@ -2,13 +2,16 @@ package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
-@Getter
 @Table(name = "user")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userNo;
@@ -35,7 +38,6 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "rank_id")
     private Rank rank; // 기본 rankId =2 평민, FK
-
 
     public void setDefaultRank(Rank rank) {
         this.rank = rank;
