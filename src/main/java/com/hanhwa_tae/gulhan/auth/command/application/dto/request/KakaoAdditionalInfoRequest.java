@@ -7,8 +7,6 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.GenderType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class KakaoAdditionalInfoRequest {
 
