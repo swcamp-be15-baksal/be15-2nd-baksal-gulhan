@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@RedisHash(timeToLive = 600000)
+@RedisHash(value = "register",timeToLive = 600000)
 public class RedisUser implements Serializable {
     @Id
     private String uuid;
