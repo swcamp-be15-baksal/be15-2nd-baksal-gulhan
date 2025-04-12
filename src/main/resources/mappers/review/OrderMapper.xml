@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanhwa_tae.gulhan.review.query.mapper.OrderMapper">
+
+    <select id="existsConfirmedOrder" resultType="boolean">
+        SELECT EXISTS (
+        SELECT 1
+        FROM order_history oh
+        JOIN order o ON oh.order_id = o.order_id
+        WHERE o.user_no = #{id}
+        AND oh.is_confirmed = 'Y'
+        AND oh.target_type = #{targetType}
+        AND oh.target_id = #{targetId}
+        )
+    </select>
+
+</mapper>
