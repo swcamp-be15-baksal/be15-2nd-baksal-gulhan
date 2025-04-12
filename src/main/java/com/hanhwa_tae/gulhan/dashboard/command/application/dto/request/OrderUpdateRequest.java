@@ -15,5 +15,4 @@ public class OrderUpdateRequest {
 
     private String receiverPhone;
 
-    private String orderCode;
 }

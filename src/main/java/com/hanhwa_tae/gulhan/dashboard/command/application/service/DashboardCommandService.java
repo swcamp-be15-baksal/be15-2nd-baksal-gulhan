@@ -22,7 +22,6 @@ public class DashboardCommandService {
 
         order.update(
                   orderUpdateRequest.getAddress()
-                , orderUpdateRequest.getOrderCode()
                 , orderUpdateRequest.getReceiver()
                 , orderUpdateRequest.getReceiverPhone()
                 , orderUpdateRequest.getShippingNo()
