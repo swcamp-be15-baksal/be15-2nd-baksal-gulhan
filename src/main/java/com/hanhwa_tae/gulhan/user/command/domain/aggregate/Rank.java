@@ -3,7 +3,6 @@ package com.hanhwa_tae.gulhan.user.command.domain.aggregate;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-
 @Entity
 @Getter
 @Table(name = "rank")
@@ -15,4 +14,5 @@ public class Rank {
     @Enumerated(EnumType.STRING)
     private RankType rankName;
     private int pointRate; // 적립률
+
 }
