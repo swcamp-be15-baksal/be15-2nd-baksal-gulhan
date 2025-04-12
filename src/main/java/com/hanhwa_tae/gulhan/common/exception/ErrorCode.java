@@ -31,6 +31,11 @@ public enum ErrorCode {
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
+    //공지사항
+    NOTICE_NOT_FOUND("40001","존재하지않거나 삭제된 게시글 입니다.", HttpStatus.NOT_FOUND),
+    ADMIN_NOT_MATCHING("40002", "해당 사용자는 관리자가 아닙니다.", HttpStatus.UNAUTHORIZED),
+
+
 
 
 
