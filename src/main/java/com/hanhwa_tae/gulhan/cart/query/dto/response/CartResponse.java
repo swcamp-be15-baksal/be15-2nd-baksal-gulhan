@@ -11,4 +11,5 @@ public class CartResponse {
     private int cartId;
     private int quantity;
     private TargetType targetType;
+    private int targetId;
 }

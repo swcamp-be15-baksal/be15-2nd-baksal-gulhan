@@ -55,6 +55,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
+                                .requestMatchers("/widget/success","/widget/fail","/style.css", "/favicon.ico", "/static/**", "/css/**", "/js/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()
@@ -68,5 +69,7 @@ public class SecurityConfig {
     public JwtAuthenticationFilter jwtAuthenticationFilter(){
         return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
     }
+
+
 }
 

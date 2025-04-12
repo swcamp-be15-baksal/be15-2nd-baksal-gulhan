@@ -23,7 +23,7 @@
     <div style="padding-left: 30px">
       <div class="checkable typography--p">
         <label for="coupon-box" class="checkable__label typography--regular"
-        ><input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" /><span class="checkable__label-text">5,000원 쿠폰 적용</span></label
+        ><input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true" /><span class="checkable__label-text">포인트 적용</span></label
         >
       </div>
     </div>
@@ -49,16 +49,16 @@
     const data = await response.json();
 
     const value = data.value;
-
+    const orderId = data.orderId;
     const amount = {
       currency: "KRW",
       value: value,
     };
+
     // ------  결제위젯 초기화 ------
     // @docs https://docs.tosspayments.com/sdk/v2/js#토스페이먼츠-초기화
     const key_response = await fetch("/api/v1/payment/key");
     const temp_key = await key_response.json();
-    console.log(temp_key);
     const clientKey = temp_key.keyValue;
 
     const customerKey = generateRandomString();
@@ -69,8 +69,6 @@
       customerKey,
     });
     // ------  주문서의 결제 금액 설정 ------
-    // TODO: 위젯의 결제금액을 결제하려는 금액으로 초기화하세요.
-    // TODO: renderPaymentMethods, renderAgreement, requestPayment 보다 반드시 선행되어야 합니다.
     // @docs https://docs.tosspayments.com/sdk/v2/js#widgetssetamount
     await widgets.setAmount(amount);
 
@@ -109,19 +107,26 @@
         value: amount.value,
       });
     });
+    const payinfo_response = await fetch("/api/v1/payment/payinfo");
+    const info_data = await payinfo_response.json();
+
+    const username = info_data.username;
+    const email = info_data.email;
+    const ordername = info_data.ordername;
+
+
 
     // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
     // @docs https://docs.tosspayments.com/sdk/v2/js#widgetsrequestpayment
     button.addEventListener("click", async function () {
-      // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
-      // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+
       await widgets.requestPayment({
-        orderId: generateRandomString(),
-        orderName: "토스 티셔츠 외 2건",
-        successUrl: window.location.origin + "/widget/success.html",
-        failUrl: window.location.origin + "/fail.html",
-        customerEmail: "customer123@gmail.com",
-        customerName: "김토스",
+        orderId: orderId,
+        orderName: ordername,
+        successUrl: window.location.origin + "/widget/success",
+        failUrl: window.location.origin + "/widget/fail",
+        customerEmail: email,
+        customerName: username,
         // 가상계좌 안내, 퀵계좌이체 휴대폰 번호 자동 완성에 사용되는 값입니다. 필요하다면 주석을 해제해 주세요.
         // customerMobilePhone: "01012341234",
       });

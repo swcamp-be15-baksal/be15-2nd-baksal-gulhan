@@ -1,10 +1,9 @@
 package com.hanhwa_tae.gulhan.payment.command.application.controller;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
-import com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Cart;
-import com.hanhwa_tae.gulhan.cart.command.domain.repository.CartRepository;
 import com.hanhwa_tae.gulhan.cart.query.dto.response.CartResponse;
 import com.hanhwa_tae.gulhan.cart.query.mapper.CartMapper;
 import com.hanhwa_tae.gulhan.common.domain.TargetType;
+import com.hanhwa_tae.gulhan.payment.command.application.service.PaymentService;
 import com.hanhwa_tae.gulhan.payment.command.domain.repository.GoodsPaymentRepository;
 import com.hanhwa_tae.gulhan.payment.command.domain.repository.PackagesPaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/payment")
 @RequiredArgsConstructor
-public class SumValueByPayment {
+public class ValueByPayment {
     private final CartMapper cartMapper;
     private final GoodsPaymentRepository goodsPaymentRepository;
     private final PackagesPaymentRepository packagesPaymentRepository;
+    private final PaymentService paymentService;
 
     @GetMapping("/value")
-    public Map<String, Integer> getEnvValue(@AuthenticationPrincipal CustomUserDetail userDetail) {
+    public Map<String, Object> getEnvValue(@AuthenticationPrincipal CustomUserDetail userDetail) {
         Long userNo = userDetail.getUserNo();
 
 
@@ -35,7 +36,7 @@ public class SumValueByPayment {
 
 
         for(CartResponse cartResponse:carts){
-            int productId = cartResponse.getCartId();
+            int productId = cartResponse.getTargetId();
             int quantity = cartResponse.getQuantity();
             TargetType targetType = cartResponse.getTargetType();
 
@@ -47,9 +48,13 @@ public class SumValueByPayment {
 
             }
         }
+        String orderId = UUID.randomUUID().toString();
 
-        Map<String, Integer> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
         result.put("value", value);
+        result.put("orderId", orderId);
+
+        paymentService.savePayment(value, orderId);
         return result;
     }
 }

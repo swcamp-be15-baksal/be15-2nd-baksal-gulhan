@@ -97,4 +97,12 @@
           AND is_deleted = 'N'
     </select>
 
+
+    <!--패키지 명 조회-->
+    <select id="selectPackageNameById" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
+            select title
+            from package
+            where package_id = #{packageId}
+    </select>
+
 </mapper>

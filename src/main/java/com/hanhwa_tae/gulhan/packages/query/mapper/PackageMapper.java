@@ -12,4 +12,5 @@ public interface PackageMapper {
     List<PackageDTO> selectPackages(PackageSearchRequest request);
     long countPackages(PackageSearchRequest request);
     PackageDTO selectPackageById(Integer packageId);
+    String selectPackageNameById(Integer packageId);
 }

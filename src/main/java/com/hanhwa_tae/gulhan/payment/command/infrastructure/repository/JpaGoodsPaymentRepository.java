@@ -1,4 +1,4 @@
-package com.hanhwa_tae.gulhan.payment.command.infrastructure;
+package com.hanhwa_tae.gulhan.payment.command.infrastructure.repository;
 
 
 import com.hanhwa_tae.gulhan.goods.command.domain.aggregate.Goods;

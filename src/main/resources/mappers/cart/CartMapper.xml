@@ -7,10 +7,22 @@
             c.quantity,
             c.target_type
        FROM cart c
-<!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능 -->
+<!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능
+ 아래 내용이란 다른 점은 limit, offset 부분이 성립한다면 내용 수정-->
        WHERE user_no = #{ userNo }
 
    </select>
+    <select id="selectAllCartByUserNo" resultType="com.hanhwa_tae.gulhan.cart.query.dto.response.CartResponse">
+        SELECT
+        c.cart_id,
+        c.quantity,
+        c.target_id,
+        c.target_type
+        FROM cart c
+        <!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능 -->
+        WHERE user_no = #{ userNo }
+
+    </select>
 
     <select id="countCarts" resultType="long">
         SELECT COUNT(*)
