@@ -16,7 +16,7 @@
             p.start_date,
             p.end_date,
             p.guide_name,
-            oh.is_confirmed
+            o.is_confirmed
         FROM order_history oh
         JOIN `order` o ON o.order_id = oh.order_id
         JOIN package p ON oh.target_type = 'PACKAGE' AND oh.target_id = p.package_id
@@ -38,7 +38,7 @@
             o.receiver,
             o.receiver_phone,
             oh.arrivalDate,
-            oh.is_confirmed
+            o.is_confirmed
         FROM `order` o
         JOIN order_history oh ON o.order_id = oh.order_id
         JOIN goods g ON oh.target_type = 'GOODS' AND oh.target_id = g.goods_id
