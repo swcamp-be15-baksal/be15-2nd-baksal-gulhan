@@ -35,7 +35,7 @@
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
         SELECT
               a.user_id
-            , a.user_name
+            , a.username
             , a.email
             , a.gender
             , b.birth
@@ -45,5 +45,21 @@
         JOIN user_info b ON (a.user_no = b.user_no)
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
+    </select>
+
+    <select id = "findPointByUserNo" resultType = "int">
+        SELECT
+            point
+        FROM user_info
+        WHERE user_no = #{ userNo }
+    </select>
+
+    <select id="findRankByUserNo" resultType= "com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank">
+        SELECT
+            rank_id, rank_name, point_rate
+        from rank
+        where rank_id = (select rank_id
+        from user
+        where user_no = #{ userNo })
     </select>
 </mapper>

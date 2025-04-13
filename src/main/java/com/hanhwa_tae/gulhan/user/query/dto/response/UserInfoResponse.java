@@ -10,7 +10,6 @@ import java.util.Date;
 @Builder
 public class UserInfoResponse {
     private final String userId;
-
     private final String username;
     private final String email;
     private final GenderType gender;

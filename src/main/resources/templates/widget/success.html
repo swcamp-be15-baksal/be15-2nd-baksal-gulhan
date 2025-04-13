@@ -41,7 +41,7 @@
   // 쿼리 파라미터 값을 서버로 전달해 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
   // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
   const urlParams = new URLSearchParams(window.location.search);
-
+  const token = sessionStorage.getItem("accessToken");
   // 서버로 결제 승인에 필요한 결제 정보를 보내세요.
   async function confirm() {
     var requestData = {
@@ -53,6 +53,7 @@
     const response = await fetch("/api/v1/payment/confirm/widget", {
       method: "POST",
       headers: {
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(requestData),
@@ -88,8 +89,26 @@
 
 </script>
 <script>
-  fetch("/api/v1/payment/success").
-  catch(() => {});
+  const requestdata = {
+    orderCode : urlParams.get("paymentKey"),
+    totalPrice : urlParams.get("amount"),
+    orderId: urlParams.get("orderId")
+  }
+  fetch("/api/v1/payment/success/order",{
+    method: "POST",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestdata)
+  })
+
+  fetch("/api/v1/payment/success/order-history",{
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    }
+  })
 </script>
 </body>
 </html>

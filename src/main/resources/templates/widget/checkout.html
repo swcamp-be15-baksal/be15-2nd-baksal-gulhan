@@ -39,13 +39,54 @@
 </div>
 <script>
   main();
-
+ let token = null;
   async function main() {
     const button = document.getElementById("payment-button");
     const coupon = document.getElementById("coupon-box");
+    /*로그인 후 accesstoken 받아오기*/
+    const loginAndFetch = async () => {
+      try {
+        // 1. 로그인 요청 → accessToken 발급
+        const loginResponse = await fetch("/api/v1/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userId: "user02",
+            password: "pass02"
+          })
+        });
 
+        const loginData = await loginResponse.json();
+
+        if (!loginData.data || !loginData.data.accessToken) {
+          throw new Error("토큰을 받아오지 못했습니다.");
+        }
+
+        token = loginData.data.accessToken;
+        console.log(token);
+        // 2. sessionStorage에 토큰 저장
+        sessionStorage.setItem("accessToken", token);
+
+
+      }catch (err) {
+        console.error("로그인 또는 데이터 요청 실패:", err);
+      }
+    };
+
+    // 실행
+    await loginAndFetch();
     /*백엔드의 값 가져오기*/
-    const response = await fetch("/api/v1/payment/value");
+    const response = await fetch("/api/v1/payment/value",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
+            }
+
+    );
     const data = await response.json();
 
     const value = data.value;
@@ -54,10 +95,16 @@
       currency: "KRW",
       value: value,
     };
-
     // ------  결제위젯 초기화 ------
     // @docs https://docs.tosspayments.com/sdk/v2/js#토스페이먼츠-초기화
-    const key_response = await fetch("/api/v1/payment/key");
+    const key_response = await fetch("/api/v1/payment/key",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
+            }
+    );
     const temp_key = await key_response.json();
     const clientKey = temp_key.keyValue;
 
@@ -107,7 +154,13 @@
         value: amount.value,
       });
     });
-    const payinfo_response = await fetch("/api/v1/payment/payinfo");
+    const payinfo_response = await fetch("/api/v1/payment/payinfo",
+            {
+              method: "GET",
+              headers: {
+                "Authorization": `Bearer ${token}`
+              }
+            });
     const info_data = await payinfo_response.json();
 
     const username = info_data.username;
@@ -123,8 +176,8 @@
       await widgets.requestPayment({
         orderId: orderId,
         orderName: ordername,
-        successUrl: window.location.origin + "/widget/success",
-        failUrl: window.location.origin + "/widget/fail",
+        successUrl: window.location.origin + "/widget/success?accessToken=" + token,
+        failUrl: window.location.origin + "/widget/fail?accessToken=" + token,
         customerEmail: email,
         customerName: username,
         // 가상계좌 안내, 퀵계좌이체 휴대폰 번호 자동 완성에 사용되는 값입니다. 필요하다면 주석을 해제해 주세요.

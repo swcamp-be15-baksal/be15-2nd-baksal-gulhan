@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -23,7 +26,6 @@ public class AuthQueryController {
     public ResponseEntity<ApiResponse<TokenResponse>> login(
             @RequestBody LoginRequest request){
         TokenResponse tokenResponse = authQueryService.login(request);
-
         return ResponseEntity.ok(ApiResponse.success(tokenResponse));
     }
 

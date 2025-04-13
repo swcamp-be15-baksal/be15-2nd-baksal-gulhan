@@ -45,6 +45,8 @@ public class PayInfoController {
             if (cnt < 0){
                 if(cart.getTargetType().name().equalsIgnoreCase("Goods")) {
                     name = goodsMapper.selectGoodsNameById(cart.getTargetId());
+                    cnt += 1;
+
                 }else if(cart.getTargetType().name().equalsIgnoreCase("Packages")){
                     name = packageMapper.selectPackageNameById(cart.getTargetId());
                     cnt += 1;

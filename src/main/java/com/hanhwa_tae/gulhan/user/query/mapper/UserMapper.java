@@ -19,4 +19,7 @@ public interface UserMapper {
     Rank findRankIdByRankName(String rankName);
 
     Optional<UserInfoResponse> findUserInfoByUserId(String userId);
+
+    Integer findPointByUserNo(Long userNo);
+    Rank findRankByUserNo(Long userNo);
 }
