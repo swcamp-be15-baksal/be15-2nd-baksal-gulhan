@@ -82,4 +82,19 @@
         is_deleted = 'N'
         ORDER BY updated_at DESC
     </select>
+    <select id="findCommentByUserNo" resultType="com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.Comment">
+        SELECT
+              comment_id
+            , content
+            , created_at
+            , updated_at
+            , travel_mate_post_id
+            , parent_comment_id
+        FROM
+            comment
+        WHERE
+            user_no = #{user_no}
+        AND
+            is_deleted = 'N'
+    </select>
 </mapper>

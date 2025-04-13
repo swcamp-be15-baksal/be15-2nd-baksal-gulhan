@@ -3,11 +3,7 @@ package com.hanhwa_tae.gulhan.user.query.controller;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.domain.TargetType;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.user.query.dto.request.LoginRequestUserRequest;
-import com.hanhwa_tae.gulhan.user.query.dto.response.LoginRequestUserResponse;
-import com.hanhwa_tae.gulhan.user.query.dto.response.RankInfoResponse;
-import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
-import com.hanhwa_tae.gulhan.user.query.dto.response.UserReviewResponse;
+import com.hanhwa_tae.gulhan.user.query.dto.response.*;
 import com.hanhwa_tae.gulhan.user.query.service.UserQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +38,15 @@ public class UserQueryController {
     @GetMapping("/ranks")
     public ResponseEntity<ApiResponse<RankInfoResponse>> getRankInfo(){
         RankInfoResponse response = userQueryService.getRankInfo();
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/mypage/comment")
+    public ResponseEntity<ApiResponse<UserCommentResponse>> getUserComment(
+            @AuthenticationPrincipal CustomUserDetail userDetail
+    ){
+        UserCommentResponse response = userQueryService.getUserComment(userDetail);
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
