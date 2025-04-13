@@ -21,5 +21,8 @@ public interface UserMapper {
 
     Optional<UserInfoResponse> findUserInfoByUserId(String userId);
 
+    Optional<User> findUserByUserNo(Long userNo);
+
     List<Rank> findAllRank();
+
 }

@@ -1,6 +1,5 @@
 package com.hanhwa_tae.gulhan.user.query.dto;
 
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import lombok.*;
 
 
