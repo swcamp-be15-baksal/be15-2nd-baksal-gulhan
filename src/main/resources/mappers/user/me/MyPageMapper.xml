@@ -46,16 +46,6 @@
         ORDER BY o.ordered_at DESC;
     </select>
 
-    <!-- 회원이 구매 확정을 누르면 is_confirmed : 'N' -> 'Y' -->
-    <update id="updateIsConfirmed">
-        UPDATE
-            order_history
-        SET
-            is_confirmed = 'Y',
-            arrival_date = NOW()
-        WHERE order_history_id = #{order_history_id}
-    </update>
-
     <!-- 내 리뷰 조회 -->
     <select id="findReviewByUserNoAndTargetType" resultType="com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review">
         SELECT
