@@ -8,7 +8,7 @@ import java.util.Random;
 @Component
 public class RandomStringGenerator {
 
-    public String randomStringGenerator(int size){
+    public String getRandomString(int size){
         String possible = "abcdefghijklmnoqprstyvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();

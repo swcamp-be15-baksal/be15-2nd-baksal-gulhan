@@ -5,10 +5,8 @@ import lombok.Getter;
 
 import java.util.List;
 
-
 @Getter
 @Builder
-public class RankInfoResponse {
-
-    private List<RankDTO> rankList;
+public class UserReviewResponse {
+    private List<UserReviewDTO> userReviewList;
 }

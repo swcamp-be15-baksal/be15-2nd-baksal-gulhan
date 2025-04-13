@@ -2,10 +2,7 @@ package com.hanhwa_tae.gulhan.user.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.ChangeUserPasswordRequest;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UpdateUserInfoRequest;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserCreateRequest;
-import com.hanhwa_tae.gulhan.user.command.application.dto.request.UserFindIdRequest;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.*;
 import com.hanhwa_tae.gulhan.user.command.application.dto.response.UserFindIdResponse;
 import com.hanhwa_tae.gulhan.user.command.application.service.UserCommandService;
 import jakarta.mail.MessagingException;
@@ -39,7 +36,7 @@ public class UserCommandController {
     @GetMapping("/verify-email")
     public ResponseEntity<Void> verifyEmail(
             @RequestParam(required = true) String uuid
-    ) {
+    ){
         userCommandService.verifyByEmail(uuid);
 
         return ResponseEntity.ok(null);
@@ -52,6 +49,15 @@ public class UserCommandController {
             ){
 
         userCommandService.updateUserInfo(userDetail, request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
+    @PostMapping("/find/password")
+    public ResponseEntity<ApiResponse<Void>> findUserPassword(
+            @RequestBody @Valid UserFindPasswordRequest request
+    ) throws MessagingException {
+        userCommandService.findUserPassword(request);
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }

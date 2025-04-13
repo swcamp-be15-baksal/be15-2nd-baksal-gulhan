@@ -1,4 +1,4 @@
-package com.hanhwa_tae.gulhan.user.query.dto;
+package com.hanhwa_tae.gulhan.user.query.dto.response;
 
 import lombok.*;
 

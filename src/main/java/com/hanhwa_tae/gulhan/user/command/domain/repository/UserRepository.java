@@ -9,5 +9,7 @@ public interface UserRepository {
 
     Optional<User> findUserByUserId(String userId);
 
+    Optional<User> findUserByUserIdAndEmail(String userId, String email);
+
     Optional<User> findUserByUserNo(Long userNo);
 }
