@@ -15,7 +15,8 @@
         p.start_date,
         p.end_date,
         COUNT(DISTINCT l.like_id) AS like_count,
-        COUNT(DISTINCT r.review_id) AS review_count
+        COUNT(DISTINCT r.review_id) AS review_count,
+        ROUND(AVG(r.rating), 1) AS avg_rating
         FROM  package p
         LEFT JOIN `like` l on p.package_id = l.target_id AND l.target_type = 'PACKAGE'
         LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
@@ -80,21 +81,26 @@
     <!-- 패키지 상세 조회 -->
     <select id="selectPackageById" resultType="com.hanhwa_tae.gulhan.packages.query.dto.response.PackageDTO">
         SELECT
-            package_id,
-            title,
-            price,
-            detail,
-            capacity,
-            current_regist,
-            area,
-            start_date,
-            end_date,
-            created_at,
-            guide_name,
-            guide_phone
-        FROM package
-        WHERE package_id = #{packageId}
-          AND is_deleted = 'N'
+            p.package_id,
+            p.title,
+            p.price,
+            p.detail,
+            p.capacity,
+            p.current_regist,
+            p.area,
+            p.start_date,
+            p.end_date,
+            p.created_at,
+            p.guide_name,
+            p.guide_phone,
+            COUNT(DISTINCT l.like_id) AS like_count,
+            COUNT(DISTINCT r.review_id) AS review_count,
+            ROUND(AVG(r.rating), 1) AS avg_rating
+        FROM package p
+        LEFT JOIN `like` l on p.package_id = l.target_id AND l.target_type = 'PACKAGE'
+        LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
+        WHERE p.package_id = #{packageId}
+          AND p.is_deleted = 'N'
     </select>
 
 

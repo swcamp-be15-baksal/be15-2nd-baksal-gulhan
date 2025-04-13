@@ -17,5 +17,6 @@ public class PlaceDto {
     private String restDate;
     @Enumerated(EnumType.STRING)
     private CategoryType category;
-    private AreaDto area;
+    private String areaName;
+
 }

@@ -4,6 +4,7 @@ package com.hanhwa_tae.gulhan.packages.query.dto.response;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Getter
@@ -20,6 +21,8 @@ public class PackageDTO {
     private int capacity;
 
     private int currentRegist;
+
+    private BigDecimal avgRating;
 
     private String area;
 

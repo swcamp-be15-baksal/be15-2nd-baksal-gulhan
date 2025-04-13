@@ -23,6 +23,8 @@ public class OrderHistory {
     private TargetType targetType; // enum : 'GOODS','PACKAGE'
     private int targetId;
 
+    private int targetId;
+
     private int quantity;
 
 
