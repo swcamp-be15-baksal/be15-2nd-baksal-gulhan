@@ -10,7 +10,7 @@
         FROM order_history oh
         JOIN order o ON oh.order_id = o.order_id
         WHERE o.user_no = #{id}
-        AND oh.is_confirmed = 'Y'
+        AND o.is_confirmed = 'Y'
         AND oh.target_type = #{targetType}
         AND oh.target_id = #{targetId}
         )
