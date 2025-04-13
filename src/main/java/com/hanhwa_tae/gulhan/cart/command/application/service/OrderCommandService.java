@@ -11,7 +11,7 @@ import com.hanhwa_tae.gulhan.cart.query.mapper.CartMapper;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.payment.command.application.dto.request.CreateOrderRequest;
-import com.hanhwa_tae.gulhan.payment.query.mapper.OrderMapper;
+import com.hanhwa_tae.gulhan.payment.query.mapper.PaymentMapper;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.UserInfo;
 import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
@@ -28,7 +28,7 @@ public class OrderCommandService {
     private final OrderHistoryRepository orderHistoryRepository;
     private final OrderRepository orderRepository;
     private final UserMapper userMapper;
-    private final OrderMapper orderMapper;
+    private final PaymentMapper paymentMapper;
     private final CartMapper cartMapper;
 
     public String registerOrder(String userId, CreateOrderRequest createOrderRequest, int point){
@@ -63,7 +63,7 @@ public class OrderCommandService {
 
 
     public String registerOrderHistory(Long userNo, List<CartResponse> cartList) {
-        Order order = orderMapper.findOrderByUserNo(userNo).
+        Order order = paymentMapper.findOrderByUserNo(userNo).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         for(CartResponse cart : cartList){

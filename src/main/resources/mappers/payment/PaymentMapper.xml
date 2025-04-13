@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hanhwa_tae.gulhan.payment.query.mapper.OrderMapper">
+<mapper namespace="com.hanhwa_tae.gulhan.payment.query.mapper.PaymentMapper">
     <select id="findOrderByUserNo" resultType="com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Order">
 
         SELECT

@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.Optional;
 
 @Mapper
-public interface OrderMapper {
+public interface PaymentMapper {
     Optional<Order> findOrderByUserNo(Long userNo);
 }

@@ -22,9 +22,6 @@ public class OrderHistory {
     @Column(name = "order_history_type")
     private TargetType targetType; // enum : 'GOODS','PACKAGE'
     private int targetId;
-
-    private int targetId;
-
     private int quantity;
 
 
