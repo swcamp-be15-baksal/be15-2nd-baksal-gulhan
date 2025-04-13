@@ -31,7 +31,7 @@
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse">
         SELECT
         a.user_id
-        , a.user_name
+        , a.username
         , a.email
         , a.gender
         , b.birth
@@ -42,24 +42,44 @@
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
     </select>
-
+    <select id="findUserByUserNo" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.User">
+        SELECT
+        user_no
+        , user_id
+        , password
+        , email
+        , gender
+        , rank_id
+        , login_type
+        , is_deleted
+        , username
+        FROM
+        user
+        WHERE user_no = #{userNo} AND is_deleted = 'N'
+    </select>
+    <select id="findAllRank" resultType="com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank">
+        SELECT
+        rank_name
+        , point_rate
+        FROM rank
+    </select>
     <select id="findReviewByUserNoAndTargetType" resultType="com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review">
         SELECT
-              review_id
-            , target_id
-            , target_type
-            , detail
-            , created_at
-            , rating
-            , user_no
+        review_id
+        , target_id
+        , target_type
+        , detail
+        , created_at
+        , rating
+        , user_no
         FROM
-            review
+        review
         WHERE
-            target_type = #{targetType}
+        target_type = #{targetType}
         AND
-            user_no = #{ userNo }
+        user_no = #{ userNo }
         AND
-            is_deleted = 'N'
+        is_deleted = 'N'
         ORDER BY updated_at DESC
     </select>
 </mapper>

@@ -16,9 +16,11 @@ public interface UserCommandService {
 
     void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request);
 
+    void changeUserPassword(CustomUserDetail userDetail, @Valid ChangeUserPasswordRequest request);
+
+    void withdrawUser(CustomUserDetail userDetail);
+
     void findUserId(UserFindIdRequest request) throws MessagingException;
 
     String verifyFindUserId(String uuid);
-
-    void changeUserPassword(CustomUserDetail userDetail, @Valid ChangeUserPasswordRequest request);
 }
