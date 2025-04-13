@@ -6,6 +6,8 @@ import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeInsert
 import com.hanhwa_tae.gulhan.notice.command.application.dto.request.NoticeUpdateRequest;
 import com.hanhwa_tae.gulhan.notice.command.application.dto.response.NoticeCommandResponse;
 import com.hanhwa_tae.gulhan.notice.command.application.service.NoticeCommandService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "공지사항")
 @RestController
 @RequestMapping("/api/v1/notice")
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class NoticeCommandController {
     private final NoticeCommandService noticeCommandService;
 
     /* 공지사항 작성 */
+    @Operation(summary = "공지사항 작성", description = "공지사항을 작성한다. (관리자만)")
     @PostMapping("/list")
     public ResponseEntity<ApiResponse<NoticeCommandResponse>> createNotice(
             @AuthenticationPrincipal CustomUserDetail  customUserDetail,
@@ -46,6 +50,7 @@ public class NoticeCommandController {
     }
 
     /* 공지사항 수정 */
+    @Operation(summary = "공지사항 수정", description = "공지사항을 수정한다. (관리자만)")
     @PutMapping("/list/{noticeId}")
     public ResponseEntity<ApiResponse<Void>> updateNotice(
             @AuthenticationPrincipal CustomUserDetail customUserDetail,
@@ -58,6 +63,7 @@ public class NoticeCommandController {
     }
 
     /* 공지사항 삭제 */
+    @Operation(summary = "공지사항 삭제", description = "공지사항을 삭제한다. (관리자만)")
     @DeleteMapping("/list/{noticeId}")
     public ResponseEntity<ApiResponse<Void>> deleteNotice( @PathVariable Long noticeId){
         noticeCommandService.deleteNotice(noticeId);

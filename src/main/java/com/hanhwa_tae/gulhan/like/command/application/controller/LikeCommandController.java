@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "기념품")
+@Tag(name = "관심등록")
 @RestController
 @RequestMapping("api/v1/like")
 public class LikeCommandController {
@@ -24,7 +24,7 @@ public class LikeCommandController {
         this.likeCommandService = likeCommandService;
     }
 
-    @Operation(summary = "패키지 판매수량 조회", description = "패키지 별 판매 수량을 조회한다.")
+    @Operation(summary = "관심 등록", description = "관심있는 장소나 물품에 관심등록을 한다.")
     @PostMapping("/toggle")
     public ResponseEntity<?> toggleLike(
             @RequestBody LikeCreateRequest request,

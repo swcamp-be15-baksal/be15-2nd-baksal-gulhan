@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "기념품")
+@Tag(name = "관심등록")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/like")
 public class LikeQueryController {
     private final LikeQueryService likeQueryService;
 
-    @Operation(summary = "패키지 판매수량 조회", description = "패키지 별 판매 수량을 조회한다.")
+    @Operation(summary = "본인 관심목록 조회", description = "본인 관심목록을 조회한다.")
     @GetMapping("/likes")
     public ResponseEntity<ApiResponse<LikeListResponse>> getLikes(
             @AuthenticationPrincipal CustomUserDetail userDetails,
