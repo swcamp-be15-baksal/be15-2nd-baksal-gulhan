@@ -4,16 +4,20 @@ import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.goods.command.application.service.GoodsCommandService;
 import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsInsertRequest;
 import com.hanhwa_tae.gulhan.goods.query.dto.request.GoodsUpdateRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "기념품")
 @RestController
 @RequestMapping("/api/v1/goods")
 @RequiredArgsConstructor
 public class GoodsCommandController {
     private final GoodsCommandService goodsCommandService;
 
+    @Operation(summary = "기념품 등록", description = "새로운 기념품을 등록한다.")
     @PostMapping
     public ResponseEntity<ApiResponse<Integer>> insertGoods(
             @RequestBody GoodsInsertRequest request
@@ -21,6 +25,7 @@ public class GoodsCommandController {
         return ResponseEntity.ok(ApiResponse.success(goodsCommandService.insertGoods(request)));
     }
 
+    @Operation(summary = "기념품 수정", description = "수정할 기념품을 수정한다.")
     @PutMapping("/list/{goodsId}")
     public ResponseEntity<ApiResponse<Void>> updateGoods (
             @PathVariable Integer goodsId,
@@ -30,6 +35,7 @@ public class GoodsCommandController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    @Operation(summary = "패키지 판매수량 조회", description = "패키지 별 판매 수량을 조회한다.")
     @DeleteMapping("/list/{goodsId}")
     public ResponseEntity<ApiResponse<Void>> deleteGoods(
             @PathVariable Integer goodsId
