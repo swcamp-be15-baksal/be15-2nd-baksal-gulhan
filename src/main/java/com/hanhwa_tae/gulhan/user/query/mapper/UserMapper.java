@@ -1,8 +1,5 @@
 package com.hanhwa_tae.gulhan.user.query.mapper;
 
-import com.hanhwa_tae.gulhan.common.domain.TargetType;
-import com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review;
-import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.Comment;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
@@ -29,8 +26,4 @@ public interface UserMapper {
     Optional<User> findUserByUserNo(Long userNo);
 
     List<Rank> findAllRank();
-
-    List<Review> findReviewByUserNoAndTargetType(Long userNo, TargetType targetType);
-
-    List<Comment> findCommentByUserNo(Long userNo);
 }
