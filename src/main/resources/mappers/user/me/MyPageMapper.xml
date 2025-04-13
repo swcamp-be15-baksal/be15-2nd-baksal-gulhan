@@ -56,4 +56,40 @@
         WHERE order_history_id = #{order_history_id}
     </update>
 
+    <!-- 내 리뷰 조회 -->
+    <select id="findReviewByUserNoAndTargetType" resultType="com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review">
+        SELECT
+        review_id
+        , target_id
+        , target_type
+        , detail
+        , created_at
+        , rating
+        , user_no
+        FROM
+        review
+        WHERE
+        target_type = #{targetType}
+        AND
+        user_no = #{ userNo }
+        AND
+        is_deleted = 'N'
+        ORDER BY updated_at DESC
+    </select>
+    <!-- 내 댓글 조회-->
+    <select id="findCommentByUserNo" resultType="com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.Comment">
+        SELECT
+        comment_id
+        , content
+        , created_at
+        , updated_at
+        , travel_mate_post_id
+        , parent_comment_id
+        FROM
+        comment
+        WHERE
+        user_no = #{user_no}
+        AND
+        is_deleted = 'N'
+    </select>
 </mapper>
