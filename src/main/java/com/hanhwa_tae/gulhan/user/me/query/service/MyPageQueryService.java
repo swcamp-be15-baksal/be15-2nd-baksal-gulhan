@@ -1,7 +1,5 @@
 package com.hanhwa_tae.gulhan.user.me.query.service;
 
-import com.hanhwa_tae.gulhan.common.exception.BusinessException;
-import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.gulhan.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.gulhan.user.me.query.mapper.MyPageMapper;
