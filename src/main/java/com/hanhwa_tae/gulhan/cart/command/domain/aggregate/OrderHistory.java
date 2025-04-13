@@ -17,6 +17,8 @@ public class OrderHistory {
     @Enumerated(EnumType.STRING)
     private TargetType targetType; // enum : 'GOODS','PACKAGE'
 
+    private int targetId;
+
     private int quantity;
 
     @Enumerated(EnumType.STRING)

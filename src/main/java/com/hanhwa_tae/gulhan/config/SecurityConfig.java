@@ -48,21 +48,25 @@ public class SecurityConfig {
                                 .accessDeniedHandler(accessDeniedHandler))
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
-                        auth
+                                auth
 //                                .requestMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/auth/refresh").permitAll()
-
                                 .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
+                                .requestMatchers("/api/v1/oauth/**",
+                                        "/login/**",
+                                        "/api/v1/users/**",
+                                        "/api/v1/auth/**"
+                                ).permitAll()
+                                .anyRequest().permitAll()   // 테스트 땜에 열어
 //                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
 //                                .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+            return http.build();
+        }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(){

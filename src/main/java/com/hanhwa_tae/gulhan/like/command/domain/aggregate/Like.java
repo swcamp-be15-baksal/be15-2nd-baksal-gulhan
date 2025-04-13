@@ -1,13 +1,16 @@
 package com.hanhwa_tae.gulhan.like.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.TargetType;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
-@Table(name = "like")
+@NoArgsConstructor
+@Table(name = "`like`"/*, uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"targetId", "targetType", "user_no"})
+}*/)
 public class Like {
 
     @Id
@@ -19,7 +22,13 @@ public class Like {
     @Enumerated(EnumType.STRING)
     private TargetType targetType; // enum : 'PACKAGE','PLACE','GOODS'
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_no")
-    private User userNo; // FK
+
+    private String userId;
+
+
+    public Like(int targetId, TargetType targetType, String userId) {
+        this.targetId = targetId;
+        this.targetType = targetType;
+        this.userId = userId;
+    }
 }

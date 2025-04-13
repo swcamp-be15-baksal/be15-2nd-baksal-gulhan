@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Builder
 public class PlaceListResponse {
-    private final List<PlaceDto> places;
+    private final List<PlacesDto> places;
     private final Pagination pagination;
 }

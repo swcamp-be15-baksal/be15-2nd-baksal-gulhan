@@ -41,9 +41,8 @@ public class Order {
     private User userNo;
 
     /* 입력을 안하면 기존 값 유지 */
-    public void update(String address, String orderCode, String receiver, String receiverPhone, @NotBlank(message = "운송장 번호입력해주세요.") String shippingNo) {
+    public void update(String address, String receiver, String receiverPhone, @NotBlank(message = "운송장 번호입력해주세요.") String shippingNo) {
         if (address != null) this.address = address;
-        if (orderCode != null) this.orderCode = orderCode;
         if (receiver != null) this.receiver = receiver;
         if (receiverPhone != null) this.receiverPhone = receiverPhone;
         if (shippingNo != null) this.shippingNo = shippingNo;
