@@ -51,14 +51,4 @@ public class MyPageQueryController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    @PutMapping("/orders/{orderHistoryId}/confirm")
-    public ResponseEntity<ApiResponse<String>> confirmOrder(
-            @AuthenticationPrincipal CustomUserDetail user,
-            @PathVariable int orderHistoryId
-    ) {
-        Long userNo = user.getUserNo();
-        myPageQueryService.confirmOrder(orderHistoryId);
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
 }

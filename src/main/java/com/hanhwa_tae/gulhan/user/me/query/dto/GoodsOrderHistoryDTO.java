@@ -6,17 +6,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class GoodsOrderHistoryDTO {
-    /*      o.order_id,
-            o.ordered_at,
-            oh.quantity,
-            g.title,
-            g.detail,
-            g.price,
-            o.shipping_no,
-            o.address,
-            o.receiver,
-            o.receiver_phone,
-            oh.is_confirmed*/
 
     private int orderId;
     private LocalDateTime orderedAt;

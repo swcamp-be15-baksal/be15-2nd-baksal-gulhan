@@ -63,4 +63,5 @@
         , point_rate
         FROM rank
     </select>
+
 </mapper>

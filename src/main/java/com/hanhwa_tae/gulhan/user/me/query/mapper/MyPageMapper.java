@@ -13,5 +13,4 @@ public interface MyPageMapper {
 
     List<GoodsOrderHistoryDTO> findGoodsOrderHistoryByUserNo(Long userNo);
 
-    int updateIsConfirmed(int orderHistoryId);
 }

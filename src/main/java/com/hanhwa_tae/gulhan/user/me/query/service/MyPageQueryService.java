@@ -27,12 +27,4 @@ public class MyPageQueryService {
         return myPageMapper.findGoodsOrderHistoryByUserNo(userNo);
     }
 
-    @Transactional
-    public void confirmOrder(int orderHistoryId) {
-        int updateIsConfirmed = myPageMapper.updateIsConfirmed(orderHistoryId);
-        if (updateIsConfirmed == 0) {
-            throw new BusinessException(ErrorCode.ORDER_HISTORY_NOT_FOUND);
-        }
-    }
-
 }
