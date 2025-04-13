@@ -3,6 +3,9 @@ package com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate;
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,13 +13,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comment")
+@Getter @Setter
+@EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE comment SET is_deleted = 'Y' WHERE comment_id = ?")
 public class Comment {
 
     @Id
@@ -26,11 +37,12 @@ public class Comment {
     private String content;
 
     @CreatedDate
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private Timestamp updatedAt;
+    private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     private DeleteType isDeleted = DeleteType.N;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,4 +56,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY) // 부모 댓글 (대댓글을 포함한 댓글에 대한 참조)
     @JoinColumn(name = "parent_comment_id")  // 부모 댓글의 외래 키
     private Comment parentCommentId;
+
+
+    public void updateComment(@NotBlank(message = "내용입력은 필수입니다.") String content) {
+        this.content = content;
+    }
 }
