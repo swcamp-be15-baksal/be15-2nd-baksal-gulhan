@@ -26,4 +26,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         jwtErrorResponse.setErrorResponse(response, ErrorCode.INVALID_TOKEN);
 
     }
+
+
+
 }
