@@ -4,6 +4,7 @@ import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailSe
 import com.hanhwa_tae.gulhan.utils.jwt.CustomAccessDeniedHandler;
 import com.hanhwa_tae.gulhan.utils.jwt.CustomAuthenticationEntryPoint;
 import com.hanhwa_tae.gulhan.utils.jwt.JwtAuthenticationFilter;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtErrorResponse;
 import com.hanhwa_tae.gulhan.utils.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +30,7 @@ public class SecurityConfig {
     private final CustomUserDetailService userDetailsService;
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
     private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final JwtErrorResponse jwtErrorResponse;
 
 
     @Bean
@@ -49,21 +51,70 @@ public class SecurityConfig {
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
                                 auth
+                                        /* swagger */
                                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-//                                .requestMatchers(HttpMethod.POST, "/api/v1/users/register", "/api/v1/auth/refresh").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-//                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
-                                .requestMatchers("/api/v1/oauth/**",
-                                        "/login/**",
-                                        "/api/v1/users/**",
-                                        "/api/v1/auth/**"
-                                ).permitAll()
-                                .anyRequest().permitAll()   // 테스트 땜에 열어
-//                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
-//                                .anyRequest().authenticated()
+                                        /* 관리자 권한*/
+                                        .requestMatchers(HttpMethod.GET,
+                                                "/api/v1/admin/**"
+                                        ).hasAuthority("SLAVE")
+
+                                        .requestMatchers(HttpMethod.POST,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/notice/**"
+                                                , "/api/v1/packages"
+                                                , "/api/v1/goods"
+                                        ).hasAuthority("SLAVE")
+
+                                        .requestMatchers(HttpMethod.PUT,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/notice/**"
+                                                , "/api/v1/packages/**"
+                                                , "/api/v1/goods/**"
+                                        ).hasAuthority("SLAVE")
+
+                                        .requestMatchers(HttpMethod.DELETE,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/notice/**"
+                                                , "/api/v1/packages/**"
+                                                , "/api/v1/goods/**"
+                                        ).hasAuthority("SLAVE")
+
+                                        /* 회원 권한 */
+                                        .requestMatchers(HttpMethod.GET,
+                                                "/api/v1/notice/**"
+                                                , "/api/v1/like/likes"
+                                                , "/api/v1/comment"
+                                                , "/api/v1/board/list/**"
+                                                , "/api/v1/users/withdraw"
+                                                , "/api/v1/users/info"
+                                        ).authenticated()
+
+                                        .requestMatchers(HttpMethod.POST,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/review"
+                                                , "/api/v1/oauth/kakao/**"
+                                                , "/api/v1/like/toggle"
+                                                , "/api/v1/comment"
+                                                , "/api/v1/board"
+                                                , "/api/v1/auth/logout"
+                                        ).authenticated()
+
+                                        .requestMatchers(HttpMethod.PUT,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/review/**"
+                                                , "/api/v1/comment"
+                                                , "/api/v1/board/list/**"
+                                                , "/api/v1/users/info/update"
+                                                , "/api/v1/users/change/password"
+                                        ).authenticated()
+
+                                        .requestMatchers(HttpMethod.DELETE,
+                                                "/api/v1/admin/**"
+                                                , "/api/v1/review/**"
+                                                , "/api/v1/comment"
+                                                , "/api/v1/board/list/**"
+                                        ).authenticated()
+                                        .anyRequest().permitAll()   // 테스트 땜에 열어
 
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
@@ -72,7 +123,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter(){
-        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService);
+        return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService, jwtErrorResponse);
     }
 }
 

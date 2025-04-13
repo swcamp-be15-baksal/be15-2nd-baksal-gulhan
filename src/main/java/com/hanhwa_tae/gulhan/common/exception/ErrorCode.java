@@ -19,7 +19,7 @@ public enum ErrorCode {
     PASSWORD_CONFIRM_FAILED("10008", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     USER_ALREADY_DELETED("10009", "이미 탈퇴 처리된 회원 입니다.", HttpStatus.BAD_REQUEST),
     ALREADY_ADDITIONAL_INFO_EXISTS("10010", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
-
+    TOKEN_EXPIRED("10011", "토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST),
     // 카카오 인증
     KAKAO_AUTH_FAILED("20001", "카카오 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
     KAKAO_TOKEN_INVALID("20002", "카카오 토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
@@ -61,6 +61,8 @@ public enum ErrorCode {
     UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
     SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST);
+
+
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;
