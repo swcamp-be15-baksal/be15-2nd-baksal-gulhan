@@ -1,11 +1,12 @@
 package com.hanhwa_tae.gulhan.review.command.application.controller;
 
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
-import com.hanhwa_tae.gulhan.packages.command.application.service.PackageCommandService;
 import com.hanhwa_tae.gulhan.review.command.application.service.ReviewCommandService;
 import com.hanhwa_tae.gulhan.review.query.dto.request.ReviewInsertRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +16,12 @@ public class ReviewCommandController {
     private final ReviewCommandService reviewCommandService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Integer>> insertReview(@RequestBody ReviewInsertRequest request) {
-        return ResponseEntity.ok(ApiResponse.success(reviewCommandService.insertReview(request)));
+    public ResponseEntity<ApiResponse<Integer>> insertReview(
+            @AuthenticationPrincipal CustomUserDetail customUserDetail,
+            @RequestBody ReviewInsertRequest request
+    ) {
+        String id = customUserDetail.getUserId();
+        return ResponseEntity.ok(ApiResponse.success(reviewCommandService.insertReview(id, request)));
     }
 
     @PutMapping("/{reviewId}")

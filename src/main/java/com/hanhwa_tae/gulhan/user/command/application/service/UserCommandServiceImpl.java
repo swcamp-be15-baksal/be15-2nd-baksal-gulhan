@@ -3,6 +3,7 @@ package com.hanhwa_tae.gulhan.user.command.application.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.domain.DeleteType;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
 import com.hanhwa_tae.gulhan.user.command.application.dto.UserCreateDTO;
@@ -46,7 +47,6 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RandomStringGenerator randomStringGenerator;
     private final RedisUserIdRepository redisUserIdRepository;
 
-
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
         User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
@@ -84,6 +84,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         StringBuilder sb = new StringBuilder();
         sb.append("<h1>이메일 인증<h1>");
         sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
+
 
         emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
 
@@ -242,7 +243,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         String userId = redisUserId.getUserId();
 
-        int maskingStartIdx = (int)Math.ceil(userId.length() * 0.3);
+        int maskingStartIdx = (int) Math.ceil(userId.length() * 0.3);
 
         String realValue = userId.substring(0, maskingStartIdx);
         String maskingValue = "*".repeat(userId.length() - maskingStartIdx);
@@ -258,7 +259,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         String requestConfirmPassword = request.getConfirmPassword();
 
         /* 비밀번호 확인과 동일한 경우 에러 출력 */
-        if(!requestPassword.equals(requestConfirmPassword)){
+        if (!requestPassword.equals(requestConfirmPassword)) {
             throw new BusinessException(ErrorCode.PASSWORD_CONFIRM_FAILED);
         }
 
@@ -276,5 +277,23 @@ public class UserCommandServiceImpl implements UserCommandService {
         foundUser.setUpdateUser(encodedPassword);
 
         userRepository.save(foundUser);
+    }
+
+    @Override
+    @Transactional
+    public void withdrawUser(CustomUserDetail userDetail) {
+        Long userNo = userDetail.getUserNo();
+
+        User user = userRepository.findUserByUserNo(userNo).orElseThrow(
+                () -> new BusinessException(ErrorCode.USER_NOT_FOUND)
+        );
+
+        if (user.getIsDeleted().equals(DeleteType.Y)) {
+            throw new BusinessException(ErrorCode.USER_NOT_FOUND);
+        }
+
+        user.setWithdrawUser();
+
+        userRepository.save(user);
     }
 }

@@ -17,7 +17,13 @@ public enum ErrorCode {
     USER_NOT_FOUND("10006", "해당 유저를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     SAME_PASSWORD("10007", "이전 비밀번호와 동일합니다.", HttpStatus.BAD_REQUEST),
     PASSWORD_CONFIRM_FAILED("10008", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    USER_ALREADY_DELETED("10009", "이미 탈퇴 처리 된 회원 입니다.", HttpStatus.BAD_REQUEST),
+    ALREADY_ADDITIONAL_INFO_EXISTS("10010", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
 
+    // 카카오 인증
+    KAKAO_AUTH_FAILED("20001", "카카오 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
+    KAKAO_TOKEN_INVALID("20002", "카카오 토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
+    KAKAO_TOKEN_EXPIRED("20003", "카카오 토큰이 만료되었습니다.", HttpStatus.UNAUTHORIZED),
 
     // JWT
     ACCESS_TOKEN_EXPIRED("11001", "Access Token이 만료되었습니다.", HttpStatus.UNAUTHORIZED),   // 401
@@ -30,6 +36,11 @@ public enum ErrorCode {
     USER_NOT_MATCHING("20002", "해당 사용자는 삭제할 수 없습니다.", HttpStatus.UNAUTHORIZED),
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
+
+    //공지사항
+    NOTICE_NOT_FOUND("40001","존재하지않거나 삭제된 게시글 입니다.", HttpStatus.NOT_FOUND),
+    ADMIN_NOT_MATCHING("40002", "해당 사용자는 관리자가 아닙니다.", HttpStatus.UNAUTHORIZED),
+
 
 
 
