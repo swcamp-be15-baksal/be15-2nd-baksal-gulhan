@@ -5,6 +5,7 @@ import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -20,4 +21,5 @@ public interface UserMapper {
 
     Optional<UserInfoResponse> findUserInfoByUserId(String userId);
 
+    List<Rank> findAllRank();
 }
