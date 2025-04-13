@@ -108,21 +108,7 @@ public class SecurityConfig {
                                                 , "/api/v1/comment"
                                                 , "/api/v1/board/list/**"
                                         ).authenticated()
-
-//                                .requestMatchers(HttpMethod.GET, "/api/v1/**").permitAll()
-//                                .requestMatchers(HttpMethod.PUT, "/api/v1/**").permitAll()
-
-                                        /* 일반 권한*/
-//                                .requestMatchers(HttpMethod.DELETE, "/api/v1/**").permitAll()
-//                                .requestMatchers(HttpMethod.GET,  "/api/v1/users/verify-email").permitAll()
-//                                        .requestMatchers("/api/v1/oauth/**",
-//                                                "/login/**",
-//                                                "/api/v1/users/**",
-//                                                "/api/v1/auth/**"
-//                                        ).permitAll()
                                         .anyRequest().permitAll()   // 테스트 땜에 열어
-//                                .requestMatchers(HttpMethod.GET, "/api/v1/users/me").hasAuthority("USER")
-//                                .anyRequest().authenticated()
 
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
