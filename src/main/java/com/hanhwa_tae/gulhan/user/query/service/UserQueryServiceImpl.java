@@ -1,13 +1,14 @@
 package com.hanhwa_tae.gulhan.user.query.service;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.common.domain.TargetType;
 import com.hanhwa_tae.gulhan.common.exception.BusinessException;
 import com.hanhwa_tae.gulhan.common.exception.ErrorCode;
+import com.hanhwa_tae.gulhan.review.command.domain.aggregate.Review;
+import com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate.Comment;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.Rank;
 import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
-import com.hanhwa_tae.gulhan.user.query.dto.RankDTO;
-import com.hanhwa_tae.gulhan.user.query.dto.response.RankInfoResponse;
-import com.hanhwa_tae.gulhan.user.query.dto.response.UserInfoResponse;
+import com.hanhwa_tae.gulhan.user.query.dto.response.*;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -38,6 +39,36 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     @Override
+    public UserReviewResponse getUserReview(CustomUserDetail userDetail, TargetType targetType) {
+
+        if (targetType.equals(TargetType.PLACE)) {
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_REQUEST);
+        }
+
+        Long userNo = userDetail.getUserNo();
+
+        List<Review> userReview = userMapper.findReviewByUserNoAndTargetType(userNo, targetType);
+
+        List<UserReviewDTO> responseReviewList = new ArrayList<>();
+
+        for (Review review : userReview) {
+            responseReviewList.add(UserReviewDTO.builder()
+                    .reviewId(review.getReviewId())
+                    .targetId(review.getTargetId())
+                    .targetType(review.getTargetType())
+                    .detail(review.getDetail())
+                    .createdAt(review.getCreatedAt())
+                    .rating(review.getRating())
+                    .build()
+            );
+        }
+
+        return UserReviewResponse.builder()
+                .userReviewList(responseReviewList)
+                .build();
+    }
+
+    @Override
     public RankInfoResponse getRankInfo() {
         // 1. DB에서 랭크 리스트 가져옴
         List<Rank> rankList = userMapper.findAllRank();
@@ -60,4 +91,25 @@ public class UserQueryServiceImpl implements UserQueryService {
                 .rankList(responseRankList)
                 .build();
     }
+
+    @Override
+    public UserCommentResponse getUserComment(CustomUserDetail userDetail) {
+
+        Long userNo = userDetail.getUserNo();
+
+        List<Comment> commentList = userMapper.findCommentByUserNo(userNo);
+
+        List<UserCommentDTO> responseCommentList = new ArrayList<>();
+
+        for(Comment comment : commentList){
+            UserCommentDTO userCommentDto = modelMapper.map(comment, UserCommentDTO.class);
+            responseCommentList.add(userCommentDto);
+        }
+
+        return UserCommentResponse.builder()
+                .commentList(responseCommentList)
+                .build();
+    }
+
+
 }

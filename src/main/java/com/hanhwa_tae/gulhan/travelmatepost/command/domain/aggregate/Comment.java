@@ -1,6 +1,7 @@
 package com.hanhwa_tae.gulhan.travelmatepost.command.domain.aggregate;
 
 import com.hanhwa_tae.gulhan.common.domain.DeleteType;
+import com.hanhwa_tae.gulhan.user.command.domain.aggregate.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -32,9 +33,9 @@ public class Comment {
 
     private DeleteType isDeleted = DeleteType.N;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_no")
-//    private User userNo; // FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_no")
+    private User userNo; // FK
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_mate_post_id")
