@@ -4,6 +4,8 @@ import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetai
 import com.hanhwa_tae.gulhan.like.command.application.dto.request.LikeCreateRequest;
 import com.hanhwa_tae.gulhan.like.command.application.dto.response.LikeCommandResponse;
 import com.hanhwa_tae.gulhan.like.command.application.service.LikeCommandService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "기념품")
 @RestController
 @RequestMapping("api/v1/like")
 public class LikeCommandController {
@@ -21,6 +24,7 @@ public class LikeCommandController {
         this.likeCommandService = likeCommandService;
     }
 
+    @Operation(summary = "패키지 판매수량 조회", description = "패키지 별 판매 수량을 조회한다.")
     @PostMapping("/toggle")
     public ResponseEntity<?> toggleLike(
             @RequestBody LikeCreateRequest request,

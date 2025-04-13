@@ -35,7 +35,7 @@ public class GoodsCommandController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
-    @Operation(summary = "패키지 판매수량 조회", description = "패키지 별 판매 수량을 조회한다.")
+    @Operation(summary = "기념품 삭제", description = "삭제할 기념품을 삭제한다. soft delete")
     @DeleteMapping("/list/{goodsId}")
     public ResponseEntity<ApiResponse<Void>> deleteGoods(
             @PathVariable Integer goodsId
