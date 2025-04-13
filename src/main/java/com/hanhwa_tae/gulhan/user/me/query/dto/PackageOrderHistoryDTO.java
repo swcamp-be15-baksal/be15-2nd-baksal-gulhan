@@ -9,13 +9,13 @@ public class PackageOrderHistoryDTO {
 
     private int orderId;
     private LocalDateTime orderedAt;
-    private int totalPrice;
-    private int totalAmount;
-    private String isConfirmed;
-    private LocalDateTime arrivalDate;
+    private int quantity;
     private String title;
+    private String detail;
+    private int price;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String guideName;
+    private String isConfirmed;
 
 }

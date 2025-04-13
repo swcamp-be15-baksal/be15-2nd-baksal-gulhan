@@ -4,18 +4,19 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanhwa_tae.gulhan.user.me.query.mapper.MyPageMapper">
 
+    <!-- 패키지 구매 내역 조회 -->
     <select id="findPackageOrderHistoryByUserNo" resultType="com.hanhwa_tae.gulhan.user.me.query.dto.PackageOrderHistoryDTO">
         SELECT
             o.order_id,
             o.ordered_at,
-            o.total_price,
-            o.total_amount,
-            oh.is_confirmed,
-            oh.arrival_date,
+            oh.quantity,
             p.title,
+            p.detail,
+            p.price,
             p.start_date,
             p.end_date,
-            p.guide_name
+            p.guide_name,
+            oh.is_confirmed
         FROM order_history oh
         JOIN `order` o ON o.order_id = oh.order_id
         JOIN package p ON oh.target_type = 'PACKAGE' AND oh.target_id = p.package_id
@@ -23,19 +24,21 @@
         ORDER BY o.ordered_at DESC;
     </select>
 
+    <!-- 기념품 구매 내역 조회 -->
     <select id="findGoodsOrderHistoryByUserNo" resultType="com.hanhwa_tae.gulhan.user.me.query.dto.GoodsOrderHistoryDTO">
         SELECT
             o.order_id,
             o.ordered_at,
-            o.total_price,
-            o.total_amount,
+            oh.quantity,
+            g.title,
+            g.detail,
+            g.price,
             o.shipping_no,
             o.address,
             o.receiver,
             o.receiver_phone,
-            oh.is_confirmed,
-            g.title,
-            g.detail
+            oh.arrivalDate,
+            oh.is_confirmed
         FROM `order` o
         JOIN order_history oh ON o.order_id = oh.order_id
         JOIN goods g ON oh.target_type = 'GOODS' AND oh.target_id = g.goods_id
@@ -43,19 +46,12 @@
         ORDER BY o.ordered_at DESC;
     </select>
 
-    <!--
-     주문이 발생함 -> 주문 ID (order: order_id) 생성 ->
-     order_history 에 insert ->
-     order_id=order_id, quantity=total_amount,
-     arrival_date=is_confirmed 가 N에서 Y로 바뀐 날 (Datetime) ->
-     is_confirm 는 사용자가 구매확정 버튼을 누르면 N에서 Y가 됨 ->
-     target_type='PACKAGE' or 'GOODS',
-     target_id=해당 기념품 또는 패키지의 ID
-     -->
-
+    <!-- 회원이 구매 확정을 누르면 is_confirmed : 'N' -> 'Y' -->
     <update id="updateIsConfirmed">
-        UPDATE order_history
-        SET is_confirmed = 'Y',
+        UPDATE
+            order_history
+        SET
+            is_confirmed = 'Y',
             arrival_date = NOW()
         WHERE order_history_id = #{order_history_id}
     </update>
