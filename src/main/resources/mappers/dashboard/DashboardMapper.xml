@@ -19,7 +19,7 @@
         LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="countPackage" resultType="int">
+    <select id="countPackage" resultType="long">
         SELECT
             COUNT(DISTINCT target_id)
          FROM order_history
@@ -41,7 +41,7 @@
         LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="countGoods" resultType="int">
+    <select id="countGoods" resultType="long">
         SELECT
             COUNT(DISTINCT target_id)
          FROM order_history
@@ -77,7 +77,7 @@
         LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="countMonthly" resultType="int">
+    <select id="countMonthly" resultType="long">
         SELECT
             COUNT(DISTINCT DATE_FORMAT(b.ordered_at, '%Y-%m'))
          FROM order_history a
@@ -116,7 +116,7 @@
         LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="countDaily" resultType="int">
+    <select id="countDaily" resultType="long">
         SELECT
             COUNT(DISTINCT DATE_FORMAT(b.ordered_at, '%Y-%m-%d'))
          FROM order_history a
@@ -137,14 +137,14 @@
             , a.receiver_phone
             , a.order_code
             , a.user_no
-            , b.user_name
+            , b.username
          FROM `order` a
          JOIN `user` b ON (a.user_no = b.user_no)
         WHERE shipping_no IS NULL
         LIMIT #{ limit } OFFSET #{ offset };
     </select>
 
-    <select id="countOrders" resultType="int">
+    <select id="countOrders" resultType="long">
         SELECT
             COUNT(*)
          FROM `order`

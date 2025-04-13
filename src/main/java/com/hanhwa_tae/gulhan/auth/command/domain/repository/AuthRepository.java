@@ -5,11 +5,12 @@ import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.RefreshToken;
 import java.util.Optional;
 
 public interface AuthRepository {
-    void deleteById(String token);
+    void deleteById(String userId);
 
     boolean existsById(String userId);
 
     RefreshToken save(RefreshToken refreshTokenEntity);
 
     Optional<RefreshToken> findById(String userId);
+
 }

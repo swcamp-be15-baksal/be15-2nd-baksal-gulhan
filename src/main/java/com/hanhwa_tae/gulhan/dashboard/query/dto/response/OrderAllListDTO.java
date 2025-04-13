@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class OrderAllListDTO {
 
-    private int orderId;
+    private String orderId;  //int
 
     private String orderedAt;
 
