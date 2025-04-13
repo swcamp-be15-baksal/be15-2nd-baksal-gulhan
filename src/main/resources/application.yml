@@ -70,3 +70,8 @@ jwt:
 payment:
   toss:
     test_client_api_key:
+
+springdoc:
+  packages-to-scan: com.hanhwa_tae.gulhan
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8

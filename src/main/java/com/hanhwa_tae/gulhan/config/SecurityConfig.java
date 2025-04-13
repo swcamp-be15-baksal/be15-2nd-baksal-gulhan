@@ -1,7 +1,11 @@
 package com.hanhwa_tae.gulhan.config;
 
 import com.hanhwa_tae.gulhan.auth.command.application.service.CustomUserDetailService;
-import com.hanhwa_tae.gulhan.utils.jwt.*;
+import com.hanhwa_tae.gulhan.utils.jwt.CustomAccessDeniedHandler;
+import com.hanhwa_tae.gulhan.utils.jwt.CustomAuthenticationEntryPoint;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtAuthenticationFilter;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtErrorResponse;
+import com.hanhwa_tae.gulhan.utils.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +51,8 @@ public class SecurityConfig {
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
                                 auth
+                                        /* swagger */
+                                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                         /* 관리자 권한*/
                                         .requestMatchers(HttpMethod.GET,
                                                 "/api/v1/admin/**"
@@ -112,11 +118,11 @@ public class SecurityConfig {
 
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+            return http.build();
+        }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
         return new JwtAuthenticationFilter(jwtTokenProvider, userDetailsService, jwtErrorResponse);
     }
 }

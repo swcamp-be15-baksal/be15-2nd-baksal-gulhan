@@ -5,6 +5,8 @@ import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentInsertRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.dto.request.CommentUpdateRequest;
 import com.hanhwa_tae.gulhan.travelmatepost.command.application.service.CommentCmdService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "댓글")
 @RestController
 @RequestMapping("/api/v1/comment")
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class CommentCmdController {
     private final CommentCmdService commentCmdService;
 
     /* 댓글 등록 */
+    @Operation(summary = "댓글 등록", description = "해당 동행글에 댓글을 등록한다.")
     @PostMapping("/{travelMatePostId}")
     public ResponseEntity<ApiResponse<Void>> insertComment(
             @AuthenticationPrincipal CustomUserDetail customUserDetail,
@@ -36,6 +40,7 @@ public class CommentCmdController {
     }
 
     /* 댓글 수정 */
+    @Operation(summary = "댓글 수정", description = "해당 동행글에 본인에 댓글을 수정한다.")
     @PutMapping("/{commentId}")
     public ResponseEntity<ApiResponse<Void>> updateComment(
             @AuthenticationPrincipal CustomUserDetail customUserDetail,
@@ -47,6 +52,7 @@ public class CommentCmdController {
     }
 
     /* 댓글 삭제 */
+    @Operation(summary = "댓글 삭제", description = "본인에 댓글을 삭제한다.")
     @DeleteMapping("/{commentId}")
     public ResponseEntity<ApiResponse<Void>> deleteComment(
             @AuthenticationPrincipal CustomUserDetail customUserDetail,
