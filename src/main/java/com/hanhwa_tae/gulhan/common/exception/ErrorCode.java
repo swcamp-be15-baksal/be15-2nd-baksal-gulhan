@@ -19,7 +19,7 @@ public enum ErrorCode {
     PASSWORD_CONFIRM_FAILED("10008", "비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     USER_ALREADY_DELETED("10009", "이미 탈퇴 처리된 회원 입니다.", HttpStatus.BAD_REQUEST),
     ALREADY_ADDITIONAL_INFO_EXISTS("10010", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
-
+    TOKEN_EXPIRED("10011", "토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST),
     // 카카오 인증
     KAKAO_AUTH_FAILED("20001", "카카오 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
     KAKAO_TOKEN_INVALID("20002", "카카오 토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),
@@ -41,6 +41,14 @@ public enum ErrorCode {
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
+
+    //동행글
+    COMMENT_NOT_OWNED("30001","본인이 작성한 댓글이 아닙니다.", HttpStatus.BAD_REQUEST),
+    COMMENT_NOT_FOUND("30002","댓글 정보를 찾을 수 없습니다.",HttpStatus.NOT_FOUND),
+    POST_NOT_FOUND("30003","해당 번호에 게시글은 없습니다.",HttpStatus.NOT_FOUND),
+    POST_NOT_OWNED("30004","본인이 작성한 게시글이 아닙니다.", HttpStatus.BAD_REQUEST),
+
+
     // 회원-마이페이지 조회 관련 오류
     ORDER_HISTORY_NOT_FOUND("30001", "구매 내역이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     //공지사항
@@ -53,6 +61,8 @@ public enum ErrorCode {
     UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
     SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST);
+
+
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;
