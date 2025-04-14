@@ -9,9 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = WithCustomMockAdminFactory.class)
 public @interface WithCustomMockAdmin {
-    String userId() default "user02";
+    String userId() default "user01";
 
-    long userNo() default 2;
+    long userNo() default 1;
 
     String rank() default "SLAVE";
 }
