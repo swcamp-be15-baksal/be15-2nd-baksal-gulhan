@@ -51,10 +51,12 @@ public class SuccessPaymentController {
         );
 
     }
+
     /*구매한 품목 만큼 수량 감소*/
     @PutMapping
     public void updateCountByProductId(@AuthenticationPrincipal CustomUserDetail userDetail){
         /*장바구니 내용을 바탕으로 패키지, 기념품 감소 시키기*/
+
 
 
     }

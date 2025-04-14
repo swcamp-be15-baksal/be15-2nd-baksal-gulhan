@@ -6,7 +6,8 @@
     <select id="findOrderByUserNo" resultType="com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Order">
 
         SELECT
-        order_id
+        order_id,
+        order_code
         from `order`
         where user_no = #{ user_no }
         order by ordered_at DESC

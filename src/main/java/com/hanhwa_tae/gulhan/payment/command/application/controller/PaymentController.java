@@ -1,21 +1,24 @@
 package com.hanhwa_tae.gulhan.payment.command.application.controller;
 
+import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.cart.command.application.service.OrderCommandService;
 import com.hanhwa_tae.gulhan.config.TossPaymentConfig;
+import com.hanhwa_tae.gulhan.payment.command.application.dto.request.CancelRequestDto;
 import com.hanhwa_tae.gulhan.payment.command.application.service.PaymentService;
-import jakarta.servlet.http.HttpServletRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -26,14 +29,14 @@ public class PaymentController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final PaymentService paymentService;
-//    private final Map<String, String> billingKeyMap = new HashMap<>();
+    private final OrderCommandService orderCommandService;
     private final TossPaymentConfig tossPaymentConfig;
     @PostMapping(value = {"/confirm/widget"})
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
         boolean is_paid = paymentService.validatePayment((String)parseRequestData(jsonBody).get("orderId"),
                 Integer.parseInt((String) parseRequestData(jsonBody).get("amount")));
-        String secretKey = tossPaymentConfig.getTestSecretApiKey();
-        JSONObject response = sendRequest(parseRequestData(jsonBody), secretKey, "https://api.tosspayments.com/v1/payments/confirm");
+
+        JSONObject response = sendRequest(parseRequestData(jsonBody), tossPaymentConfig.getTestSecretApiKey(), TossPaymentConfig.URL + "/confirm");
         if(!is_paid) {
             response.put("payerror","잘못된 결제요청입니다.");
         }
@@ -44,6 +47,20 @@ public class PaymentController {
         return ResponseEntity.status(statusCode).body(response);
     }
 
+    @PostMapping(value = {"/cancel"})
+    public ResponseEntity<JSONObject> cancelPayment(@AuthenticationPrincipal CustomUserDetail userDetail, @RequestBody CancelRequestDto cancelRequestDto){
+        String paymentKey = orderCommandService.searchPaymentKeyByUserNo(userDetail.getUserNo()).getOrderCode();
+        String secretKey = tossPaymentConfig.getTestSecretApiKey();
+        String cancelReasonContent = "{ \"cancelReason\": \"" + cancelRequestDto.getCancelReason() + "\" }";
+        JSONObject response = sendRequest(parseRequestData(cancelReasonContent),
+                secretKey, TossPaymentConfig.URL + "/" + paymentKey + "/cancel");
+
+        int statusCode = (response.containsKey("error"))
+                ?400
+                :200;
+
+        return ResponseEntity.status(statusCode).body(response);
+    }
 
 
     private JSONObject parseRequestData(String jsonBody) {
@@ -55,32 +72,30 @@ public class PaymentController {
         }
     }
 
-    private JSONObject sendRequest(JSONObject requestData, String secretKey, String urlString) throws IOException {
+    private JSONObject sendRequest(JSONObject requestData, String secretKey, String urlString){
+        RestTemplate restTemplate = new RestTemplate();
 
-        HttpURLConnection connection = createConnection(secretKey, urlString);
-        try (OutputStream os = connection.getOutputStream()) {
-            os.write(requestData.toString().getBytes(StandardCharsets.UTF_8));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        String encodeString = Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
+        httpHeaders.set("Authorization", "Basic " + encodeString);
+
+        // 요청 엔티티 생성
+        HttpEntity<String> entity = new HttpEntity<>(requestData.toJSONString(), httpHeaders);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    urlString,
+                    HttpMethod.POST,
+                    entity,
+                    String.class
+            );
+            return parseRequestData(response.getBody());
+    }catch(Exception e) {
+            JSONObject error = new JSONObject();
+            error.put("error", "Error sending request or parsing response");
+            return error;
         }
-
-        try (InputStream responseStream = connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream();
-             Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8)) {
-            return (JSONObject) new JSONParser().parse(reader);
-        } catch (Exception e) {
-            logger.error("Error reading response", e);
-            JSONObject errorResponse = new JSONObject();
-            errorResponse.put("error", "Error reading response");
-            return errorResponse;
-        }
-    }
-
-    private HttpURLConnection createConnection(String secretKey, String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("Authorization", "Basic " + Base64.getEncoder().encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8)));
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestMethod("POST");
-        connection.setDoOutput(true);
-        return connection;
     }
 
     @GetMapping()

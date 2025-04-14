@@ -79,4 +79,12 @@ public class OrderCommandService {
 
 
     }
+
+    public Order searchPaymentKeyByUserNo(Long userNo) {
+        Order paymentKey = paymentMapper.findOrderByUserNo(userNo).
+                orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        return paymentKey;
+    }
+
 }

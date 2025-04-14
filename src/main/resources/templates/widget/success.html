@@ -20,7 +20,7 @@
   </div>
   <div class="p-grid typography--p" style="margin-top: 10px">
     <div class="p-grid-col text--left"><b>주문번호</b></div>
-    <div class="p-grid-col text--right" id="orderId"></div>
+    <div class="p-grid-col text--right" id="orderId`"></div>
   </div>
   <div class="p-grid typography--p" style="margin-top: 10px">
     <div class="p-grid-col text--left"><b>paymentKey</b></div>
@@ -71,7 +71,7 @@
   confirm()
     .then(function (data) {
       // TODO: 결제 승인에 성공했을 경우 UI 처리 로직을 구현하세요. -> 프론트 영역
-      document.getElementById("response").innerHTML = `<pre>${JSON.stringify(data, null, 4)}</pre>`;
+      document.getElementById("response").textContent = JSON.stringify(data, null, 4);
     })
     .catch((err) => {
       // TODO: 결제 승인에 실패했을 경우 UI 처리 로직을 구현하세요. -> 프론트 영역
@@ -89,26 +89,76 @@
 
 </script>
 <script>
-  const requestdata = {
-    orderCode : urlParams.get("paymentKey"),
-    totalPrice : urlParams.get("amount"),
-    orderId: urlParams.get("orderId")
-  }
-  fetch("/api/v1/payment/success/order",{
-    method: "POST",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestdata)
-  })
 
-  fetch("/api/v1/payment/success/order-history",{
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${token}`,
-    }
-  })
+  async function sendPaymentData() {
+    const requestdata = {
+      orderCode : urlParams.get("paymentKey"),
+      totalPrice : urlParams.get("amount"),
+      orderId: urlParams.get("orderId")
+    };
+
+    await fetch("/api/v1/payment/success/order", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestdata),
+    });
+
+    await fetch("/api/v1/payment/success/order-history", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+  }
+
+  sendPaymentData();
+</script>
+
+<script>
+  // 결제 성공 후 '결제 취소' 버튼을 추가하는 함수
+  async function onPaymentSuccess() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'button-container'; // 버튼을 담을 div 생성
+
+    // 결제 취소 버튼 생성
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = '결제 취소';
+    cancelButton.id = 'cancelButton';
+
+    // 버튼 클릭 시 취소 요청 함수 호출
+    cancelButton.addEventListener('click', cancelPayment);
+
+    // 버튼을 버튼 컨테이너에 추가
+    buttonContainer.appendChild(cancelButton);
+
+    // 페이지 맨 하단에 버튼을 추가
+    document.body.appendChild(buttonContainer);
+  }
+
+  // 결제 취소 요청 함수
+  async function cancelPayment() {
+    const cancelRequestData = {
+      cancelReason: '사용자 요청으로 취소',  // 취소 사유 (예시로 넣은 값)
+    };
+
+
+    const response = await fetch("/api/v1/payment/cancel", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cancelRequestData),
+    });
+
+
+  }
+
+  // 결제 성공 시 호출되는 함수
+  onPaymentSuccess(); // 페이지 로딩 후 결제 성공 시 버튼을 생성
 </script>
 </body>
 </html>
