@@ -1,8 +1,7 @@
 package com.hanhwa_tae.secondserver.dashboard.command.application.service;
 
-import com.hanhwa_tae.secondserver.cart.command.domain.aggregate.Order;
 import com.hanhwa_tae.secondserver.dashboard.command.application.dto.request.OrderUpdateRequest;
-import com.hanhwa_tae.secondserver.dashboard.command.domain.repository.JpaOrderRepository;
+import com.hanhwa_tae.secondserver.dashboard.query.mapper.DashboardOrderMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,20 +10,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DashboardCommandService {
 
-    private final JpaOrderRepository jpaOrderRepository;
+    private final DashboardOrderMapper dashboardOrderMapper;
 
     /* 운송장 번호, 주문코드, 받는사람 정보 수정 */
     @Transactional
     public void updateOrder(Long orderId, OrderUpdateRequest orderUpdateRequest) {
 
-        Order order =  jpaOrderRepository.findById(orderId)
-                .orElseThrow( () -> new RuntimeException("주문 정보 없음"));
-
-        order.update(
-                  orderUpdateRequest.getAddress()
-                , orderUpdateRequest.getReceiver()
-                , orderUpdateRequest.getReceiverPhone()
-                , orderUpdateRequest.getShippingNo()
-        );
+        dashboardOrderMapper.updateOrder(orderId, orderUpdateRequest);
     }
 }

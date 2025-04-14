@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "대시보드")
@@ -22,7 +21,7 @@ public class DashboardCommandController {
     @PutMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> updateOrder(
             @PathVariable Long orderId,
-            @RequestBody @Validated OrderUpdateRequest orderUpdateRequest
+            @RequestBody OrderUpdateRequest orderUpdateRequest
             ) {
 
         dashboardCommandService.updateOrder(orderId, orderUpdateRequest);
