@@ -4,11 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2fe5863-b19d-4241-8a46-a0385985c535" name="Changes" comment="fix: 서버 안올라가는 오류 수정" />
+    <list default="true" id="c2fe5863-b19d-4241-8a46-a0385985c535" name="Changes" comment="fix: first-server 오류 해결">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/second-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/second-server/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,22 +52,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;settings/msa&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/toki1/OneDrive/Desktop/2nd-project/gulhan/config-server&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "settings/msa",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/toki1/OneDrive/Desktop/2nd-project/gulhan",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -69,6 +86,7 @@
       <updated>1744593977928</updated>
       <workItem from="1744593980630" duration="704000" />
       <workItem from="1744594744583" duration="724000" />
+      <workItem from="1744595805928" duration="1474000" />
     </task>
     <task id="LOCAL-00001" summary="docs: gitignore 수정">
       <option name="closed" value="true" />
@@ -94,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1744594828047</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fix: first-server 오류 해결">
+      <option name="closed" value="true" />
+      <created>1744596066404</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1744596066404</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,6 +141,7 @@
     <MESSAGE value="docs: gitignore 수정" />
     <MESSAGE value="fix: 서버 안올라가는 오류 수정중.." />
     <MESSAGE value="fix: 서버 안올라가는 오류 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: 서버 안올라가는 오류 수정" />
+    <MESSAGE value="fix: first-server 오류 해결" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: first-server 오류 해결" />
   </component>
 </project>
