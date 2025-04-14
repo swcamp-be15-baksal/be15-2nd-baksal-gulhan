@@ -99,7 +99,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. 일치하는 uuid가 redis에 존재하는지 확인
 //        String userData = redisTemplate.opsForValue().get(uuid);
         RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new RuntimeException("이메일 인증 시간이 만료되었습니다.")
+                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
         );
 
         // 2. redis 데이터 지워주기
@@ -242,6 +242,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         );
 
         String userId = redisUserId.getUserId();
+        redisUserIdRepository.delete(redisUserId);
 
         int maskingStartIdx = (int) Math.ceil(userId.length() * 0.3);
 
