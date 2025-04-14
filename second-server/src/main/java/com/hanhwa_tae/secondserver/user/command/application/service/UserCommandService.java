@@ -22,4 +22,10 @@ public interface UserCommandService {
     void findUserPassword(@Valid UserFindPasswordRequest request) throws MessagingException;
 
     void withdrawUser(CustomUserDetail userDetail);
+
+    void registerDeliveryAddress(String id, DeliveryAddressRequest request);
+
+    void updateDeliveryAddress(String id, DeliveryAddressRequest request);
+
+    void deleteDeliveryAddress(String id);
 }
