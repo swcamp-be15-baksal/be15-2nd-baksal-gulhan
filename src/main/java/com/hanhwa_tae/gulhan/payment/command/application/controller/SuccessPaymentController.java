@@ -3,12 +3,10 @@ package com.hanhwa_tae.gulhan.payment.command.application.controller;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.gulhan.cart.command.application.service.OrderCommandService;
-import com.hanhwa_tae.gulhan.cart.command.domain.aggregate.Cart;
 import com.hanhwa_tae.gulhan.cart.query.dto.response.CartResponse;
 import com.hanhwa_tae.gulhan.cart.query.mapper.CartMapper;
 import com.hanhwa_tae.gulhan.common.dto.ApiResponse;
 import com.hanhwa_tae.gulhan.payment.command.application.dto.request.CreateOrderRequest;
-import com.hanhwa_tae.gulhan.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.gulhan.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -56,6 +54,7 @@ public class SuccessPaymentController {
     @PutMapping
     public void updateCountByProductId(@AuthenticationPrincipal CustomUserDetail userDetail){
         /*장바구니 내용을 바탕으로 패키지, 기념품 감소 시키기*/
+
 
 
 

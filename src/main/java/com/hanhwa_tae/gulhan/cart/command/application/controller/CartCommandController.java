@@ -30,14 +30,20 @@ public class CartCommandController {
             @AuthenticationPrincipal CustomUserDetail customUserDetail){
 
         String id = customUserDetail.getUserId();
-        int cartId = cartCommandService.registerCart(id,createCartRequest);
+        String message = cartCommandService.registerCart(id,createCartRequest);
         CreateCartResponse response = CreateCartResponse.
                 builder().
-                cartId(cartId).
+                message(message).
                 build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).
-                body(ApiResponse.success(response));
+        if(message.contains("수정")){
+            return ResponseEntity.status(HttpStatus.OK).
+                    body(ApiResponse.success(response));
+        }else{
+            return ResponseEntity.status(HttpStatus.CREATED).
+                    body(ApiResponse.success(response));
+        }
+
     }
 
     // 장바구니 수량 수정

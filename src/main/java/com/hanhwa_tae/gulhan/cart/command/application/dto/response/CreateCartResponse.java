@@ -7,5 +7,5 @@ import lombok.Getter;
 @Builder
 @Getter
 public class CreateCartResponse {
-    private int cartId;
+    private String message;
 }
