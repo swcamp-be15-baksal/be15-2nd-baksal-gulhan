@@ -72,7 +72,7 @@ class UserCommandControllerTest {
                 .address("경기도 수원시")
                 .build();
 
-        mockMvc.perform(put("/api/v1/users/info/update")
+        mockMvc.perform(put("/users/info/update")
 //                        .with(SecurityMockMvcRequestPostProcessors())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
