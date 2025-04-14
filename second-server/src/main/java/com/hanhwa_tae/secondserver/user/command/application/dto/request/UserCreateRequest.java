@@ -8,12 +8,14 @@ import com.hanhwa_tae.secondserver.user.command.domain.aggregate.GenderType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserCreateRequest {
     @NotBlank
     private String userId;

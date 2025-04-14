@@ -25,26 +25,23 @@ public class UserCommandController {
 
     @Operation(summary = "회원 가입", description = "회원 가입을 위한 정보를 입력하고 이메일 인증을 요청한다. ")
     @PostMapping("/register")
-    public ResponseEntity<Void> register(
+    public ResponseEntity<ApiResponse<Void>> register(
             @RequestBody @Valid UserCreateRequest request
     ) throws MessagingException {
         userCommandService.registerUser(request);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(null);
-//                .body(ApiResponse.success(null));
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     // 이메일 인증
     /* 사용자가 전송한 내용을 검증해야 함*/
     @Operation(summary = "이메일 인증", description = "이메일 인증을 통해 회원 가입을 완료한다.")
     @GetMapping("/verify-email")
-    public ResponseEntity<Void> verifyEmail(
+    public ResponseEntity<ApiResponse<Void>> verifyEmail(
             @RequestParam(required = true) String uuid
     ){
         userCommandService.verifyByEmail(uuid);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @Operation(summary = "회원 정보 변경", description = "회원 정보를 수정한다.")
@@ -77,7 +74,7 @@ public class UserCommandController {
         userCommandService.findUserId(request);
 
         /* 이메일 인증 요청 */
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @Operation(summary = "아이디 찾기", description = "이메일 인증을 통해 마스킹된 아이디를 확인한다.")

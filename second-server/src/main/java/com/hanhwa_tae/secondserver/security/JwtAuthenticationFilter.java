@@ -1,7 +1,7 @@
 package com.hanhwa_tae.secondserver.security;
 
 
-import com.hanhwa_tae.secondserver.security.model.CustomUserDetail;
+import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.model.CustomUserDetail;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
