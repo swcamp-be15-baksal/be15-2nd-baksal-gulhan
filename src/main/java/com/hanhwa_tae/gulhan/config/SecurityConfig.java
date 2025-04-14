@@ -92,7 +92,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST,
                                                 "/api/v1/admin/**"
                                                 , "/api/v1/review"
-                                                , "/api/v1/oauth/kakao/**"
+//                                                , "/api/v1/oauth/kakao/**"
                                                 , "/api/v1/like/toggle"
                                                 , "/api/v1/comment"
                                                 , "/api/v1/board"
@@ -114,6 +114,7 @@ public class SecurityConfig {
                                                 , "/api/v1/comment"
                                                 , "/api/v1/board/list/**"
                                         ).authenticated()
+                                        .requestMatchers("/api/v1/oauth/kakao/**").permitAll()
                                         .anyRequest().permitAll()   // 테스트 땜에 열어
 
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

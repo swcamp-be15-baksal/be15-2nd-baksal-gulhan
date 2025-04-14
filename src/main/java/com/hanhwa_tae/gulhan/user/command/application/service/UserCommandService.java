@@ -1,9 +1,11 @@
 package com.hanhwa_tae.gulhan.user.command.application.service;
 
 import com.hanhwa_tae.gulhan.auth.command.domain.aggregate.model.CustomUserDetail;
+import com.hanhwa_tae.gulhan.user.command.application.dto.request.DeliveryAddressRequest;
 import com.hanhwa_tae.gulhan.user.command.application.dto.request.*;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface UserCommandService {
 
@@ -22,4 +24,12 @@ public interface UserCommandService {
     void findUserPassword(@Valid UserFindPasswordRequest request) throws MessagingException;
 
     void withdrawUser(CustomUserDetail userDetail);
+
+    void registerDeliveryAddress(String id, DeliveryAddressRequest request);
+
+    @Transactional
+    void updateDeliveryAddress(String id, DeliveryAddressRequest request);
+
+    @Transactional
+    void deleteDeliveryAddress(String id);
 }
