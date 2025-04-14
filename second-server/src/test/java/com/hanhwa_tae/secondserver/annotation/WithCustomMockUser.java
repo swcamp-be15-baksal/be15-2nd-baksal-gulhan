@@ -12,9 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 @WithSecurityContext(factory = WithCustomMockUserFactory.class)
 public @interface WithCustomMockUser {
 
-    String userId() default "user01";
+    String userId() default "user02";
 
-    long userNo() default 12;
+    long userNo() default 2;
 
     String rank() default "COMMONER";
 }
