@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanhwa_tae.firstserver.place.query.mapper.PlaceMapper">
+    <select id="selectPlaceById" resultType="com.hanhwa_tae.firstserver.place.query.dto.response.PlaceDto">
+        SELECT
+        a.place_id,
+        a.title,
+        a.detail,
+        a.image,
+        a.address,
+        a.location,
+        a.rest_date,
+        a.category,
+        b.area_name
+        FROM place a
+        JOIN area b ON (a.area_id = b.area_id)
+        WHERE place_id = #{placeId}
+    </select>
+    <select id="selectPlaces" resultType="com.hanhwa_tae.firstserver.place.query.dto.response.PlacesDto">
+        SELECT
+        a.place_id,
+        a.title,
+        a.image,
+        b.area_name
+        FROM place a
+        JOIN area b ON (a.area_id = b.area_id)
+        <where>
+            <if test="parentAreaId != null">
+                AND b.parent_area_id = #{parentAreaId}
+            </if>
+            <if test="areaId != null">
+                AND b.area_id = #{areaId}
+            </if>
+            <if test="category != null">
+                AND a.category = #{category}
+            </if>
+            <if test="title != null">
+                AND a.title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+        </where>
+        ORDER BY a.title
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countPlaces" resultType="long">
+        SELECT COUNT(*)
+        FROM place a
+        JOIN area b ON (a.area_id = b.area_id)
+        <where>
+            <if test="parentAreaId != null">
+                AND b.parent_area_id = #{parentAreaId}
+            </if>
+            <if test="areaId != null">
+                AND b.area_id = #{areaId}
+            </if>
+            <if test="category != null">
+                AND a.category = #{category}
+            </if>
+            <if test="title != null">
+                AND a.title LIKE CONCAT('%', #{ title }, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

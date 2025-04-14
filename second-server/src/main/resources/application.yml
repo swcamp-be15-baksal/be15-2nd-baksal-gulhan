@@ -1,0 +1,24 @@
+server:
+  port: 0
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: second-server
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:http://localhost:8888
+
+springdoc:
+  packages-to-scan: com.hanhwa_tae.secondserver
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8

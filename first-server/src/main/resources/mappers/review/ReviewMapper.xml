@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--<mapper namespace="com.hanhwa_tae.firstserver.review.query.mapper.ReviewMapper">-->
+<mapper namespace="com.hanhwa_tae.firstserver.review.query.mapper.ReviewMapper">
+
+    <!-- 리뷰 조회 -->
+    <select id="selectReview" resultType="com.hanhwa_tae.firstserver.review.query.dto.response.ReviewDTO">
+        SELECT
+            r.review_id,
+            r.detail,
+            r.created_at,
+            r.updated_at,
+            r.rating,
+            r.user_no
+        FROM  review r
+        WHERE r.is_deleted = 'N'
+            AND r.target_id = #{targetId}
+            AND r.target_type = #{targetType}
+        ORDER BY r.updated_at DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <!-- 리뷰 목록 개수 조회 -->
+    <select id="countReview" resultType="long">
+        SELECT COUNT(*)
+        FROM review r
+        WHERE r.is_deleted = 'N'
+          AND r.target_id = #{targetId}
+          AND r.target_type = #{targetType}
+    </select>
+
+
+</mapper>
