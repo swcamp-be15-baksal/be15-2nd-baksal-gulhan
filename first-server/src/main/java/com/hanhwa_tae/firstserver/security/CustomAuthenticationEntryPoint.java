@@ -1,6 +1,6 @@
 package com.hanhwa_tae.firstserver.security;
 
-import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.firstserver.common.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
