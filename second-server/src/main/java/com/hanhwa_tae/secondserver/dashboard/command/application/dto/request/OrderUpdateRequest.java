@@ -1,12 +1,12 @@
 package com.hanhwa_tae.secondserver.dashboard.command.application.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class OrderUpdateRequest {
 
-    @NotBlank(message = "운송장 번호입력해주세요.")
     private String shippingNo;
 
     private String address;

@@ -150,4 +150,5 @@
          FROM `order`
         WHERE shipping_no IS NULL;
     </select>
+
 </mapper>
