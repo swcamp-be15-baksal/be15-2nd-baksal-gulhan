@@ -163,14 +163,14 @@
 
 
 ##  <p id="4"> 🗃️ 4. API 명세서 </p>
-Swagger 넣어야지
 <details>
-<summary>미리보기(아직 안 넣음)</summary>
+<summary>미리보기</summary>
 <div >
-  <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
+  <img src="https://github.com/user-attachments/assets/15dc1101-6471-45cd-b839-598d7ab947bb"/>  
 </div>
 </details>
 <br><br>
+
 
 
 ## <p id="5"> 🤖 5. 배포 및 운영 </p>
