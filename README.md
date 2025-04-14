@@ -1,4 +1,3 @@
-# 계속 수정 예정 렉 걸려서 한번 올려요
 <br>
 
 ![걸한 1800X300 (1)](https://github.com/user-attachments/assets/3df0757b-d859-4703-8145-2814e6a24228)
@@ -91,10 +90,10 @@
 
 > #### 서비스 대상
 
-- 전시·체험을 즐기는  **20~50대 내·외국인 개별 여행객**
-- 자녀와 함께 문화체험을 원하는 **가족 단위** 사용자
-- **학교 및 단체** 프로그램 참여자
-- 한국의 전통문화에 관심 있는 **외국인 관광객**
+🧍전시·체험을 즐기는  **20~50대 내·외국인 개별 여행객** <br>
+👨‍👩‍👧‍👦 자녀와 함께 문화체험을 원하는 **가족 단위** 사용자 <br>
+🧑‍🎓 **학교 및 단체** 프로그램 참여자 <br>
+🧑‍🚀 한국의 전통문화에 관심 있는 **외국인 관광객** 
 
 <br>
 
@@ -120,13 +119,14 @@
 |기념품|기념품 목록 및 상세 조회<br>조건별(종류) 필터링<br>장바구니 및 결제<br>적립금 사용<br>구매내역 및 배송 조회<br>리뷰 작성·수정·삭제|
 |마이페이지|관심 장소/기념품/패키지 관리<br>회원 등급 조회<br>내가 쓴 동행글/댓글 조회<br>구매내역 조회 및 결제 취소<br>리뷰 관리<br>동행 모집글/댓글 확인|
 |관리자 기능|대시보드(판매량·판매수익 조회)<br>기념품/패키지 등록·수정·삭제<br>운송장 정보 관리<br>공지사항 등록·수정·삭제<br>리뷰 관리<br>사용자 적립금 관리|
+
 <br><br>
 
 
 ### <p id="1-3">1-3. WBS(Work Breakdown Structure)</p>
 [![WBS](https://img.shields.io/badge/WBS-바로가기-red?style=for-the-badge)]([https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=0#gid=0])
 <details>
-<summary>미리보기</summary>
+<summary>미리보기(아직 안 넣음)</summary>
 <div>
   <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
 </div>
@@ -138,19 +138,15 @@
 <details>
 <summary>미리보기</summary>
 <div >
-  <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
+  <img src="https://github.com/user-attachments/assets/b7180424-3518-4f3d-a5de-14128a3cc9e2"/>  
 </div>
 </details>
 <br><br>
 
+
 ##  <p id="2"> 📜 2. DDD 설계</p>
 [![DDD](https://img.shields.io/badge/DDD-바로가기-blue?style=for-the-badge)]([https://miro.com/app/board/uXjVINvacm4=/])
-<details>
-<summary>미리보기</summary>
-<div >
-  <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
-</div>
-</details>
+
 <br><br>
 
 
@@ -159,18 +155,17 @@
 <details>
 <summary>미리보기</summary>
 <div >
-  <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
+  <img src="https://github.com/user-attachments/assets/3c8cac48-f8ef-4aca-9d08-62d6a3772a8e"/>  
 </div>
 </details>
 <br><br>
 
 
 
-
 ##  <p id="4"> 🗃️ 4. API 명세서 </p>
 Swagger 넣어야지
 <details>
-<summary>미리보기</summary>
+<summary>미리보기(아직 안 넣음)</summary>
 <div >
   <img src="https://github.com/user-attachments/assets/e8bf8bb2-f56b-4f55-a2f8-59b08c67c634"/>  
 </div>
@@ -179,7 +174,7 @@ Swagger 넣어야지
 
 
 ## <p id="5"> 🤖 5. 배포 및 운영 </p>
-MSA 넣어야지
+MSA 
 <br><br>
 
 ## <p id="6"> 🔧 6. 기술 스택 </p>
@@ -204,7 +199,7 @@ MSA 넣어야지
 
 ##  <p id="7"> 🐞 7. 트러블슈팅</p>
 
-### 6-1. 어떤 문제 
+### 7-1. 어떤 문제 
 #### 1️⃣ 에러 발생 코드
 
 ``` 
@@ -224,4 +219,4 @@ MSA 넣어야지
 
 <br>
 
-##  <p id="8"> 🧑‍💻 8. 테스트코드? </p>
+##  <p id="8"> 🧑‍💻 8. 테스트코드 </p>
