@@ -1,10 +1,14 @@
 package com.hanhwa_tae.secondserver.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "rank")
 public class Rank {
 
