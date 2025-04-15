@@ -51,8 +51,6 @@ public enum ErrorCode {
 
     // 회원-마이페이지 조회 관련 오류
     ORDER_HISTORY_NOT_FOUND("30001", "구매 내역이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
-    ADDRESS_NOT_FOUND("30002", "등록된 배송지가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
-
     //공지사항
     NOTICE_NOT_FOUND("40001","존재하지않거나 삭제된 게시글 입니다.", HttpStatus.NOT_FOUND),
     ADMIN_NOT_MATCHING("40002", "해당 사용자는 관리자가 아닙니다.", HttpStatus.UNAUTHORIZED),

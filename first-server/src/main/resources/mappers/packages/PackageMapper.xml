@@ -103,4 +103,10 @@
           AND p.is_deleted = 'N'
     </select>
 
+    <select id="selectPackageNameById" resultType="String">
+        select title
+        from package
+        where package_id = #{packageId}
+    </select>
+
 </mapper>

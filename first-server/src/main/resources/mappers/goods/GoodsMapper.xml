@@ -98,4 +98,11 @@
         WHERE g.goods_id = #{goodsId}
         AND g.is_deleted = 'N'
     </select>
+
+    <select id="selectGoodsNameById" resultType="String">
+        SELECT
+        title
+        FROM goods
+        WHERE goods_id = #{ goods_id }
+    </select>
 </mapper>

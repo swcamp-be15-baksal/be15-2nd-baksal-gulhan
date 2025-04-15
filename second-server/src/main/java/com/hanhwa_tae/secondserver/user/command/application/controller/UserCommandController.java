@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -107,38 +108,6 @@ public class UserCommandController {
     ){
         userCommandService.withdrawUser(userDetail);
 
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @Operation(summary = "배송지 등록", description = "회원은 배송지를 등록할 수 있다.")
-    @PostMapping("/delivery-address/register")
-    public ResponseEntity<ApiResponse<Void>> registerDeliveryAddress(
-            @AuthenticationPrincipal CustomUserDetail userDetail,
-            @RequestBody DeliveryAddressRequest request
-    ) {
-        String userId = userDetail.getUserId();
-        userCommandService.registerDeliveryAddress(userId, request);
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @Operation(summary = "배송지 수정", description = "회원은 등록한 배송지를 수정할 수 있다.")
-    @PutMapping("/delivery-address/update")
-    public ResponseEntity<ApiResponse<Void>> updateDeliveryAddress(
-            @AuthenticationPrincipal CustomUserDetail userDetail,
-            @RequestBody DeliveryAddressRequest request
-    ) {
-        String userId = userDetail.getUserId();
-        userCommandService.updateDeliveryAddress(userId, request);
-        return ResponseEntity.ok(ApiResponse.success(null));
-    }
-
-    @Operation(summary = "배송지 삭제", description = "회원은 등록한 배송지를 삭제할 수 있다.")
-    @PostMapping("/delivery-address/delete")
-    public ResponseEntity<ApiResponse<Void>> deleteDeliveryAddress(
-            @AuthenticationPrincipal CustomUserDetail userDetail
-    ) {
-        String userId = userDetail.getUserId();
-        userCommandService.deleteDeliveryAddress(userId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 

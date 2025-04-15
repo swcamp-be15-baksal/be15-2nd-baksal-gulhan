@@ -1,5 +1,6 @@
 package com.hanhwa_tae.secondserver.dashboard.command.application.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanhwa_tae.secondserver.annotation.WithCustomMockAdmin;
 import com.hanhwa_tae.secondserver.dashboard.command.application.dto.request.OrderUpdateRequest;
@@ -31,10 +32,9 @@ class DashboardCommandControllerTest {
 
     @Test
     @DisplayName("운송장 번호 입력")
-    @WithCustomMockAdmin
+
     void updateOrder() throws Exception {
         //given
-        int orderId = 1;
         OrderUpdateRequest orderUpdateRequest = OrderUpdateRequest.builder()
                 .shippingNo("12345")
                 .address("집주소")
@@ -43,12 +43,18 @@ class DashboardCommandControllerTest {
                 .build();
 
         //when
-        mockMvc.perform(put("/admin/order/{orderId}", orderId)
-//                        .with(SecurityMockMvcRequestPostProcessors())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(orderUpdateRequest)))
+        mockMvc.perform(post("/admin/order/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(orderUpdateRequest)))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk());
+                //then
+                .andExpect(status().isOk())
+                /* https://0soo.tistory.com/190 */
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.errorCode").doesNotExist())
+                .andExpect(jsonPath("$.data").doesNotExist())
+                .andExpect(jsonPath("$.message").doesNotExist())
+                .andExpect(jsonPath("$.timestamp").exists());
     }
 }
