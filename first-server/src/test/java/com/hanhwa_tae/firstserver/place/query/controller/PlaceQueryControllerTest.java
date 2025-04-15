@@ -27,7 +27,7 @@ class PlaceQueryControllerTest {
 
     @Test
     @DisplayName("장소 상세 조회")
-    void testGetParentAreas() throws Exception {
+    void testPlaceDetail() throws Exception {
         AreaSearchRequest areaSearchRequest = AreaSearchRequest.builder()
                 .build();
 
@@ -40,7 +40,7 @@ class PlaceQueryControllerTest {
 
     @Test
     @DisplayName("장소 목록 조회")
-    void testGetAreas() throws Exception {
+    void testSelectPlaces() throws Exception {
 
         mockMvc.perform(get("/place/places?page=1&size=10&category=MUSEUM&areaId=50")
                         .param("page", "1")
