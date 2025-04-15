@@ -49,9 +49,7 @@
 
  <a href="#6">6. 기술 스택 </a>
 
- <a href="#7">7. 테스트코드 </a>
- 
-<a href="#8">8. 트러블슈팅 </a>
+ <a href="#7">7. 팀원 회고 </a>
 
 <br>
 
@@ -134,14 +132,15 @@
 <br><br>
 
 ### <p id="1-4">1-4. 요구사항 명세서</p>
-[![요구사항명세서서](https://img.shields.io/badge/요구사항명세서-바로가기-yellow?style=for-the-badge)]([https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=619006843#gid=619006843])
+[![요구사항명세서](https://img.shields.io/badge/요구사항명세서-바로가기-yellow?style=for-the-badge)]([https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=619006843#gid=619006843])
 <details>
 <summary>미리보기</summary>
 <div >
-  <img src="https://github.com/user-attachments/assets/b7180424-3518-4f3d-a5de-14128a3cc9e2"/>  
+  <img src="https://github.com/user-attachments/assets/751fc07a-cd8d-4dee-9043-257ea60704fd"/>  
 </div>
 </details>
 <br><br>
+
 
 
 ##  <p id="2"> 📜 2. DDD 설계</p>
@@ -174,7 +173,13 @@
 
 
 ## <p id="5"> 🤖 5. 배포 및 운영 </p>
-MSA 
+<details>
+<summary>MSA 서버 구조도</summary>
+<div >
+  <img src="https://github.com/user-attachments/assets/32c6c2ba-73f6-45a8-a782-01ae05303d77"/>  
+</div>
+</details>
+
 <br><br>
 
 ## <p id="6"> 🔧 6. 기술 스택 </p>
@@ -197,26 +202,17 @@ MSA
 
 <br><br>
 
-##  <p id="7"> 🐞 7. 트러블슈팅</p>
+##  <p id="7"> 👨‍👩‍👧‍👦 7. 팀원 회고 </p>
 
-### 7-1. 어떤 문제 
-#### 1️⃣ 에러 발생 코드
+|이름|회고|
+|:--:|:--:|
+|김태환|김태환 회고|
+|윤채영|윤채영 회고|
+|이승재|이승재 회고|
+|조현승|조현승 회고|
+|차명호|차명호 회고|
+|한성경|한성경 회고|
 
-``` 
 
-```
-
-
-#### 3️⃣ 발생 원인 
-``` 
-
-```
-
-#### 4️⃣ 해결 방법 
-``` 
-
-```
 
 <br>
-
-##  <p id="8"> 🧑‍💻 8. 테스트코드 </p>
