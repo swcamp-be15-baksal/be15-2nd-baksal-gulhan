@@ -11,7 +11,6 @@ import com.hanhwa_tae.secondserver.user.command.application.dto.UserInfoCreateDT
 import com.hanhwa_tae.secondserver.user.command.application.dto.request.*;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.*;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserInfoRepository;
-import com.hanhwa_tae.secondserver.user.command.domain.repository.DeliveryAddressRepository;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserIdRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserRepository;
@@ -47,8 +46,6 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RedisUserRepository redisUserRepository;
     private final RandomStringGenerator randomStringGenerator;
     private final RedisUserIdRepository redisUserIdRepository;
-    private final DeliveryAddressRepository deliveryAddressRepository;
-
 
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
@@ -102,7 +99,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. 일치하는 uuid가 redis에 존재하는지 확인
 //        String userData = redisTemplate.opsForValue().get(uuid);
         RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
+                () -> new RuntimeException("이메일 인증 시간이 만료되었습니다.")
         );
 
         // 2. redis 데이터 지워주기
@@ -245,7 +242,6 @@ public class UserCommandServiceImpl implements UserCommandService {
         );
 
         String userId = redisUserId.getUserId();
-        redisUserIdRepository.delete(redisUserId);
 
         int maskingStartIdx = (int) Math.ceil(userId.length() * 0.3);
 
@@ -300,53 +296,4 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         userRepository.save(user);
     }
-
-    @Transactional
-    @Override
-    public void registerDeliveryAddress(String id, DeliveryAddressRequest request) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress adress = DeliveryAddress.builder()
-                .address(request.getAddress())
-                .receiver(request.getReceiver())
-                .receiverPhone(request.getReceiverPhone())
-                .user(user)
-                .build();
-
-        deliveryAddressRepository.save(adress);
-
-        log.info("배송지 등록 완료: 회원 ID={}, 주소={}", id, adress.getAddress());
-    }
-
-    @Transactional
-    @Override
-    public void updateDeliveryAddress(String id, DeliveryAddressRequest request) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
-
-        foundAddress.setAddress(request.getAddress());
-        foundAddress.setReceiver(request.getReceiver());
-        foundAddress.setReceiverPhone(request.getReceiverPhone());
-
-        log.info("배송지 수정 완료: 회원 ID={}, 수정된 주소={}", id, foundAddress.getAddress());
-    }
-
-    @Transactional
-    @Override
-    public void deleteDeliveryAddress(String id) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
-
-        deliveryAddressRepository.delete(foundAddress);
-
-        log.info("배송지 삭제 완료: 회원 ID={}", id);
-    }
-
 }

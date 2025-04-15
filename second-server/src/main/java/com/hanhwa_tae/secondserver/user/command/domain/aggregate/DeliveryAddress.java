@@ -1,15 +1,9 @@
 package com.hanhwa_tae.secondserver.user.command.domain.aggregate;
 
 import jakarta.persistence.*;
-import lombok.*;
 
 @Entity
 @Table(name = "delivery_address")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
 public class DeliveryAddress {
 
     @Id

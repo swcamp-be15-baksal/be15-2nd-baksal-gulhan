@@ -70,7 +70,6 @@ public class KakaoAuthService {
                             .username(nickname)
                             .rank(rankRepository.findByRankName(RankType.COMMONER))
                             .loginType(LoginType.KAKAO)
-                            .isDeleted(DeleteType.N)
                             .build();
                     return userRepository.save(newUser);
                 });
