@@ -35,9 +35,9 @@ public class KakaoAuthProvider {
     private static final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
     private static final String KAKAO_USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
     private static final String KAKAO_LOGOUT_URL = "https://kapi.kakao.com/v1/user/logout";
-    private static final String KAKAO_UNLINK_URL = "https://kapi.kakao.com/v1/user/logout";
+    private static final String KAKAO_UNLINK_URL = "https://kapi.kakao.com/v1/user/unlink";
 
-    // 카카오 토큰 받기
+    // 인가 코드로 카카오 토큰 받기
     public KakaoTokenResponse getAccessToken(String code) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
@@ -45,6 +45,8 @@ public class KakaoAuthProvider {
         params.add("redirect_uri", redirectUri);
         params.add("code", code);
         params.add("client_secret", clientSecret);
+
+        log.info(params.toString());
 
         return requestToken(params);
     }
@@ -60,7 +62,7 @@ public class KakaoAuthProvider {
         return requestToken(params);
     }
 
-    // 카카오에게 토큰 갱신 요청
+    // 카카오에게 토큰 요청
     private KakaoTokenResponse requestToken(MultiValueMap<String, String> params) {
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, defaultFormUrlHeaders());
 
@@ -77,7 +79,7 @@ public class KakaoAuthProvider {
             String kakaoErrorCode = extractKakaoErrorCode(responseBody);
             ErrorCode mappedError = mapKakaoErrorCode(kakaoErrorCode);
 
-            log.warn("\uD83D\uDEA8 카카오 토큰 요청 실패: code={}, message={} ", kakaoErrorCode, responseBody);
+            log.warn("카카오 토큰 요청 실패: code={}, message={} ", kakaoErrorCode, responseBody);
             throw new KakaoAuthException(mappedError);
         }
     }

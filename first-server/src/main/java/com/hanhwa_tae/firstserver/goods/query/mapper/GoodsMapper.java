@@ -14,4 +14,5 @@ public interface GoodsMapper {
     GoodsDTO selectGoodsById(Integer goodsId);
 
     String selectGoodsNameById(int targetId);
+
 }

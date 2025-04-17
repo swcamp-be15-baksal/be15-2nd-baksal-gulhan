@@ -81,7 +81,7 @@ public class AuthQueryServiceImpl implements AuthQueryService {
 
         String requestRefreshToken = request.getRefreshToken();
         log.info("유저 ID : " + jwtTokenProvider.getUserIdFromJWT(requestRefreshToken));
-        log.info("유저 RANK : " + jwtTokenProvider.getUserIdFromJWT(requestRefreshToken));
+        log.info("유저 RANK : " + jwtTokenProvider.getRankFromJWT(requestRefreshToken));
         // refreshtoken 검증
         jwtTokenProvider.validateToken(requestRefreshToken);
 
@@ -89,7 +89,7 @@ public class AuthQueryServiceImpl implements AuthQueryService {
         String rank = jwtTokenProvider.getRankFromJWT(requestRefreshToken);
         Long userNo = jwtTokenProvider.getUserNoFromJWT(requestRefreshToken);
 
-        log.info("재발 유저 No : " + userNo);
+        log.info("재발행 유저 No : " + userNo);
 
         // 1. Redis에서 refresh 토큰 존재 확인
         RefreshToken storedRefreshToken = authRepository.findById(userId).orElseThrow(

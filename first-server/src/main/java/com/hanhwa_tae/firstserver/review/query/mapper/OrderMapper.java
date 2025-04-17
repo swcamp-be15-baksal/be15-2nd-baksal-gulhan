@@ -1,7 +1,6 @@
 package com.hanhwa_tae.firstserver.review.query.mapper;
 
 import com.hanhwa_tae.firstserver.cart.command.domain.aggregate.Order;
-import com.hanhwa_tae.firstserver.cart.command.domain.aggregate.OrderHistory;
 import com.hanhwa_tae.firstserver.cart.query.dto.response.OrderHistoryResponse;
 import com.hanhwa_tae.firstserver.common.domain.TargetType;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +20,9 @@ public interface OrderMapper {
 
     Order updateisConfirmedByOrderId(String orderId);
 
+
+    int selectSumValue(Long userNo);
+
+    Order findOrderInfo(String orderId);
 }
+

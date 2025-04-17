@@ -27,6 +27,8 @@ public class GoodsCommandService {
         GoodsCategory categoryRef = entityManager.getReference(GoodsCategory.class, request.getGoodsCategoryId());
         goods.setGoodsCategoryId(categoryRef);
 
+        goods.setRemaining(goods.getQuantity());
+
         Goods newGoods = jpaGoodsRepository.save(goods);
 
         return newGoods.getGoodsId();

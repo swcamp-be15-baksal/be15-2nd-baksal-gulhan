@@ -14,6 +14,7 @@ import com.hanhwa_tae.firstserver.payment.command.domain.repository.PackagesPaym
 import com.hanhwa_tae.firstserver.security.model.CustomUserDetail;
 import com.hanhwa_tae.firstserver.user.query.dto.response.UserResponse;
 import com.hanhwa_tae.firstserver.user.query.mapper.UserMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ public class GetPayInfoController {
     private final GoodsMapper goodsMapper;
 
     /*토스로부터 키값 받아오기*/
+    @Operation(summary = "토스 키 가져오기(프론트에서)", description = "토스 인증용 코드 보내기")
     @GetMapping("/key")
     public Map<String, String> getKeyValue() {
         Map<String, String> result = new HashMap<>();
@@ -47,6 +49,7 @@ public class GetPayInfoController {
         return result;
     }
     /*토스로 전송할 값 추출*/
+    @Operation(summary = "주문 ID, 장바구니의 모든 값 가져오기(프론트에서)", description = "결제에 필요한 값 보내줍니다.")
     @GetMapping("/value")
     public Map<String, Object> getEnvValue(@AuthenticationPrincipal CustomUserDetail userDetail) {
         Long userNo = userDetail.getUserNo();
@@ -79,6 +82,7 @@ public class GetPayInfoController {
         return result;
     }
     // 결제 후 정보 제공
+    @Operation(summary = "결제에 필요한 정보 보내기", description = "결제에 필요한 개수 등을 보내준다.")
     @GetMapping("/payinfo")
     public Map<String, Object> getPayInfo(@AuthenticationPrincipal CustomUserDetail userDetail){
         Long userNo = userDetail.getUserNo();

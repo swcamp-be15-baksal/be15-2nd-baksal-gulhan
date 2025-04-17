@@ -82,12 +82,16 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST,
                                                 "/admin/**"
                                                 , "/review"
-                                                , "/oauth/kakao/**"
+                                                // , "/oauth/kakao/**"
                                                 , "/like/toggle"
                                                 , "/comment"
                                                 , "/board"
                                                 , "/auth/logout"
                                         ).authenticated()
+
+                                        .requestMatchers(
+                                                "/oauth/kakao/**"
+                                        ).permitAll()
 
                                         .requestMatchers(HttpMethod.PUT,
                                                 "/admin/**"

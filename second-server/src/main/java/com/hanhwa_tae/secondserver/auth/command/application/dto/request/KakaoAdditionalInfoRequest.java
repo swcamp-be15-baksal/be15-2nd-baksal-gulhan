@@ -25,4 +25,6 @@ public class KakaoAdditionalInfoRequest {
     private String phone;
 
     private String address;
+
+    private String countryCode;
 }

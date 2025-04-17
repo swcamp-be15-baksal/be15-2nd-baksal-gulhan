@@ -41,6 +41,8 @@ public enum ErrorCode {
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
+    // 좋아요
+    TARGET_NOT_FOUND("40001", "해당 타겟을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     //동행글
     COMMENT_NOT_OWNED("30001","본인이 작성한 댓글이 아닙니다.", HttpStatus.BAD_REQUEST),
@@ -61,7 +63,7 @@ public enum ErrorCode {
     UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
     SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST),
-    NOT_MATCHING_ORDER("50005", "사용자의 주문 정보가 아닙니다.",HttpStatus.BAD_REQUEST);
+    NOT_MATCHING_ORDER("50005", "해당 사용자는 주문을 확정할 수 없습니다." ,HttpStatus.BAD_REQUEST );
 
     private final String code;
     private final String message;

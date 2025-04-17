@@ -11,6 +11,7 @@ import com.hanhwa_tae.secondserver.user.command.application.dto.UserInfoCreateDT
 import com.hanhwa_tae.secondserver.user.command.application.dto.request.*;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.*;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserInfoRepository;
+import com.hanhwa_tae.secondserver.delivery.command.domain.repository.DeliveryAddressRepository;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserIdRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserRepository;
@@ -46,6 +47,8 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RedisUserRepository redisUserRepository;
     private final RandomStringGenerator randomStringGenerator;
     private final RedisUserIdRepository redisUserIdRepository;
+    private final DeliveryAddressRepository deliveryAddressRepository;
+
 
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
@@ -99,7 +102,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         // 1. 일치하는 uuid가 redis에 존재하는지 확인
 //        String userData = redisTemplate.opsForValue().get(uuid);
         RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new RuntimeException("이메일 인증 시간이 만료되었습니다.")
+                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
         );
 
         // 2. redis 데이터 지워주기
@@ -242,6 +245,7 @@ public class UserCommandServiceImpl implements UserCommandService {
         );
 
         String userId = redisUserId.getUserId();
+        redisUserIdRepository.delete(redisUserId);
 
         int maskingStartIdx = (int) Math.ceil(userId.length() * 0.3);
 
@@ -296,4 +300,5 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         userRepository.save(user);
     }
+
 }

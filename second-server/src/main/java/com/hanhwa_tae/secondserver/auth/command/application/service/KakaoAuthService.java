@@ -70,6 +70,7 @@ public class KakaoAuthService {
                             .username(nickname)
                             .rank(rankRepository.findByRankName(RankType.COMMONER))
                             .loginType(LoginType.KAKAO)
+                            .isDeleted(DeleteType.N)
                             .build();
                     return userRepository.save(newUser);
                 });
@@ -134,6 +135,7 @@ public class KakaoAuthService {
                 .phone(request.getPhone())
                 .birth(birthDate)
                 .address(request.getAddress())
+                .countryCode(request.getCountryCode())
                 .build();
 
         userInfoRepository.save(userInfo);
