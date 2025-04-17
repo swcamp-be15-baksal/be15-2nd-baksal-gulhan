@@ -28,7 +28,7 @@ class TmpQueryControllerTest {
 
     @Test
     @DisplayName("동행글 목록 조회")
-    @WithMockUser
+//    @WithMockUser
     void travelMatePostList() throws Exception {
 
         mockMvc.perform(get("/board/list")
