@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8b0200a9-bcae-4dfc-b265-22d8fc2ae0a2" name="변경" comment="refactor: remaining column 추가">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/49e2349d-4443-4304-9b5f-b4c5e7988ae2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/49e2349d-4443-4304-9b5f-b4c5e7988ae2/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/49e2349d-4443-4304-9b5f-b4c5e7988ae2/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/49e2349d-4443-4304-9b5f-b4c5e7988ae2/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/64591a2b-0d45-4f19-94d4-3a66e1e20850.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/64591a2b-0d45-4f19-94d4-3a66e1e20850/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/cart/command/application/controller/CartCommandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/cart/command/application/controller/CartCommandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/cart/query/controller/CartQueryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/cart/query/controller/CartQueryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/review/command/application/controller/ReviewCommandController.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/review/command/application/controller/ReviewCommandController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/review/query/dto/request/ReviewUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/review/query/dto/request/ReviewUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/common/exception/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/common/exception/ErrorCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/delivery/command/application/service/DeliveryCommandService.java" beforeDir="false" afterPath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/delivery/command/application/service/DeliveryCommandService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="GULHAN" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dxmlk&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/swcamp-be15-baksal/be15-2nd-baksal-gulhan.git&quot;,
+    &quot;accountId&quot;: &quot;11171f9a-1cc6-4c69-b3b3-339a6ca49e90&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2vqxUojhpmYm7gCmXUZCyzdRxa3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refactor/goods&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/hanse/baksal/first-server&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mariadb&quot;,
+      &quot;redis&quot;
+    ]
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Be152ndBaksalGulhanApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="GULHAN.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hanhwa_tae.gulhan.Be152ndBaksalGulhanApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.24978.46" />
+        <option value="bundled-js-predefined-d6986cc7102b-76f8388c3a79-JavaScript-IU-243.24978.46" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="8b0200a9-bcae-4dfc-b265-22d8fc2ae0a2" name="변경" comment="" />
+      <created>1744886423865</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744886423865</updated>
+      <workItem from="1744886425320" duration="3280000" />
+    </task>
+    <task id="LOCAL-00001" summary="refactor: remaining column 추가">
+      <option name="closed" value="true" />
+      <created>1744888143879</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1744888143879</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor: remaining column 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: remaining column 추가" />
+  </component>
+</project>

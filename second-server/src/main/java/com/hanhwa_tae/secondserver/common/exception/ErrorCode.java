@@ -20,6 +20,7 @@ public enum ErrorCode {
     USER_ALREADY_DELETED("10009", "이미 탈퇴 처리된 회원 입니다.", HttpStatus.BAD_REQUEST),
     ALREADY_ADDITIONAL_INFO_EXISTS("10010", "이미 추가 정보를 입력한 회원 입니다.", HttpStatus.BAD_REQUEST),
     TOKEN_EXPIRED("10011", "토큰이 만료되었습니다.", HttpStatus.BAD_REQUEST),
+    ADDRESS_NOT_FOUND("10012", "주소를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     // 카카오 인증
     KAKAO_AUTH_FAILED("20001", "카카오 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
     KAKAO_TOKEN_INVALID("20002", "카카오 토큰이 유효하지 않습니다.", HttpStatus.UNAUTHORIZED),

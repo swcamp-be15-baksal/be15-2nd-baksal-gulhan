@@ -4,6 +4,7 @@ package com.hanhwa_tae.firstserver.review.command.application.controller;
 import com.hanhwa_tae.firstserver.common.dto.ApiResponse;
 import com.hanhwa_tae.firstserver.review.command.application.service.ReviewCommandService;
 import com.hanhwa_tae.firstserver.review.query.dto.request.ReviewInsertRequest;
+import com.hanhwa_tae.firstserver.review.query.dto.request.ReviewUpdateRequest;
 import com.hanhwa_tae.firstserver.security.model.CustomUserDetail;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,7 @@ public class ReviewCommandController {
     public ResponseEntity<ApiResponse<Void>> updateReview (
             @PathVariable Integer reviewId
             , @AuthenticationPrincipal CustomUserDetail customUserDetail
-            , @RequestBody ReviewInsertRequest request) {
+            , @RequestBody ReviewUpdateRequest request) {
 
         Long userNo = customUserDetail.getUserNo();
         reviewCommandService.updateReview(reviewId,userNo, request);
