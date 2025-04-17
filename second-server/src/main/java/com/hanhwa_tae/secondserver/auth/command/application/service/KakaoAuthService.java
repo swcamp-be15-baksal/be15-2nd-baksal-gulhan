@@ -135,6 +135,7 @@ public class KakaoAuthService {
                 .phone(request.getPhone())
                 .birth(birthDate)
                 .address(request.getAddress())
+                .countryCode(request.getCountryCode())
                 .build();
 
         userInfoRepository.save(userInfo);
