@@ -15,4 +15,6 @@ public interface UserMapper {
 
     Optional<UserDetailResponse> findUserInfoDetailByUserId(String userId);
     Optional<Rank> findALLRankInfo(Long userNo);
+
+    void updateRank(Long userNo, int rankId);
 }

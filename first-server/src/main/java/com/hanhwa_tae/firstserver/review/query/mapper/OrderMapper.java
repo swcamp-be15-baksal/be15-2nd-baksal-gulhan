@@ -21,5 +21,6 @@ public interface OrderMapper {
     Order updateisConfirmedByOrderId(String orderId);
 
 
+    int selectSumValue(Long userNo);
 }
 
