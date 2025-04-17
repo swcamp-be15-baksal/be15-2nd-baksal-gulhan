@@ -11,7 +11,7 @@ import com.hanhwa_tae.secondserver.user.command.application.dto.UserInfoCreateDT
 import com.hanhwa_tae.secondserver.user.command.application.dto.request.*;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.*;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserInfoRepository;
-import com.hanhwa_tae.secondserver.user.command.domain.repository.DeliveryAddressRepository;
+import com.hanhwa_tae.secondserver.delivery.command.domain.repository.DeliveryAddressRepository;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserIdRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserRepository;
@@ -299,54 +299,6 @@ public class UserCommandServiceImpl implements UserCommandService {
         user.setWithdrawUser();
 
         userRepository.save(user);
-    }
-
-    @Transactional
-    @Override
-    public void registerDeliveryAddress(String id, DeliveryAddressRequest request) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress adress = DeliveryAddress.builder()
-                .address(request.getAddress())
-                .receiver(request.getReceiver())
-                .receiverPhone(request.getReceiverPhone())
-                .user(user)
-                .build();
-
-        deliveryAddressRepository.save(adress);
-
-        log.info("배송지 등록 완료: 회원 ID={}, 주소={}", id, adress.getAddress());
-    }
-
-    @Transactional
-    @Override
-    public void updateDeliveryAddress(String id, DeliveryAddressRequest request) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
-
-        foundAddress.setAddress(request.getAddress());
-        foundAddress.setReceiver(request.getReceiver());
-        foundAddress.setReceiverPhone(request.getReceiverPhone());
-
-        log.info("배송지 수정 완료: 회원 ID={}, 수정된 주소={}", id, foundAddress.getAddress());
-    }
-
-    @Transactional
-    @Override
-    public void deleteDeliveryAddress(String id) {
-        User user = userMapper.findUserByUserId(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
-
-        deliveryAddressRepository.delete(foundAddress);
-
-        log.info("배송지 삭제 완료: 회원 ID={}", id);
     }
 
 }

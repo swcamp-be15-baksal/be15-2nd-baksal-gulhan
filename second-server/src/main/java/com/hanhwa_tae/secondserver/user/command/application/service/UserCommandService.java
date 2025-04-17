@@ -23,9 +23,4 @@ public interface UserCommandService {
 
     void withdrawUser(CustomUserDetail userDetail);
 
-    void registerDeliveryAddress(String id, DeliveryAddressRequest request);
-
-    void updateDeliveryAddress(String id, DeliveryAddressRequest request);
-
-    void deleteDeliveryAddress(String id);
 }

@@ -1,5 +1,6 @@
-package com.hanhwa_tae.secondserver.user.command.domain.aggregate;
+package com.hanhwa_tae.secondserver.delivery.command.domain.aggregate;
 
+import com.hanhwa_tae.secondserver.user.command.domain.aggregate.User;
 import jakarta.persistence.*;
 import lombok.*;
 
