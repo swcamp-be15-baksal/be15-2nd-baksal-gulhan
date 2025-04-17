@@ -12,4 +12,7 @@ public interface GoodsMapper {
     List<GoodsDTO> selectGoods(GoodsSearchRequest request);
     long countGoods(GoodsSearchRequest request);
     GoodsDTO selectGoodsById(Integer goodsId);
+
+    String selectGoodsNameById(int targetId);
+
 }
