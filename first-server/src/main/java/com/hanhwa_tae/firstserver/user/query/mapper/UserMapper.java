@@ -17,4 +17,6 @@ public interface UserMapper {
     Optional<Rank> findALLRankInfo(Long userNo);
 
     void updateRank(Long userNo, int rankId);
+
+    void updatePoint(Long userNo, int point);
 }

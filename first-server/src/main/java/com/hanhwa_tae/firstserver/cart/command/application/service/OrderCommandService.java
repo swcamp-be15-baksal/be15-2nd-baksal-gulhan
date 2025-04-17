@@ -46,7 +46,7 @@ public class OrderCommandService {
         return "ok";
     }
 
-    public String registerOrder(String userId, CreateOrderRequest createOrderRequest, int point){
+    public String registerOrder(String userId, CreateOrderRequest createOrderRequest){
         Long userNo = userMapper.findUserNoByUserId(userId).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         UserDetailResponse userinfo = userMapper.findUserInfoDetailByUserId(userId).
@@ -55,14 +55,12 @@ public class OrderCommandService {
         int totalAmount = cartList.stream().
                 mapToInt(amount -> amount.getQuantity()).
                 sum();
-        int totalPoint = userinfo.getPoint() + point;
         Order order = orderRepository.
                 save(
                         Order.builder().
                                 orderId(createOrderRequest.getOrderId()).
                                 orderedAt(new Date()).
                                 totalPrice(createOrderRequest.getTotalPrice()).
-                                totalPoint(totalPoint).
                                 totalAmount(totalAmount).
                                 address(userinfo.getAddress()).
                                 receiver(userMapper.findUserInfoByUserId(userId).orElseThrow(

@@ -51,4 +51,12 @@
         SET rank_id = #{rank_id}
         WHERE user_no = #{user_no}
     </update>
+
+    <select id="findOrderInfo" resultType="com.hanhwa_tae.firstserver.cart.command.domain.aggregate.Order">
+        SELECT total_price,
+        total_point,
+        total_amount,
+        FROM `order`
+        WHERE order_id = #{order_id}
+    </select>
 </mapper>

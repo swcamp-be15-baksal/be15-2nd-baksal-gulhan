@@ -22,5 +22,7 @@ public interface OrderMapper {
 
 
     int selectSumValue(Long userNo);
+
+    Order findOrderInfo(String orderId);
 }
 

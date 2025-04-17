@@ -4,8 +4,10 @@ package com.hanhwa_tae.firstserver.payment.query.controller;
 import com.hanhwa_tae.firstserver.common.dto.ApiResponse;
 import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderDetailResponse;
 import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoryDetailResponse;
+import com.hanhwa_tae.firstserver.payment.query.dto.response.RefundResponseDetail;
 import com.hanhwa_tae.firstserver.payment.query.service.SearchPaymentService;
 import com.hanhwa_tae.firstserver.security.model.CustomUserDetail;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchItemController {
     private final SearchPaymentService searchPaymentService;
     /*구매내역 조회*/
+    @Operation(summary = "구매내역 조회", description = "사용자는 본인의 구매내역을 order_id를 통해 조회한다.")
     @GetMapping("/order_history/{order_id}")
     public ResponseEntity<ApiResponse<OrderHistoryDetailResponse>> searchOrderHistory(
             @AuthenticationPrincipal CustomUserDetail userDetail,
@@ -31,6 +34,7 @@ public class SearchItemController {
         return ResponseEntity.ok(ApiResponse.success(orderHistoryDetail));
     }
     /*주문 정보 조회*/
+    @Operation(summary = "주문내역 조회", description = "사용자는 본인의 구매내역 정보를 확인한다.")
     @GetMapping("/info")
     public ResponseEntity<ApiResponse<OrderDetailResponse>> searchOrder(
             @AuthenticationPrincipal CustomUserDetail userDetail
@@ -42,11 +46,13 @@ public class SearchItemController {
         return ResponseEntity.ok(ApiResponse.success(orders));
     }
 
-/*    *//*환불 정보 조회*//*
+    /*추가로 구현해야되는 부분*/
+    /*@Operation(summary = "환불 내역 조회",description = "사용자는 본인의 환불내역을 확인할 수 있다.")
     @GetMapping("/refund_info")
     public ResponseEntity<ApiResponse<RefundResponseDetail>> searchRefund(
             @AuthenticationPrincipal CustomUserDetail userDetail
     ){
+
 
     }*/
 }
