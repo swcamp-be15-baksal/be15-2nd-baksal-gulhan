@@ -22,6 +22,7 @@ public class PackageDTO {
 
     private int currentRegist;
 
+
     private BigDecimal avgRating;
 
     private String area;

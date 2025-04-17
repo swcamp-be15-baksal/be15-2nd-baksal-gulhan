@@ -10,6 +10,7 @@ public class GoodsUpdateRequest {
     private String detail;
     private int quantity;
     private int sold;
+    private int remaining;
     private int price;
     private int goodsCategoryId;
 }

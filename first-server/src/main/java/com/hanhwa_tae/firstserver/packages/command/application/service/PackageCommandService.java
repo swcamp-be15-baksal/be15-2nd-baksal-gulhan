@@ -37,7 +37,8 @@ public class PackageCommandService {
                 request.getGuideName(),
                 request.getGuideEmail(),
                 request.getGuideGender(),
-                request.getGuidePhone()
+                request.getGuidePhone(),
+                request.getRemaining()
         );
     }
 

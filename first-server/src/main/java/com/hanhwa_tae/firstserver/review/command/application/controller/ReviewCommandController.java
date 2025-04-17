@@ -33,17 +33,18 @@ public class ReviewCommandController {
     @PutMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<Void>> updateReview (
             @PathVariable Integer reviewId
-            , @AuthenticationPrincipal CustomUserDetail userDetail
+            , @AuthenticationPrincipal CustomUserDetail customUserDetail
             , @RequestBody ReviewInsertRequest request) {
 
-        Long userNo = userDetail.getUserNo();
+        Long userNo = customUserDetail.getUserNo();
         reviewCommandService.updateReview(reviewId,userNo, request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
     @Operation(summary = "리뷰 삭제", description = "해당 리뷰를 삭제한다.")
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable Integer reviewId, @RequestParam Long userNo) {
+    public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable Integer reviewId, @AuthenticationPrincipal CustomUserDetail customUserDetail) {
+        Long userNo = customUserDetail.getUserNo();
         reviewCommandService.deleteReview(reviewId, userNo);
         return ResponseEntity.ok(ApiResponse.success(null));
     }

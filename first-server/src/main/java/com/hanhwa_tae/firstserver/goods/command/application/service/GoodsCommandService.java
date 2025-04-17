@@ -42,9 +42,11 @@ public class GoodsCommandService {
                 request.getTitle(),
                 request.getDetail(),
                 request.getQuantity(),
+                request.getRemaining(),
                 request.getPrice(),
                 categoryRef
         );
+
 
     }
 
