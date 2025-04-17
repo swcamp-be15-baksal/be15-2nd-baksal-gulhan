@@ -73,6 +73,6 @@ public class Packages {
         this.guideEmail = guideEmail;
         this.guideGender = guideGender;
         this.guidePhone = guidePhone;
-        this.remaining = remaining
+        this.remaining = remaining;
     }
 }
