@@ -1,7 +1,6 @@
 package com.hanhwa_tae.secondserver.delivery.command.application.service;
 
 import com.hanhwa_tae.secondserver.common.domain.DeleteType;
-import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.delivery.command.application.dto.request.DeliveryAddressRequest;
 import com.hanhwa_tae.secondserver.delivery.command.domain.aggregate.DeliveryAddress;
 import com.hanhwa_tae.secondserver.delivery.command.domain.repository.DeliveryAddressRepository;
