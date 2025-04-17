@@ -1,8 +1,11 @@
 package com.hanhwa_tae.secondserver.auth.query.service;
 
+import com.hanhwa_tae.secondserver.auth.command.application.dto.request.RefreshTokenRequest;
 import com.hanhwa_tae.secondserver.auth.command.application.dto.response.TokenResponse;
+import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.RefreshToken;
 import com.hanhwa_tae.secondserver.auth.command.domain.repository.AuthRepository;
 import com.hanhwa_tae.secondserver.auth.query.dto.request.LoginRequest;
+import com.hanhwa_tae.secondserver.auth.query.dto.response.AccessTokenResponse;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.*;
@@ -41,6 +44,7 @@ class AuthQueryServiceImplTest {
     @InjectMocks
     private AuthQueryServiceImpl authQueryService;
 
+    private final Long userNo = 99L;
     private final String userId = "user99";
     private final String wrongId = "fail99";
     private final String password = "pass99";
@@ -49,20 +53,23 @@ class AuthQueryServiceImplTest {
     private final String email = "toki0327@naver.com";
     private final String accessToken = "accessToken";
     private final String refreshToken = "refreshToken";
+    private final Rank rank = Rank.builder()
+            .rankId(2)
+            .rankName(RankType.COMMONER)
+            .pointRate(RankType.COMMONER.getPointRate())
+            .build();
     private User user;
 
     @BeforeEach
     void setUp() {
         user = User.builder()
+                .userNo(userNo)
                 .userId(userId)
                 .email(email)
                 .gender(GenderType.M)
                 .loginType(LoginType.GENERAL)
                 .password(encodedPassword)
-                .rank(Rank.builder()
-                        .rankName(RankType.COMMONER)
-                        .pointRate(1)
-                        .build())
+                .rank(rank)
                 .build();
     }
 
@@ -125,6 +132,24 @@ class AuthQueryServiceImplTest {
     @Test
     @DisplayName("Access Token 재발급")
     void testReissueToken(){
+        RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
 
+        when(jwtTokenProvider.getUserIdFromJWT(refreshToken)).thenReturn(userId);
+        when(jwtTokenProvider.getRankFromJWT(refreshToken)).thenReturn(rank.getRankName().getRankName());
+        when(jwtTokenProvider.getUserNoFromJWT(refreshToken)).thenReturn(userNo);
+        when(jwtTokenProvider.validateToken(refreshToken)).thenReturn(true);
+        when(authRepository.findById(userId)).thenReturn(Optional.of(
+                RefreshToken.builder().userId(userId).userNo(userNo).token(refreshToken).build()
+        ));
+        when(jwtTokenProvider.createAccessToken(userId, userNo, rank.getRankName().getRankName())).thenReturn("newAccessToken");
+
+        // when
+        AccessTokenResponse response = authQueryService.reissue(request);
+
+        // then
+        assertNotNull(response.getAccessToken());
+        assertEquals("newAccessToken", response.getAccessToken());
+
+        verify(jwtTokenProvider).createAccessToken(userId, userNo, rank.getRankName().getRankName());
     }
 }
