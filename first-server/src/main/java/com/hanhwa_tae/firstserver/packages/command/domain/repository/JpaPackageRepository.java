@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface JpaPackageRepository extends JpaRepository<Packages, Integer> {
+    boolean existsByPackageId(int id);
+
     @Modifying
     @Query("UPDATE Packages p SET p.capacity = p.capacity + :quantity, " +
             "p.currentRegist = p.currentRegist - :quantity " +
