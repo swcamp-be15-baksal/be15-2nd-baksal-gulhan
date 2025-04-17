@@ -17,4 +17,25 @@
         )
     </select>
 
+    <select id="selectOrderIdByUserNo" resultType="String">
+        SELECT order_id
+        FROM `order`
+        WHERE user_no = #{user_no}
+
+    </select>
+    <select id="selectOrderInfoByOrderId" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.OrderHistoryResponse">
+        SELECT order_history_id,
+        order_history_type,
+        target_id,quantity
+        FROM order_history
+        WHERE order_id = #{order_id}
+    </select>
+
+    <update id="updateisConfirmedByOrderId">
+        UPDATE `order`
+        SET is_confirmed = 'Y'
+        WHERE order_id = #{order_id}
+
+
+    </update>
 </mapper>
