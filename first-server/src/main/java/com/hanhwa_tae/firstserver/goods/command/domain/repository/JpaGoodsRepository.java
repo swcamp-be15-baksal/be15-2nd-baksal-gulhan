@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaGoodsRepository extends JpaRepository<Goods, Integer> {
+    boolean existsByGoodsId(int id);
+
     @Modifying
     @Query("UPDATE Goods g SET g.quantity = g.quantity - :quantity " +
             "WHERE g.goodsId = :targetId ")
