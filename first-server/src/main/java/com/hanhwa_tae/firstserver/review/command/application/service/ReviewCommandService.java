@@ -5,6 +5,7 @@ import com.hanhwa_tae.firstserver.common.domain.DeleteType;
 import com.hanhwa_tae.firstserver.review.command.domain.aggregate.Review;
 import com.hanhwa_tae.firstserver.review.command.domain.repository.JpaReviewRepository;
 import com.hanhwa_tae.firstserver.review.query.dto.request.ReviewInsertRequest;
+import com.hanhwa_tae.firstserver.review.query.dto.request.ReviewUpdateRequest;
 import com.hanhwa_tae.firstserver.review.query.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,7 +35,7 @@ public class ReviewCommandService {
     }
 
     @Transactional
-    public void updateReview(Integer reviewId, Long userNo, ReviewInsertRequest request) {
+    public void updateReview(Integer reviewId, Long userNo, ReviewUpdateRequest request) {
         Review review = jpaReviewRepository.findById(reviewId).orElseThrow(
                 () -> new IllegalArgumentException("해당 리뷰가 존재하지 않습니다.")
         );

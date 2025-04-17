@@ -1,11 +1,11 @@
 package com.hanhwa_tae.secondserver.auth.command.application.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@Builder
+@Getter
+@Setter
 public class KakaoWithdrawRequest {
 
     @NotBlank

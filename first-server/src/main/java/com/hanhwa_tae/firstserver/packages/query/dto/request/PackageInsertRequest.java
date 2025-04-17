@@ -18,6 +18,10 @@ public class PackageInsertRequest {
 
     private int capacity;
 
+    private int currentRegist;
+
+    private int remaining;
+
     private String area;
 
     private Timestamp startDate;

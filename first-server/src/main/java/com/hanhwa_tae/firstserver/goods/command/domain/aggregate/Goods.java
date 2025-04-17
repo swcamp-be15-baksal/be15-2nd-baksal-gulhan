@@ -44,10 +44,11 @@ public class Goods {
     private GoodsCategory goodsCategoryId; // FK
 
     public void updateGoods(@NotBlank String title, @NotBlank String detail, @NotBlank int quantity,
-                            @NotBlank int price, @NotBlank GoodsCategory goodsCategoryId) {
+                            @NotBlank int remaining, @NotBlank int price, @NotBlank GoodsCategory goodsCategoryId) {
         this.title = title;
         this.detail = detail;
         this.quantity = quantity;
+        this.remaining = remaining;
         this.price = price;
         this.goodsCategoryId = goodsCategoryId;
     }

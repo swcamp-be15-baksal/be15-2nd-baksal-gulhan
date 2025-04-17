@@ -25,16 +25,16 @@ public class DeliveryCommandService {
         User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        DeliveryAddress adress = DeliveryAddress.builder()
+        DeliveryAddress address = DeliveryAddress.builder()
                 .address(request.getAddress())
                 .receiver(request.getReceiver())
                 .receiverPhone(request.getReceiverPhone())
                 .user(user)
                 .build();
 
-        deliveryAddressRepository.save(adress);
+        deliveryAddressRepository.save(address);
 
-        log.info("배송지 등록 완료: 회원 ID={}, 주소={}", id, adress.getAddress());
+        log.info("배송지 등록 완료: 회원 ID={}, 주소={}", id, address.getAddress());
     }
 
     @Transactional

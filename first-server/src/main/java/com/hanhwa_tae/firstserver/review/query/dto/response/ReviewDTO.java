@@ -14,10 +14,6 @@ import java.sql.Timestamp;
 public class ReviewDTO {
     private int reviewId;
 
-    private int targetId;
-
-    private TargetType targetType;
-
     private String detail;
 
     private Timestamp createdAt;
@@ -26,7 +22,4 @@ public class ReviewDTO {
 
     private BigDecimal rating;
 
-    private DeleteType isDeleted;
-
-    private Long userNo;
 }

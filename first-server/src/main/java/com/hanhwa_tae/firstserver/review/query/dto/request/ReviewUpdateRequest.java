@@ -12,4 +12,6 @@ public class ReviewUpdateRequest {
     private String detail;
 
     private BigDecimal rating;
+
+
 }

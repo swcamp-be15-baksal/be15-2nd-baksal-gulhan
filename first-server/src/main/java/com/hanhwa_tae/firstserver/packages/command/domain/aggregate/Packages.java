@@ -55,12 +55,13 @@ public class Packages {
     @Enumerated(EnumType.STRING)
     private DeleteType isDeleted = DeleteType.N;
 
+    private int remaining;
 
 
     public void updatePackage(@NotBlank String title, @NotBlank int price, @NotBlank String detail,
                               @NotBlank int capacity, @NotBlank String area, @NotBlank Timestamp startDate,
                               @NotBlank Timestamp endDate, @NotBlank String guideName, @NotBlank String guideEmail,
-                              @NotBlank GenderType guideGender, @NotBlank String guidePhone) {
+                              @NotBlank GenderType guideGender, @NotBlank String guidePhone, @NotBlank int remaining) {
         this.title = title;
         this.price = price;
         this.detail = detail;
@@ -72,5 +73,6 @@ public class Packages {
         this.guideEmail = guideEmail;
         this.guideGender = guideGender;
         this.guidePhone = guidePhone;
+        this.remaining = remaining;
     }
 }
