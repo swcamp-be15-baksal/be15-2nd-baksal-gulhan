@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanhwa_tae.secondserver.notice.query.mapper.NoticeMapper">
+    <select id="selectNotices" resultType="com.hanhwa_tae.secondserver.notice.query.dto.response.NoticeListDTO">
+        SELECT
+              a.notice_id
+            , a.title
+            , a.created_at
+            , b.user_id
+         FROM notice a
+         JOIN `user` b ON (a.user_no = b.user_no)
+        WHERE a.is_deleted = 'N'
+        <if test="title != null">
+            AND a.title LIKE CONCAT('%', #{ title }, '%')
+        </if>
+        ORDER BY created_at DESC
+        LIMIT #{ limit } OFFSET #{ offset };
+    </select>
+
+    <select id="countPosts" resultType="long">
+        SELECT COUNT(*) FROM notice WHERE is_deleted = 'N'
+        <if test="title != null">
+            AND title LIKE CONCAT('%', #{ title }, '%')
+        </if>
+        ;
+    </select>
+
+    <select id="selectDetailNotice" resultType="com.hanhwa_tae.secondserver.notice.query.dto.response.NoticeDetailDTO">
+        SELECT
+              a.notice_id
+            , a.title
+            , a.content
+            , a.created_at
+            , a.updated_at
+            , b.user_id
+         FROM notice a
+         JOIN `user` b ON (a.user_no = b.user_no)
+        WHERE a.is_deleted = 'N'
+        <if test= "notice_id != null">
+            AND notice_id = #{ noticeId }
+        </if>
+        ;
+    </select>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="com.hanhwa_tae.firstserver.review.query.mapper.OrderMapper">-->
+<mapper namespace="com.hanhwa_tae.firstserver.review.query.mapper.OrderMapper">
+
+    <select id="existsConfirmedOrder" resultType="boolean">
+        SELECT EXISTS (
+        SELECT 1
+        FROM order_history oh
+        JOIN order o ON oh.order_id = o.order_id
+        WHERE o.user_no = #{userNo}
+        AND o.is_confirmed = 'Y'
+        AND oh.target_type = #{targetType}
+        AND oh.target_id = #{targetId}
+        )
+    </select>
+
+    <select id="selectOrderIdByUserNo" resultType="String">
+        SELECT
+        order_id
+        FROM order
+        WHERE user_no = #{user_no}
+    </select>
+
+    <select id="selectOrderInfoByOrderId" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.OrderHistoryResponse">
+        SELECT
+        order_history_id,
+        order_history_type,
+        target_id,
+        quantity
+        FROM order_history
+        WHERE order_id = #{ order_id }
+    </select>
+
+    <update id = "updateisConfirmedByOrderId">
+
+        UPDATE `order`
+        SET is_confirmed = 'Y'
+        WHERE order_id = #{orderId}
+
+    </update>
+
+</mapper>
