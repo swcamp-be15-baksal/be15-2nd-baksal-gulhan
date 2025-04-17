@@ -41,6 +41,8 @@ public enum ErrorCode {
     // package & goods & review
     PAGE_NOT_FOUND("20001", "삭제된 게시글입니다.", HttpStatus.NOT_FOUND),
 
+    // 좋아요
+    TARGET_NOT_FOUND("40001", "해당 타겟을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     //동행글
     COMMENT_NOT_OWNED("30001","본인이 작성한 댓글이 아닙니다.", HttpStatus.BAD_REQUEST),
