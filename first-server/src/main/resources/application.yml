@@ -12,7 +12,7 @@ eureka:
 
 spring:
   application:
-    name: first-server
+    name: commerce-server
   profiles:
     active: local
   config:

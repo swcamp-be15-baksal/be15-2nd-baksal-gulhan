@@ -23,7 +23,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthCommandServiceImplTest {
-
     @Mock
     private AuthRepository authRepository;
 
@@ -38,11 +37,7 @@ class AuthCommandServiceImplTest {
     private final Long userNo = 99L;
     private final String userId = "user99";
     private final String password = "pass99";
-    private final Rank rank = Rank.builder()
-            .rankId(2)
-            .rankName(RankType.COMMONER)
-            .pointRate(RankType.COMMONER.getPointRate())
-            .build();
+    private final RankType rank = RankType.COMMONER;
 
     private CustomUserDetail userDetail;
 
@@ -52,7 +47,7 @@ class AuthCommandServiceImplTest {
         userDetail = CustomUserDetail.builder()
                 .userNo(userNo)
                 .userId(userId)
-                .authorities(Collections.singleton(new SimpleGrantedAuthority(rank.getRankName().getRankName())))
+                .authorities(Collections.singleton(new SimpleGrantedAuthority(rank.getRankName())))
                 .build();
     }
 

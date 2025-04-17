@@ -53,11 +53,7 @@ class AuthQueryServiceImplTest {
     private final String email = "toki0327@naver.com";
     private final String accessToken = "accessToken";
     private final String refreshToken = "refreshToken";
-    private final Rank rank = Rank.builder()
-            .rankId(2)
-            .rankName(RankType.COMMONER)
-            .pointRate(RankType.COMMONER.getPointRate())
-            .build();
+    private final Rank rank = new Rank();
     private User user;
 
     @BeforeEach

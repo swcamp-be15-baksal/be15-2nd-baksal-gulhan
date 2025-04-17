@@ -10,8 +10,8 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: first-server
-          uri: lb://FIRST-SERVER
+        - id: commerce-server
+          uri: lb://COMMERCE-SERVER
           predicates:
             - Path=/api/v1/s1/**
           filters:
@@ -26,8 +26,8 @@ spring:
             - Path=/api/v1/s2/**
           filters:
             - RewritePath=/api/v1/s2/(?<segment>.*), /$\{segment}
-        - id: first-swagger-server
-          uri: lb://FIRST-SERVER
+        - id: commerce-swagger-server
+          uri: lb://COMMERCE-SERVER
           predicates:
             - Path=/s1/v3/api-docs/**
         - id: auth-swagger-server
