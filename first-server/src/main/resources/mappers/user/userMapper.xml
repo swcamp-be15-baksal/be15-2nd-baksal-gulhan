@@ -31,6 +31,14 @@
         FROM rank
     </select>
 
+    <update id = "updatePoint">
+        UPDATE user_info
+        SET point = point + #{point}
+        WHERE user_no = #{user_no}
+
+
+    </update>
+
 
 
 </mapper>

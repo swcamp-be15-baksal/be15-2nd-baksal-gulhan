@@ -43,6 +43,11 @@ public class PaymentService {
 
         Order order =orderMapper.updateisConfirmedByOrderId(order_id);
         int result_val = orderMapper.selectSumValue(userNo);
+        int percent = userMapper.findALLRankInfo(userNo).
+                orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND))
+                .getPointRate();
+        int point = (int)(orderMapper.findOrderInfo(order_id).getTotalPrice() * (percent/100.0));
+        userMapper.updatePoint(userNo,point);
         // 등급 변동
 /*평민, 중인 20만원, 양반 50만원, 왕 100만원 */
         if(200000<= result_val && result_val<500000){
