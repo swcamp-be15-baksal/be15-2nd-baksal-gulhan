@@ -40,83 +40,104 @@ public class SecurityConfig {
                                 .accessDeniedHandler(accessDeniedHandler))
                 // 요청 http method, url 기준으로 인증, 인가 필요 여부 설정
                 .authorizeHttpRequests(auth ->
-                                auth
-                                        /* swagger */
-                                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                                        /* 관리자 권한*/
-                                        .requestMatchers(HttpMethod.GET,
-                                                "/admin/**"
-                                        ).hasAuthority("SLAVE")
+                        auth
+                                /* swagger */
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                                /*유저 권한*/
+                                .requestMatchers(HttpMethod.GET,
+                                        "/board/list",
+                                        "/packages/**",
+                                        "/goods/**",
+                                        "/review",
+                                        "/oauth/kakao/login",
+                                        "/oauth/kakao/callback",
+                                        "/place/places",
+                                        "/place/placeDetail/**",
+                                        "/areas/list",
+                                        "/board/list",
+                                        "/users/ranks"
+                                ).permitAll()
+                                .requestMatchers(HttpMethod.POST,
+                                        "auth/login",
+                                        "auth/token/reissue",
+                                        "users/register",
+                                        "users/find/password",
+                                        "users/find/id"
+                                ).permitAll()
+                                /* 관리자 권한*/
+                                .requestMatchers(HttpMethod.GET,
+                                        "/admin/**"
+                                ).hasAuthority("SLAVE")
 
-                                        .requestMatchers(HttpMethod.POST,
-                                                "/admin/**"
-                                                , "/notice/**"
-                                                , "/packages"
-                                                , "/goods"
-                                        ).hasAuthority("SLAVE")
+                                .requestMatchers(HttpMethod.POST,
+                                        "/admin/**"
+                                        , "/notice/**"
+                                        , "/packages"
+                                        , "/goods"
+                                ).hasAuthority("SLAVE")
 
-                                        .requestMatchers(HttpMethod.PUT,
-                                                "/admin/**"
-                                                , "/notice/**"
-                                                , "/packages/**"
-                                                , "/goods/**"
-                                        ).hasAuthority("SLAVE")
+                                .requestMatchers(HttpMethod.PUT,
+                                        "/admin/**"
+                                        , "/notice/**"
+                                        , "/packages/**"
+                                        , "/goods/**"
+                                ).hasAuthority("SLAVE")
 
-                                        .requestMatchers(HttpMethod.DELETE,
-                                                "/admin/**"
-                                                , "/notice/**"
-                                                , "/packages/**"
-                                                , "/goods/**"
-                                        ).hasAuthority("SLAVE")
+                                .requestMatchers(HttpMethod.DELETE,
+                                        "/admin/**"
+                                        , "/notice/**"
+                                        , "/packages/**"
+                                        , "/goods/**"
+                                ).hasAuthority("SLAVE")
 
-                                        /* 회원 권한 */
-                                        .requestMatchers(HttpMethod.GET,
-                                                "/notice/**"
-                                                , "/like/likes"
-                                                , "/comment"
-                                                , "/board/list/**"
-                                                , "/users/withdraw"
-                                                , "/users/info"
-                                        ).authenticated()
+                                /* 회원 권한 */
+                                .requestMatchers(HttpMethod.GET,
+                                        "/notice/**"
+                                        , "/like/likes"
+                                        , "/comment"
+                                        , "/board/list/**"
+                                        , "/users/withdraw"
+                                        , "/users/info"
+                                ).authenticated()
 
-                                        .requestMatchers(HttpMethod.POST,
-                                                "/admin/**"
-                                                , "/review"
-                                                , "/like/toggle"
-                                                , "/comment"
-                                                , "/board"
-                                                , "/auth/logout"
-                                        ).authenticated()
+                                .requestMatchers(HttpMethod.POST,
+                                        "/admin/**"
+                                        , "/review"
+                                        , "/like/toggle"
+                                        , "/comment"
+                                        , "/board"
+                                        , "/auth/logout"
+                                ).authenticated()
 
-                                        .requestMatchers(HttpMethod.PUT,
-                                                "/admin/**"
-                                                , "/review/**"
-                                                , "/comment"
-                                                , "/board/list/**"
-                                                , "/users/info/update"
-                                                , "/users/change/password"
-                                        ).authenticated()
+                                .requestMatchers(HttpMethod.PUT,
+                                        "/admin/**"
+                                        , "/review/**"
+                                        , "/comment"
+                                        , "/board/list/**"
+                                        , "/users/info/update"
+                                        , "/users/change/password"
+                                ).authenticated()
 
-                                        .requestMatchers(HttpMethod.DELETE,
-                                                "/admin/**"
-                                                , "/review/**"
-                                                , "/comment"
-                                                , "/board/list/**"
-                                        ).authenticated()
+                                .requestMatchers(HttpMethod.DELETE,
+                                        "/admin/**"
+                                        , "/review/**"
+                                        , "/comment"
+                                        , "/board/list/**"
+                                ).authenticated()
 
-                                        .requestMatchers(
-                                                "/oauth/kakao/**"
-                                        ).permitAll()
+                                .requestMatchers(
+                                        "/oauth/kakao/**"
+                                ).permitAll()
+                                .anyRequest().permitAll()   // 테스트 땜에 열어
 
-                                        .anyRequest().permitAll()   // 테스트 땜에 열어
 
                 ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-            return http.build();
-        }
+        return http.build();
+    }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 }

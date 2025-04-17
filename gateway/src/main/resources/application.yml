@@ -20,8 +20,8 @@ spring:
               args:
                 name: userServiceCB
                 fallbackUri: forward:/fallback/user
-        - id: second-server
-          uri: lb://SECOND-SERVER
+        - id: auth-server
+          uri: lb://AUTH-SERVER
           predicates:
             - Path=/api/v1/s2/**
           filters:

@@ -12,7 +12,7 @@ eureka:
 
 spring:
   application:
-    name: second-server
+    name: auth-server
   profiles:
     active: local
   config:
