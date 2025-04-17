@@ -30,8 +30,8 @@ spring:
           uri: lb://FIRST-SERVER
           predicates:
             - Path=/s1/v3/api-docs/**
-        - id: second-swagger-server
-          uri: lb://SECOND-SERVER
+        - id: auth-swagger-server
+          uri: lb://AUTH-SERVER
           predicates:
             - Path=/s2/v3/api-docs/**
 eureka:
