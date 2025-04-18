@@ -150,7 +150,12 @@
 
 ##  <p id="2"> 📜 2. DDD 설계</p>
 [![DDD](https://img.shields.io/badge/DDD-바로가기-blue?style=for-the-badge)](https://miro.com/app/board/uXjVINvacm4=/)
-
+<details>
+<summary>미리보기</summary>
+<div >
+  <img src="https://github.com/user-attachments/assets/c498eef6-022e-4fcc-84a6-74bfc2d0321a" />
+</div>
+</details>
 <br><br>
 
 
@@ -181,7 +186,7 @@
 <details>
 <summary>MSA 서버 구조도</summary>
 <div >
-  <img src="https://github.com/user-attachments/assets/32c6c2ba-73f6-45a8-a782-01ae05303d77"/>  
+  <img src="https://github.com/user-attachments/assets/a65561a8-1630-400f-a211-9d8cf3a2f00b"/>  
 </div>
 </details>
 
