@@ -124,7 +124,7 @@
 
 
 ### <p id="1-3">1-3. WBS(Work Breakdown Structure)</p>
-[![WBS](https://img.shields.io/badge/WBS-바로가기-red?style=for-the-badge)]([https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=0#gid=0])
+[![WBS](https://img.shields.io/badge/WBS-바로가기-red?style=for-the-badge)](https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=0#gid=0)
 <details>
 <summary>미리보기</summary>
 <div>
@@ -135,7 +135,7 @@
 
 
 ### <p id="1-4">1-4. 요구사항 명세서</p>
-[![요구사항명세서](https://img.shields.io/badge/요구사항명세서-바로가기-yellow?style=for-the-badge)]([https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=619006843#gid=619006843])
+[![요구사항명세서](https://img.shields.io/badge/요구사항명세서-바로가기-yellow?style=for-the-badge)](https://docs.google.com/spreadsheets/d/1wghof-f87BU-JfmXJzU21RelVI2vohon8qLOsyW2D_k/edit?gid=619006843#gid=619006843)
 <details>
 <summary>미리보기</summary>
 <div >
@@ -147,13 +147,13 @@
 
 
 ##  <p id="2"> 📜 2. DDD 설계</p>
-[![DDD](https://img.shields.io/badge/DDD-바로가기-blue?style=for-the-badge)]([https://miro.com/app/board/uXjVINvacm4=/])
+[![DDD](https://img.shields.io/badge/DDD-바로가기-blue?style=for-the-badge)](https://miro.com/app/board/uXjVINvacm4=/)
 
 <br><br>
 
 
 ##  <p id="3"> 🛢️ 3. DB모델링</p>
-[![ERDCLOUD](https://img.shields.io/badge/ERDCloud-바로가기-green?style=for-the-badge)]([https://www.erdcloud.com/d/99TuoiE7CtAbEm8F7])
+[![ERDCLOUD](https://img.shields.io/badge/ERDCloud-바로가기-green?style=for-the-badge)](https://www.erdcloud.com/d/99TuoiE7CtAbEm8F7)
 <details>
 <summary>미리보기</summary>
 <div >
