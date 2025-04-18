@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanhwa_tae.firstserver.cart.query.mapper.CartMapper">
+   <select id="selectCartsByUserNo" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.CartResponse">
+       SELECT
+            c.cart_id,
+            c.quantity,
+            c.target_type
+       FROM cart c
+<!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능
+ 아래 내용이란 다른 점은 limit, offset 부분이 성립한다면 내용 수정-->
+       WHERE user_no = #{ userNo }
+
+   </select>
+    <select id="selectAllCartByUserNo" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.CartResponse">
+        SELECT
+        c.cart_id,
+        c.quantity,
+        c.target_id,
+        c.target_type
+        FROM cart c
+        <!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능 -->
+        WHERE user_no = #{ userNo }
+
+    </select>
+
+    <select id="countCarts" resultType="long">
+        SELECT COUNT(*)
+        FROM cart
+        WHERE user_no = #{ userNo }
+    </select>
+</mapper>

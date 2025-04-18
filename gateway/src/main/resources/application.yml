@@ -1,0 +1,42 @@
+server:
+  port: 8000
+spring:
+  application:
+    name: gateway-server
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      routes:
+        - id: commerce-server
+          uri: lb://COMMERCE-SERVER
+          predicates:
+            - Path=/api/v1/s1/**
+          filters:
+            - RewritePath=/api/v1/s1/(?<segment>.*), /$\{segment}
+            - name: CircuitBreaker
+              args:
+                name: userServiceCB
+                fallbackUri: forward:/fallback/user
+        - id: auth-server
+          uri: lb://AUTH-SERVER
+          predicates:
+            - Path=/api/v1/s2/**
+          filters:
+            - RewritePath=/api/v1/s2/(?<segment>.*), /$\{segment}
+        - id: commerce-swagger-server
+          uri: lb://COMMERCE-SERVER
+          predicates:
+            - Path=/s1/v3/api-docs/**
+        - id: auth-swagger-server
+          uri: lb://AUTH-SERVER
+          predicates:
+            - Path=/s2/v3/api-docs/**
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
