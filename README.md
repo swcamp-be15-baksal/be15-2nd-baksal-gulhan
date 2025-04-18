@@ -206,6 +206,7 @@
 <img src="https://img.shields.io/badge/ERDCLOUD-339AF0?style=for-the-badge&logoColor=white">
 <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 <img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white">
+<img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
 </div>
 </div>
 
@@ -214,16 +215,18 @@
 ##  <p id="8"> 📢 8. 트러블슈팅 </p>
 
 > ### 🎈 Redis 권한 설정 오류 <br>
-> **1️⃣ 문제 상황** <br>
+> #### **1️⃣ 문제 상황** <br>
 > Redis 6.0v 이상 부터 아이디 비밀번호를 통해 유저별 권한 설정이 가능함. <br>
 > 이를 위해 redis 설치 시에 포함되는 .acl 파일에 기본 유저를 막고, 유저 별 권한 정보를 저장하는 방식을 사용하려고 하였으나 acl 파일과 redis.conf 파일이 생성되지 않음. <br>
-> *.acl 파일 : 유저 별 권한 정보를 저장할 파일*<br>
-> *redis.conf : acl 파일을 읽는다는 정보를 명시할 설정 파일* <br>
-> **2️⃣ 원인** <br>
+>  - **.acl 파일** : 유저 별 권한 정보를 저장할 파일<br>
+>  - **redis.conf** : acl 파일을 읽는다는 정보를 명시할 Redis 설정 파일
+> 
+> #### **2️⃣ 원인** <br>
 > 대부분의 블로그에서는 `/etc/redis/redis.conf` 경로에 conf 파일이 정의되어 있다고 함. <br>
-> 하지만 docker 이미지를 활용하면  `/usr/local/etc/redis/redis.conf` 경로에 conf 파일을 저장해야 함. <br>
-> **3️⃣ 해결 방법** <br>
-> redis.conf 저장 경로 변경하여 도커 이미지 생성. <br>
+> 하지만 docker 이미지를 활용하면  `/usr/local/etc/redis/redis.conf` 경로에 conf 파일을 저장해야 함. 
+> 
+> #### **3️⃣ 해결 방법** <br>
+> redis.conf 저장 경로 변경하여 도커 이미지 생성 <br>
 > ```
 > FROM redis
 > EXPOSE 6379
@@ -231,22 +234,22 @@
 > COPY users.acl /etc/redis/users.acl
 > CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ] 
 > ```
-> user.acl 파일에 권한 정보를 저장함.
+> user.acl 파일에 권한 정보를 저장
 > ```
 > user default off # default 유저 off
 > user gulhan on >gulhan ~* +@all # gulhan 유저에게 모든 권한 부여
 > ```
 
 > ### 🎈 Redis 설정 오류 <br>
-> **1️⃣ 문제 상황** <br>
-> Docker 내부에서는 Redis 명령어가 정상적으로 동작하지만 호스트 환경에서는 연결이 거부되는 문제 발생함. <br>
-> **2️⃣ 원인** <br>
-> redis의 설정 파일은 처음 설치 시 바인드 주소가 127.0.0.1로 설정되어 있음.
-> docker에 redis를 띄울 경우 컨테이너 내부 주소가 127.0.0.1이기 때문에 외부(host) 쪽에서의 접근이 제한됨. <br>
-> **3️⃣ 해결 방법** <br>
+> #### **1️⃣ 문제 상황** <br>
+> Docker 내부에서는 Redis 명령어가 정상적으로 동작하지만 호스트 환경에서는 연결이 거부되는 문제 발생
+> 
+> #### **2️⃣ 원인**
+> redis의 설정 파일은 처음 설치 시 바인드 주소가 127.0.0.1로 설정되어 있음.<br>
+> docker에 redis를 띄울 경우 컨테이너 내부 주소가 127.0.0.1이기 때문에 외부(host) 쪽에서의 접근이 제한됨됨 <br>
+> #### **3️⃣ 해결 방법**
 > ![image](https://github.com/user-attachments/assets/7050c083-6cc5-4f9b-ae1d-104a07d1811b)
-> *원래 빨간 박스가 주석이 아니였음!* <br>
-> redis.conf 파일의 bind 주소를 임시로 0.0.0.0으로 변경하여 모든 주소에서의 연결을 승인함 <br>
+> redis.conf 파일의 bind 주소를 임시로 0.0.0.0으로 변경하여 모든 주소에서의 연결을 승인 <br>
 > ```
 > FROM redis
 > EXPOSE 6379
@@ -254,46 +257,49 @@
 > COPY users.acl /etc/redis/users.acl
 > CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ] 
 > ```
-> user.acl 파일에 권한 정보를 저장함.
+> user.acl 파일에 권한 정보를 저장
 > ```
 > user default off # default 유저 off
 > user gulhan on >gulhan ~* +@all # gulhan 유저에게 모든 권한 부여
 > ```
 
 > ### 🎈 Config Server, Git 레포지토리 간 인식 문제 <br>
-> **1️⃣ 문제 상황** <br>
-> Config Server에서 Git Respository에 저장된 설정 파일을 읽어오려 했지만 실패함.>br>
-> **2️⃣ 원인** <br>
+> #### **1️⃣ 문제 상황** <br>
+> Config Server에서 Git Respository에 저장된 설정 파일을 읽어오려 했지만 실패
+> #### **2️⃣ 원인** <br>
 > Git Respository의 이름과 서비스의 이름 형식이 매칭되지 않음
-> `/{application }/{profile}[/{label}]` <br>
-> `{application}-{profile}.yml` <br>
-> `/{label}/{application}-{profile}.yml` <br>
-> `/{application}-{profile}.properties` <br>
-> `/{label}/{application}-{profile}.properties` <br>
-> **3️⃣ 해결 방법** <br>
-> `{application}-{profile}.yml` 형식으로 레포지토리의 폴더 구조 및 yml 파일 명칭 변경 <br>
+>
+> 서비스 이름과 형식 매칭 방법
+> - `/{application }/{profile}[/{label}]` <br>
+> - `{application}-{profile}.yml` <br>
+> - `/{label}/{application}-{profile}.yml` <br>
+> - `/{application}-{profile}.properties` <br>
+> - `/{label}/{application}-{profile}.properties` <br>
+> #### **3️⃣ 해결 방법** <br>
+> `{application}-{profile}.yml` 형식으로 레포지토리의 폴더 구조 및 yml 파일 명칭 변경 <br><br>
 > ![image (1)](https://github.com/user-attachments/assets/8e58b039-5609-47c1-8fca-bd66688d54a8)
 
 > ### 🎈 Spring Security 인증, 인가 실패 시 오류 출력 <br>
-> **1️⃣ 문제 상황** <br>
+> #### **1️⃣ 문제 상황** <br>
 > Spring Security에서 에러 발생 시, @RestControllerAdvice 로 에러를 보냈지만 받지 못하는 문제가 발생함. <br>
-> **2️⃣ 원인** <br>
-> ![image (2)](https://github.com/user-attachments/assets/665cb57f-f357-4317-95b1-186d4da1d1e7)
+> #### **2️⃣ 원인** <br>
+> Spring Security는 Filter를 기반으로 하기 때문에 안쪽에 있는 `@RestControllerAdvice` 에 도달하기 전에 에러를 출력함.
+>
+> #### **3️⃣ 해결 방법**
+>  인증 인가를 위한 에러 처리 클래스를 새로 만들어 처리함.
+> ![Spring security 에러 처리](https://github.com/user-attachments/assets/92a9a8ab-2e8c-45da-b995-08040e7f02bd)
 
 > ### 🎈 카카오 api 리다이렉트 오류 - KOE237 <br>
-> *KOE237invalid_request: 요청 수 제한을 초과한 토큰 발급을 요청한 경우token request rate limit exceeded * <br>
-> **1️⃣ 문제 상황** <br>
-> 신규 가입 유저 로그인 실패 <br>
-> 프론트엔드에서 인증 실패 처리로 리다이렉트 오류 발생 <br>
-> **2️⃣ 원인** <br>
+> KOE237invalid_request: 요청 수 제한을 초과한 토큰 발급을 요청한 경우 token request rate limit exceeded 오류 발생생 <br>
+> #### **1️⃣ 문제 상황** <br>
+> - 신규 가입 유저 로그인 실패 <br>
+> - 프론트엔드에서 인증 실패 처리로 리다이렉트 오류 발생 <br>
+> #### **2️⃣ 원인** <br>
 > - 인가 코드 재사용: 한 번 발급된 인가 코드는 재사용이 불가함.
-    > `https://kauth.kakao.com/oauth/token` 호출 시, 이미 쓴 코드를 다시 보내면 rate limit으로 간주 <br>
-    > **3️⃣ 해결 방법** <br>
-    > 카카오 API 문서 → KOE237 에러는 엑세스 토큰 요청 초과 시 발생하는 에러임을 확인함. <br>
-    > 불필요한 반복 요청 로직: `getAccessToken()` )메서드 중복 호출 로직 존재 확인함. <br>
-    > Spring Security는 Filter를 기반으로 하기 때문에 안쪽에 있는 `@RestControllerAdvice` 에 도달하기 전에 에러를 출력함.
-    > 인증 인가를 위한 에러 처리 클래스를 새로 만들어 처리함.
-    >![Spring security 에러 처리](https://github.com/user-attachments/assets/92a9a8ab-2e8c-45da-b995-08040e7f02bd)
+> `https://kauth.kakao.com/oauth/token` 호출 시, 이미 쓴 코드를 다시 보내면 rate limit으로 간주 <br>
+#### **3️⃣ 해결 방법** <br>
+카카오 API 문서 → KOE237 에러는 엑세스 토큰 요청 초과 시 발생하는 에러임을 확인함. <br>
+  > 불필요한 반복 요청 로직: `getAccessToken()` )메서드 중복 호출 로직 존재 확인함. <br>
 
 
 
