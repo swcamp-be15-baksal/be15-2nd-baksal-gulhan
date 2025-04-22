@@ -55,7 +55,8 @@ public class SecurityConfig {
                                         "/place/placeDetail/**",
                                         "/areas/list",
                                         "/board/list",
-                                        "/users/ranks"
+                                        "/users/ranks",
+                                        "/delivery"
                                 ).permitAll()
                                 .requestMatchers(HttpMethod.POST,
                                         "auth/login",

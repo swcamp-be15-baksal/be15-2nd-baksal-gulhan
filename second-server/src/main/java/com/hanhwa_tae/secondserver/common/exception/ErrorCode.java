@@ -52,6 +52,8 @@ public enum ErrorCode {
 
     // 회원-마이페이지 조회 관련 오류
     ORDER_HISTORY_NOT_FOUND("30001", "구매 내역이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    DELIVERY_RESPONSE_ERROR("30002", "배송 정보 조회에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     //공지사항
     NOTICE_NOT_FOUND("40001","존재하지않거나 삭제된 게시글 입니다.", HttpStatus.NOT_FOUND),
     ADMIN_NOT_MATCHING("40002", "해당 사용자는 관리자가 아닙니다.", HttpStatus.UNAUTHORIZED),
@@ -62,6 +64,7 @@ public enum ErrorCode {
     UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
     SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST);
+
 
 
     private final String code;
