@@ -28,7 +28,7 @@ public class NoticeCommandController {
     @PostMapping("/list")
     public ResponseEntity<ApiResponse<NoticeCommandResponse>> createNotice(
             @AuthenticationPrincipal CustomUserDetail  customUserDetail,
-            @RequestBody NoticeInsertRequest request){
+            @RequestBody @Validated NoticeInsertRequest request){
 
         String id =  customUserDetail.getUsername();
 
