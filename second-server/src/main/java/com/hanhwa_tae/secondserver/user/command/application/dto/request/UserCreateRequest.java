@@ -1,9 +1,7 @@
 package com.hanhwa_tae.secondserver.user.command.application.dto.request;
 
 
-import com.hanhwa_tae.secondserver.user.annotation.ValidBirth;
-import com.hanhwa_tae.secondserver.user.annotation.ValidEmail;
-import com.hanhwa_tae.secondserver.user.annotation.ValidPhone;
+import com.hanhwa_tae.secondserver.user.annotation.*;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.GenderType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,13 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserCreateRequest {
-    @NotBlank
+
+    @ValidUserId
     private String userId;
 
     @NotBlank
     private String username;
 
     @NotBlank
+    @ValidPassword
     private String password;
 
     @NotBlank
@@ -47,6 +47,8 @@ public class UserCreateRequest {
     @NotBlank
     /* default 값 지정*/
     private String countryCode;
+
+    private boolean isAgreed = false;
 
     public void setEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;

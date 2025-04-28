@@ -54,8 +54,9 @@ public class UserCommandController {
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
-
-    @Operation(summary = "비밀번호 찾기", description = "임시 비밀번호를 입력한 이메일로 전송한다.")
+    // TODO : 1. 이메일 인증 요청
+    //        2. 이메일 + 아이디 + 인증 번호 요청으로 비밀번호 재발급 요청하기
+    @Operation(summary = "비밀번호 찾기", description = "비밀번호 재발급을 위해 이메일 인증 요청을 보낸다.")
     @PostMapping("/find/password")
     public ResponseEntity<ApiResponse<Void>> findUserPassword(
             @RequestBody @Valid UserFindPasswordRequest request
@@ -65,10 +66,20 @@ public class UserCommandController {
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
+    @Operation(summary = "비밀번호 재발급", description = "임시 비밀번호를 입력한 이메일로 전송한다.")
+    @PostMapping("/find/password/verify")
+    public ResponseEntity<ApiResponse<Void>> verifyFindUserPassword(
+            @RequestBody @Valid UserVerifyFindPasswordRequest request
+    ) throws MessagingException {
+        userCommandService.verifyFindPassword(request);
+
+        return ResponseEntity.ok(ApiResponse.success(null));
+    }
+
     @Operation(summary = "아이디 찾기", description = "아이디 찾기를 위한 이메일 인증 요청을 보낸다.")
     @PostMapping("/find/id")
     public ResponseEntity<ApiResponse<Void>> findUserId(
-            @RequestBody UserFindIdRequest request
+            @RequestBody @Valid UserFindIdRequest request
     ) throws MessagingException {
         userCommandService.findUserId(request);
 

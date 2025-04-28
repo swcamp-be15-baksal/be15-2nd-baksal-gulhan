@@ -14,6 +14,7 @@ import com.hanhwa_tae.secondserver.user.command.domain.repository.UserInfoReposi
 import com.hanhwa_tae.secondserver.delivery.command.domain.repository.DeliveryAddressRepository;
 import com.hanhwa_tae.secondserver.user.command.domain.repository.UserRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserIdRepository;
+import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserPasswordRepository;
 import com.hanhwa_tae.secondserver.user.command.infrastructure.RedisUserRepository;
 import com.hanhwa_tae.secondserver.user.query.mapper.UserMapper;
 import com.hanhwa_tae.secondserver.utils.EmailUtil;
@@ -48,12 +49,17 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final RandomStringGenerator randomStringGenerator;
     private final RedisUserIdRepository redisUserIdRepository;
     private final DeliveryAddressRepository deliveryAddressRepository;
+    private final RedisUserPasswordRepository redisUserPasswordRepository;
 
 
     //    @Transactional
     public void registerUser(@Valid UserCreateRequest request) throws MessagingException {
         User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
         User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
+
+        if(!request.isAgreed()){
+            throw new BusinessException(ErrorCode.UNAUTHORIZED_REQUEST);
+        }
 
         // 중복 유저가 존재할 경우
         if (duplicateIdUser != null) {
@@ -191,9 +197,41 @@ public class UserCommandServiceImpl implements UserCommandService {
         String requestUserId = request.getUserId();
         String requestEmail = request.getEmail();
 
+
         // 1. 유저 존재 확인
         User user = userRepository.findUserByUserIdAndEmail(requestUserId, requestEmail)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 2. 해당 유저의 이메일에 인증 요청을 보냄
+        StringBuilder sb = new StringBuilder();
+
+        String uuid = UUID.randomUUID().toString();
+
+        sb.append("<h1>이메일 인증<h1>");
+        sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
+
+        emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
+
+        RedisUserPassword redisData = RedisUserPassword.builder().uuid(uuid).build();
+
+        redisUserPasswordRepository.save(redisData);
+    }
+
+    @Override
+    public void verifyFindPassword(UserVerifyFindPasswordRequest request) throws MessagingException {
+        String requestUserId = request.getUserId();
+        String requestEmail = request.getEmail();
+        String uuid = request.getUuid();
+
+
+        // 1. 유저 존재 확인
+        User user = userRepository.findUserByUserIdAndEmail(requestUserId, requestEmail)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if(!redisUserPasswordRepository.existsById(uuid)){
+            throw new BusinessException(ErrorCode.EMAIL_AUTHORIZATION_ERROR);
+        }
+
         // 2. 해당 유저의 이메일로 임시 비밀번호 전송
         StringBuilder sb = new StringBuilder();
 
@@ -227,7 +265,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
 
-        // 3. resdis에 인증번호 : ID 형태로 저장
+        // 3. redis에 인증번호 : ID 형태로 저장
         RedisUserId redisUserId = RedisUserId
                 .builder()
                 .uuid(uuid)
