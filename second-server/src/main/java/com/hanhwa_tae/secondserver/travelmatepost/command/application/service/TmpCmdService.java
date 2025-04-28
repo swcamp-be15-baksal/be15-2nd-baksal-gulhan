@@ -6,6 +6,7 @@ import com.hanhwa_tae.secondserver.travelmatepost.command.application.dto.reques
 import com.hanhwa_tae.secondserver.travelmatepost.command.application.dto.request.TmpUpdateRequest;
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.aggregate.TravelMatePost;
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.repository.JpaTravelMatePostRepository;
+import com.hanhwa_tae.secondserver.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.User;
 import com.hanhwa_tae.secondserver.user.query.mapper.UserMapper;
 import jakarta.transaction.Transactional;
@@ -55,7 +56,7 @@ public class TmpCmdService {
         );
     }
 
-    /* 상품 삭제 */
+    /* 동행글 삭제 */
     public void deletePost(String id, Integer travelMatePostId) {
 
         TravelMatePost travelMatePost = jpaTravelMatePostRepository.findById(travelMatePostId)
@@ -64,7 +65,7 @@ public class TmpCmdService {
         User user = userMapper.findUserByUserId(id)
                         .orElseThrow( () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        if(!user.getUserNo().equals(travelMatePost.getUser().getUserNo())) {
+        if(!user.getUserNo().equals(travelMatePost.getUser().getUserNo()) && !user.getRank().getRankName().equals(RankType.SLAVE)) {
             throw new BusinessException(ErrorCode.POST_NOT_OWNED);
         }
 
