@@ -23,4 +23,5 @@ public interface UserCommandService {
 
     void withdrawUser(CustomUserDetail userDetail);
 
+    void verifyFindPassword(@Valid UserVerifyFindPasswordRequest request) throws MessagingException;
 }
