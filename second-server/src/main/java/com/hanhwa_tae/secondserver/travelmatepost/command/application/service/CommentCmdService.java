@@ -8,6 +8,7 @@ import com.hanhwa_tae.secondserver.travelmatepost.command.domain.aggregate.Comme
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.aggregate.TravelMatePost;
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.repository.JpaCommentRepository;
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.repository.JpaTravelMatePostRepository;
+import com.hanhwa_tae.secondserver.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.User;
 import com.hanhwa_tae.secondserver.user.query.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -82,7 +83,7 @@ public class CommentCmdService {
         Comment newComment = jpaCommentRepository.findById(commentId)
                 .orElseThrow( () -> new BusinessException(ErrorCode.COMMENT_NOT_FOUND));
 
-        if (!user.getUserNo().equals(newComment.getUserNo().getUserNo())) {
+        if (!user.getUserNo().equals(newComment.getUserNo().getUserNo()) && !user.getRank().getRankName().equals(RankType.SLAVE)) {
             throw new BusinessException(ErrorCode.COMMENT_NOT_OWNED);
         }
 
