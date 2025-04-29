@@ -39,4 +39,8 @@ public class PackageDTO {
 
     private int remaining;
 
+    private Integer likeCount;
+
+    private Integer reviewCount;
+
 }
