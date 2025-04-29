@@ -3,9 +3,6 @@ package com.hanhwa_tae.secondserver.delivery.query.service;
 
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
-import com.hanhwa_tae.secondserver.delivery.command.application.dto.request.DeliveryAddressRequest;
-import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO;
-import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressResponse;
 import com.hanhwa_tae.secondserver.delivery.query.dto.request.DeliveryInfoRequest;
 import com.hanhwa_tae.secondserver.user.command.application.dto.DeliveryStateCode;
 import com.hanhwa_tae.secondserver.user.command.application.dto.TrackResponse;
@@ -14,12 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
