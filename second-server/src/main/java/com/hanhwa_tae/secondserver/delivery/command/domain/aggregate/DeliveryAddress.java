@@ -26,4 +26,7 @@ public class DeliveryAddress {
     @ManyToOne // 한명의 회원은 여러 주소를 가질수있다.
     @JoinColumn(name = "userNo")
     private User user; // FK
+
+    @Enumerated(EnumType.STRING)
+    private DefaultAddress defaultAddress;
 }

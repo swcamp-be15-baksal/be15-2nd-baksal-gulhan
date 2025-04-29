@@ -30,6 +30,7 @@ public class DeliveryCommandService {
                 .receiver(request.getReceiver())
                 .receiverPhone(request.getReceiverPhone())
                 .user(user)
+                .defaultAddress(request.getDefaultAddress())
                 .build();
 
         deliveryAddressRepository.save(address);
@@ -48,6 +49,7 @@ public class DeliveryCommandService {
         foundAddress.setAddress(request.getAddress());
         foundAddress.setReceiver(request.getReceiver());
         foundAddress.setReceiverPhone(request.getReceiverPhone());
+        foundAddress.setDefaultAddress(request.getDefaultAddress());
 
         log.info("배송지 수정 완료: 회원 ID={}, 수정된 주소={}", id, foundAddress.getAddress());
     }

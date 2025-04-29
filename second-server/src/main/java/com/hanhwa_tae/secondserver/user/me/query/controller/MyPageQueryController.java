@@ -5,6 +5,7 @@ import com.hanhwa_tae.secondserver.common.domain.TargetType;
 import com.hanhwa_tae.secondserver.common.dto.ApiResponse;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressResponse;
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.service.MyPageQueryService;
@@ -78,6 +79,16 @@ public class MyPageQueryController {
             @AuthenticationPrincipal CustomUserDetail userDetail
     ){
         UserCommentResponse response = myPageQueryService.getUserComment(userDetail);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @Operation(summary = "배송지 목록 조회", description = "회원은 자신이 등록한 배송지의 목록을 확인할 수 있다.")
+    @GetMapping("/delivery-address")
+    public ResponseEntity<ApiResponse<DeliveryAddressResponse>> getDeliveryAddress(
+            @AuthenticationPrincipal CustomUserDetail userDetail
+    ){
+        DeliveryAddressResponse response = myPageQueryService.getDeliveryAddress(userDetail);
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
