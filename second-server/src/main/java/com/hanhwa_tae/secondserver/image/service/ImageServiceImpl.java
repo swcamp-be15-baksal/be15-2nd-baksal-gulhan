@@ -3,6 +3,7 @@ package com.hanhwa_tae.secondserver.image.service;
 
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.image.dto.response.ImageUploadResponse;
 import com.hanhwa_tae.secondserver.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,11 @@ public class ImageServiceImpl implements ImageService{
 
     private final FileUtil fileUtil;
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024;
+    private static final String CLOUD_FRONT_DOMAIN = "https://d152i3f1t56z95.cloudfront.net/";
     private final S3Client s3Client;
 
     @Override
-    public void uploadImage(MultipartFile file) throws Exception {
+    public ImageUploadResponse uploadImage(MultipartFile file) throws Exception {
         log.info("파일 위조 확인 : "+ fileUtil.validateFile(file));
 
         /* 이미지 mime 타입, 확장자 평가*/
@@ -47,17 +49,23 @@ public class ImageServiceImpl implements ImageService{
         String originalFilename = file.getOriginalFilename();
         String extension = fileUtil.getExtension(originalFilename);
         String uuidFilename = UUID.randomUUID() + "." + extension;
+        String imageName = "temp/" + uuidFilename;
 
         log.info("변경된 파일 이름: " + uuidFilename);
 
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(bucketName)
-                .key("temp/" + uuidFilename)
+                .key(imageName)
                 .build();
 
         s3Client.putObject(putObjectRequest,
                 RequestBody.fromInputStream(
                         file.getInputStream(), file.getSize()));
 
+        String imageUrl = CLOUD_FRONT_DOMAIN + imageName;
+
+        return ImageUploadResponse.builder()
+                .imageUrl(imageUrl)
+                .build();
     }
 }
