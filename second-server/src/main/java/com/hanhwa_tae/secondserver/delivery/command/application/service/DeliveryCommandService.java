@@ -3,6 +3,7 @@ package com.hanhwa_tae.secondserver.delivery.command.application.service;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
 import com.hanhwa_tae.secondserver.delivery.command.application.dto.request.DeliveryAddressRequest;
+import com.hanhwa_tae.secondserver.delivery.command.domain.aggregate.DefaultAddress;
 import com.hanhwa_tae.secondserver.delivery.command.domain.aggregate.DeliveryAddress;
 import com.hanhwa_tae.secondserver.delivery.command.domain.repository.DeliveryAddressRepository;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.User;
@@ -25,11 +26,17 @@ public class DeliveryCommandService {
         User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
+        if (DefaultAddress.Y.equals(request.getDefaultAddress())) {
+            // 기본배송지 새로 설정하면 기존에 있던 건 모두 N 처리해야 됨
+            deliveryAddressRepository.updateAllDefaultAddressToN(user);
+        }
+
         DeliveryAddress address = DeliveryAddress.builder()
                 .address(request.getAddress())
                 .receiver(request.getReceiver())
                 .receiverPhone(request.getReceiverPhone())
                 .user(user)
+                // 기본 배송지 설정 시 Y 아니면 N
                 .defaultAddress(request.getDefaultAddress())
                 .build();
 
@@ -39,17 +46,24 @@ public class DeliveryCommandService {
     }
 
     @Transactional
-    public void updateDeliveryAddress(String id, DeliveryAddressRequest request) {
+    public void updateDeliveryAddress(String id, int deliveryAddressId, DeliveryAddressRequest request) {
         User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
+        if (DefaultAddress.Y.equals(request.getDefaultAddress())) {
+            deliveryAddressRepository.updateAllDefaultAddressToN(user);
+        }
+
+        DeliveryAddress foundAddress = deliveryAddressRepository.findByDeliveryAddressIdAndUser(deliveryAddressId, user)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
 
         foundAddress.setAddress(request.getAddress());
         foundAddress.setReceiver(request.getReceiver());
         foundAddress.setReceiverPhone(request.getReceiverPhone());
-        foundAddress.setDefaultAddress(request.getDefaultAddress());
+
+        if (request.getDefaultAddress() != null) {
+            foundAddress.setDefaultAddress(request.getDefaultAddress());
+        }
 
         log.info("배송지 수정 완료: 회원 ID={}, 수정된 주소={}", id, foundAddress.getAddress());
     }

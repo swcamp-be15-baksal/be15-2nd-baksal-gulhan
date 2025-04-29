@@ -31,13 +31,14 @@ public class DeliveryCommandController {
     }
 
     @Operation(summary = "배송지 수정", description = "회원은 등록한 배송지를 수정할 수 있다.")
-    @PutMapping("/delivery-address/update")
+    @PutMapping("/delivery-address/update/{deliveryAddressId}")
     public ResponseEntity<ApiResponse<Void>> updateDeliveryAddress(
             @AuthenticationPrincipal CustomUserDetail userDetail,
+            @PathVariable int deliveryAddressId,
             @RequestBody DeliveryAddressRequest request
     ) {
         String userId = userDetail.getUserId();
-        deliveryCommandService.updateDeliveryAddress(userId, request);
+        deliveryCommandService.updateDeliveryAddress(userId, deliveryAddressId, request);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 
