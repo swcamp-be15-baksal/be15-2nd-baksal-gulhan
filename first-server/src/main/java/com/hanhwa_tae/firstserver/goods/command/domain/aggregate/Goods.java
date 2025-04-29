@@ -33,6 +33,10 @@ public class Goods {
 
     private int price;
 
+    private Integer likeCount;
+
+    private Integer reviewCount;
+
     @CreatedDate
     private Timestamp createdAt;
 
