@@ -57,7 +57,9 @@ public class UserCommandServiceImpl implements UserCommandService {
         User duplicateIdUser = userMapper.findUserByUserId(request.getUserId()).orElse(null);
         User duplicateEmailUser = userMapper.findUserByEmail(request.getEmail()).orElse(null);
 
-        if(!request.isAgreed()){
+        log.info(String.valueOf(request.getIsAgreed()));
+
+        if(!request.getIsAgreed()){
             throw new BusinessException(ErrorCode.UNAUTHORIZED_REQUEST);
         }
 

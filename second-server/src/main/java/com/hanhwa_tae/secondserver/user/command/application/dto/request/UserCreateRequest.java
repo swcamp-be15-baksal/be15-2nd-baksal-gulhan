@@ -48,7 +48,7 @@ public class UserCreateRequest {
     /* default 값 지정*/
     private String countryCode;
 
-    private boolean isAgreed;
+    private Boolean isAgreed;
 
     public void setEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;
