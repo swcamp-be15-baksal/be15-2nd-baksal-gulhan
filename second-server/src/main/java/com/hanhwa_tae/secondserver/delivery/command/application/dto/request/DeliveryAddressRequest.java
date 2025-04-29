@@ -16,6 +16,5 @@ public class DeliveryAddressRequest {
     @NotNull
     private String receiverPhone;
     @NotNull
-    @Pattern(regexp = "Y|N")
     private DefaultAddress defaultAddress;
 }
