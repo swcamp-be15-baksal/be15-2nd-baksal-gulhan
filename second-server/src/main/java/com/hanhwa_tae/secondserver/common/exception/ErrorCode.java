@@ -64,7 +64,10 @@ public enum ErrorCode {
     UNAUTHORIZED_REQUEST("50002", "유효하지 않은 요청입니다.", HttpStatus.UNAUTHORIZED),
     SEND_EMAIL_FAILED("50003", "이메일 전송에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     EMAIL_CODE_EXPIRED("50004", "이메일 인증이 만료되었습니다.", HttpStatus.BAD_REQUEST),
-    EMAIL_AUTHORIZATION_ERROR("50005", "이메일 인증에 실패하였습니다.",HttpStatus.BAD_REQUEST);
+    EMAIL_AUTHORIZATION_ERROR("50005", "이메일 인증에 실패하였습니다.",HttpStatus.BAD_REQUEST),
+    IMAGE_FORMAT_ERROR("50006","지원하지 않는 이미지 형식 입니다.",HttpStatus.BAD_REQUEST),
+    IMAGE_TOO_BIG("50007", "이미지 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
+    IMAGE_NOT_FOUND("50008", "이미지를 찾지 못하였습니다.", HttpStatus.NOT_FOUND);
 
 
     private final String code;
