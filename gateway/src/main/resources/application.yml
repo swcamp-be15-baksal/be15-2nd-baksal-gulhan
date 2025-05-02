@@ -9,6 +9,8 @@ spring:
     import: optional:configserver:http://localhost:8888
   cloud:
     gateway:
+      httpclient:
+        response-timeout: 5000
       routes:
         - id: commerce-server
           uri: lb://COMMERCE-SERVER
@@ -16,10 +18,12 @@ spring:
             - Path=/api/v1/s1/**
           filters:
             - RewritePath=/api/v1/s1/(?<segment>.*), /$\{segment}
-            - name: CircuitBreaker
-              args:
-                name: userServiceCB
-                fallbackUri: forward:/fallback/user
+#            - name: CircuitBreaker
+#              args:
+#                name: userServiceCB
+#                failureRateThreshold: 70
+#                minimumNumberOfCalls: 15
+#                slidingWindowSize: 25
         - id: auth-server
           uri: lb://AUTH-SERVER
           predicates:
@@ -40,3 +44,10 @@ eureka:
     register-with-eureka: true
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+
+
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: trace
+#    reactor.netty: trace

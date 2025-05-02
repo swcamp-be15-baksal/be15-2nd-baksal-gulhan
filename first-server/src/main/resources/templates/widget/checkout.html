@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
-  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <link rel="stylesheet" type="text/css" href="/api/v1/s1/style.css" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>토스페이먼츠 샘플 프로젝트</title>
@@ -176,8 +176,8 @@
       await widgets.requestPayment({
         orderId: orderId,
         orderName: ordername,
-        successUrl: window.location.origin + "/widget/success?accessToken=" + token,
-        failUrl: window.location.origin + "/widget/fail?accessToken=" + token,
+        successUrl: window.location.origin + "/api/v1/s1/widget/success?accessToken=" + token,
+        failUrl: window.location.origin + "/api/v1/s1/widget/fail?accessToken=" + token,
         customerEmail: email,
         customerName: username,
         // 가상계좌 안내, 퀵계좌이체 휴대폰 번호 자동 완성에 사용되는 값입니다. 필요하다면 주석을 해제해 주세요.

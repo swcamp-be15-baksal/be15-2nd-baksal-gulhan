@@ -6,7 +6,8 @@
     <select id="findUserNoByUserId" resultType="Long">
         SELECT
         user_no
-        FROM user_id = #{user_id}
+        FROM user
+        WHERE user_id = #{user_id}
     </select>
 
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.firstserver.user.query.dto.response.UserResponse">
@@ -29,6 +30,18 @@
         rank_name
         , point_rate
         FROM rank
+    </select>
+
+    <select id="findUserInfoDetailByUserId" resultType="com.hanhwa_tae.firstserver.user.query.dto.response.UserDetailResponse">
+        SELECT
+        b.phone,
+        b.address,
+        b.point
+        FROM user a
+        JOIN user_info b ON (a.user_no = b.user_no)
+        WHERE a.user_id = #{ userId }
+        AND a.is_deleted = 'N'
+
     </select>
 
     <update id = "updatePoint">

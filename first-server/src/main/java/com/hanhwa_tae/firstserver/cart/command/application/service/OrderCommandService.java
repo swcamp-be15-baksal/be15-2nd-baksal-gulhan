@@ -47,14 +47,19 @@ public class OrderCommandService {
     }
 
     public String registerOrder(String userId, CreateOrderRequest createOrderRequest){
+
         Long userNo = userMapper.findUserNoByUserId(userId).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         UserDetailResponse userinfo = userMapper.findUserInfoDetailByUserId(userId).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+        System.out.println(userinfo);
+
         List<CartResponse> cartList = cartMapper.selectAllCartByUserNo(userNo);
+        System.out.println(cartList);
         int totalAmount = cartList.stream().
                 mapToInt(amount -> amount.getQuantity()).
                 sum();
+        System.out.println(totalAmount);
         Order order = orderRepository.
                 save(
                         Order.builder().
