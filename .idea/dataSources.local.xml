@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-251.23774.435">
+  <component name="dataSourceStorageLocal" created-in="IU-243.24978.46">
     <data-source name="gulhan@localhost" uuid="63a39563-c0f5-4dce-970d-3313853a4041">
       <database-info product="MariaDB" version="10.11.11-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="3.3.3" dbms="MARIADB" exact-version="10.11.11" exact-driver-version="3.3">
         <extra-name-characters>#@</extra-name-characters>
@@ -17,9 +17,7 @@
       <load-sources>user_and_system_sources</load-sources>
     </data-source>
     <data-source name="0@localhost" uuid="c5b94fda-a51f-4f84-bc57-e4c7a64483a1">
-      <database-info product="Redis Standalone" version="7.4.3" jdbc-version="4.2" driver-name="Redis JDBC Driver" driver-version="1.5" dbms="REDIS" exact-version="7.4.3" exact-driver-version="1.5">
-        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
-      </database-info>
+      <database-info product="Redis Standalone" version="7.4.3" jdbc-version="4.2" driver-name="Redis JDBC Driver" driver-version="1.5" dbms="REDIS" exact-version="7.4.3" exact-driver-version="1.5" />
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <user-name>gulhan</user-name>
