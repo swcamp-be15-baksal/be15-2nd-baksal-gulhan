@@ -1,6 +1,7 @@
 package com.hanhwa_tae.secondserver.user.me.query.mapper;
 
 import com.hanhwa_tae.secondserver.common.domain.TargetType;
+import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentDTO;
@@ -19,4 +20,6 @@ public interface MyPageMapper {
     List<UserReviewDTO> findReviewByUserNoAndTargetType(Long userNo, TargetType targetType);
 
     List<UserCommentDTO> findCommentByUserNo(Long userNo);
+
+    List<DeliveryAddressDTO> findDeliveryAddressByUserNo(Long userNo);
 }

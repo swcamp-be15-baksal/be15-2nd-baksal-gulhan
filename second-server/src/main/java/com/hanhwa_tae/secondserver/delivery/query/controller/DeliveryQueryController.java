@@ -4,7 +4,6 @@ import com.hanhwa_tae.secondserver.common.dto.ApiResponse;
 import com.hanhwa_tae.secondserver.delivery.query.dto.request.DeliveryInfoRequest;
 import com.hanhwa_tae.secondserver.delivery.query.service.DeliveryQueryService;
 import com.hanhwa_tae.secondserver.user.command.application.dto.response.DeliveryStateResponse;
-import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,4 +25,5 @@ public class DeliveryQueryController {
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
 }

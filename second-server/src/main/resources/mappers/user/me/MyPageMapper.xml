@@ -82,4 +82,18 @@
         AND
         is_deleted = 'N'
     </select>
+
+    <!-- 배송지 목록 조회 -->
+    <select id="findDeliveryAddressByUserNo" resultType="com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO">
+        SELECT
+            u.user_no,
+            da.receiver,
+            da.receiver_phone,
+            da.address,
+            da.default_address
+        FROM delivery_address da
+        JOIN user u
+            ON u.user_no = da.user_no
+        WHERE da.user_no = #{userNo}
+    </select>
 </mapper>

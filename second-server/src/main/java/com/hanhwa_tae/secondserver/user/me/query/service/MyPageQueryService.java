@@ -4,6 +4,8 @@ import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.model.CustomUse
 import com.hanhwa_tae.secondserver.common.domain.TargetType;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO;
+import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressResponse;
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.mapper.MyPageMapper;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -63,5 +66,18 @@ public class MyPageQueryService {
                 .commentList(commentList)
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public DeliveryAddressResponse getDeliveryAddress(CustomUserDetail userDetail) {
+
+        Long userNo = userDetail.getUserNo();
+
+        List<DeliveryAddressDTO> addressList = myPageMapper.findDeliveryAddressByUserNo(userNo);
+
+        return DeliveryAddressResponse.builder()
+                .addressList(addressList)
+                .build();
+    }
+
 
 }
