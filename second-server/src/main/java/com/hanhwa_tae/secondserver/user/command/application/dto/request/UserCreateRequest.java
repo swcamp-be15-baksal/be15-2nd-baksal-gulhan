@@ -27,6 +27,9 @@ public class UserCreateRequest {
     private String password;
 
     @NotBlank
+    private String confirmPassword;
+
+    @NotBlank
     @ValidEmail
     private String email;
 
@@ -43,6 +46,8 @@ public class UserCreateRequest {
     private String phone;
 
     private String address;
+
+    private String detailAddress;
 
     @NotBlank
     /* default 값 지정*/

@@ -8,11 +8,15 @@ import com.hanhwa_tae.secondserver.user.command.application.service.UserCommandS
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.io.IOException;
 
 @Tag(name = "회원")
 @RestController
@@ -36,9 +40,15 @@ public class UserCommandController {
     @Operation(summary = "이메일 인증", description = "이메일 인증을 통해 회원 가입을 완료한다.")
     @GetMapping("/verify-email")
     public ResponseEntity<ApiResponse<Void>> verifyEmail(
-            @RequestParam(required = true) String uuid
-    ){
-        userCommandService.verifyByEmail(uuid);
+            @RequestParam(required = true) String uuid,
+            HttpServletResponse response
+    ) throws IOException {
+        boolean result = userCommandService.verifyByEmail(uuid);
+        if (result) {
+            response.sendRedirect("http://localhost:5173/verify-success");
+        } else {
+            response.sendRedirect("http://localhost:5173/verify-fail");
+        }
 
         return ResponseEntity.ok(ApiResponse.success(null));
     }
