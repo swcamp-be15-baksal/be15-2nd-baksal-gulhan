@@ -7,4 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CancelRequestDto {
     private final String cancelReason;
+    private final int amount;
 }

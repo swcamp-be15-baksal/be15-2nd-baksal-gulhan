@@ -11,6 +11,7 @@ public class SuccessFailController {
     @GetMapping("/widget/success")
     public String showSuccessPage() {
         return "widget/success";
+
     }
 
     @GetMapping("/widget/fail")

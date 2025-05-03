@@ -25,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @RequestMapping("/payment")
+
 @Controller
 @RequiredArgsConstructor
 public class TossPaymentController {
@@ -52,16 +53,20 @@ public class TossPaymentController {
     @Operation(summary = "사용자의 취소 정보 보내기",description = "Paymentkey와 취소사유를 함께 보내준다.")
     @PostMapping(value = {"/cancel"})
     public ResponseEntity<JSONObject> cancelPayment(@AuthenticationPrincipal CustomUserDetail userDetail, @RequestBody CancelRequestDto cancelRequestDto){
+
         String paymentKey = orderCommandService.searchPaymentKeyByUserNo(userDetail.getUserNo()).getOrderCode();
         String secretKey = tossPaymentConfig.getTestSecretApiKey();
-        String cancelReasonContent = "{ \"cancelReason\": \"" + cancelRequestDto.getCancelReason() + "\" }";
-        JSONObject response = sendRequest(parseRequestData(cancelReasonContent),
+        String cancelContent = "{ \"cancelReason\": \"" + cancelRequestDto.getCancelReason() + "\"" +
+                "\"cancelAmount\" : \"" + cancelRequestDto.getAmount() + "\" }";
+
+        JSONObject response = sendRequest(parseRequestData(cancelContent),
                 secretKey, TossPaymentConfig.URL + "/" + paymentKey + "/cancel");
 
         int statusCode = (response.containsKey("error"))
                 ?400
                 :200;
 
+        System.out.println(statusCode);
         return ResponseEntity.status(statusCode).body(response);
     }
 
