@@ -1,7 +1,6 @@
 package com.hanhwa_tae.secondserver.auth.query.service;
 
 
-import com.hanhwa_tae.secondserver.auth.command.application.dto.request.RefreshTokenRequest;
 import com.hanhwa_tae.secondserver.auth.command.application.dto.response.TokenResponse;
 import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.RefreshToken;
 import com.hanhwa_tae.secondserver.auth.command.domain.repository.AuthRepository;
@@ -73,13 +72,13 @@ public class AuthQueryServiceImpl implements AuthQueryService {
     }
 
     @Override
-    public AccessTokenResponse reissue(RefreshTokenRequest request) {
+    public TokenResponse reissue(String request) {
 //
 //        if(userDetail == null){
 //            throw new BusinessException(ErrorCode.INVALID_TOKEN);
 //        }
 
-        String requestRefreshToken = request.getRefreshToken();
+        String requestRefreshToken = request;
         log.info("유저 ID : " + jwtTokenProvider.getUserIdFromJWT(requestRefreshToken));
         log.info("유저 RANK : " + jwtTokenProvider.getRankFromJWT(requestRefreshToken));
         // refreshtoken 검증
@@ -109,9 +108,16 @@ public class AuthQueryServiceImpl implements AuthQueryService {
                 rank
         );
 
+        String refreshToken = jwtTokenProvider.createRefreshToken(
+                userId,
+                userNo,
+                rank
+        );
+
         // 3. 응답
-        return AccessTokenResponse.builder()
+        return TokenResponse.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

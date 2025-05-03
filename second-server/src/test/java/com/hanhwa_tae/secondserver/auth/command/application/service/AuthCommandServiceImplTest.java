@@ -1,9 +1,7 @@
 package com.hanhwa_tae.secondserver.auth.command.application.service;
 
-import com.hanhwa_tae.secondserver.auth.command.application.dto.request.RefreshTokenRequest;
 import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.model.CustomUserDetail;
 import com.hanhwa_tae.secondserver.auth.command.domain.repository.AuthRepository;
-import com.hanhwa_tae.secondserver.user.command.domain.aggregate.Rank;
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.RankType;
 import com.hanhwa_tae.secondserver.utils.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +15,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -55,10 +52,10 @@ class AuthCommandServiceImplTest {
     @DisplayName("로그아웃 성공")
     void testSuccessLogout(){
         // given
-        RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+        String request = refreshToken;
         /* 토큰 파싱 */
         when(jwtTokenProvider.getUserIdFromJWT(refreshToken)).thenReturn(userId);
-        when(jwtTokenProvider.validateToken(request.getRefreshToken())).thenReturn(true);
+        when(jwtTokenProvider.validateToken(request)).thenReturn(true);
 
         // when
         authCommandService.logout(userDetail, request);

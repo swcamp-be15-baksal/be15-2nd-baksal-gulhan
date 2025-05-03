@@ -1,6 +1,5 @@
 package com.hanhwa_tae.secondserver.auth.query.service;
 
-import com.hanhwa_tae.secondserver.auth.command.application.dto.request.RefreshTokenRequest;
 import com.hanhwa_tae.secondserver.auth.command.application.dto.response.TokenResponse;
 import com.hanhwa_tae.secondserver.auth.command.domain.aggregate.RefreshToken;
 import com.hanhwa_tae.secondserver.auth.command.domain.repository.AuthRepository;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -128,7 +126,7 @@ class AuthQueryServiceImplTest {
     @Test
     @DisplayName("Access Token 재발급")
     void testReissueToken(){
-        RefreshTokenRequest request = new RefreshTokenRequest(refreshToken);
+        String request = refreshToken;
 
         when(jwtTokenProvider.getUserIdFromJWT(refreshToken)).thenReturn(userId);
         when(jwtTokenProvider.getRankFromJWT(refreshToken)).thenReturn(rank.getRankName().getRankName());
