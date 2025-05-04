@@ -114,6 +114,18 @@ public class AuthQueryServiceImpl implements AuthQueryService {
                 rank
         );
 
+        RefreshToken refreshTokenEntity = RefreshToken
+                .builder()
+                .userId(userId)
+                .token(refreshToken)
+                .build();
+
+        // 전달 받은 refresh token 만료 시키기
+        authRepository.deleteById(userId);
+        
+        // 재발급 된 refresh token 저장하기!
+        authRepository.save(refreshTokenEntity);
+
         // 3. 응답
         return TokenResponse.builder()
                 .accessToken(accessToken)

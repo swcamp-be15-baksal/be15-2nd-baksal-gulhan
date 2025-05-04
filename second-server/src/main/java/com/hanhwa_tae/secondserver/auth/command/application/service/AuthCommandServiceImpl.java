@@ -6,9 +6,11 @@ import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
 import com.hanhwa_tae.secondserver.utils.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthCommandServiceImpl implements AuthCommandService {
 
@@ -21,8 +23,10 @@ public class AuthCommandServiceImpl implements AuthCommandService {
         if(userDetail == null){
             throw new BusinessException(ErrorCode.INVALID_TOKEN);
         }
+
         String userDetailUserId = userDetail.getUserId();
         String refreshTokenUserId = jwtTokenProvider.getUserIdFromJWT(refreshToken);
+        log.info("로그아웃 요청 유저 아이디 : {}", refreshTokenUserId);
 
         // 검증 : accessToken에 적힌 Id 값과 refreshToken에 적힌 Id 값이 일치하는 지 확인
         if(!userDetailUserId.equals(refreshTokenUserId)){

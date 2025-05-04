@@ -7,6 +7,7 @@ import com.hanhwa_tae.gateway.common.exception.ErrorResponse;
 import com.hanhwa_tae.gateway.dto.ApiResponse;
 import com.hanhwa_tae.gateway.jwt.GatewayJwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
@@ -31,12 +33,10 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 헤더에서 "Authorization" 값을 읽어온다.
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
-
         // 만약 토큰이 없거나, "Bearer "로 시작하지 않으면 다음 체인으로 요청을 전달한다.
         if(authHeader == null || !authHeader.startsWith("Bearer ")) {
             return chain.filter(exchange);
         }
-
         // "Bearer " 접두어를 제거하고 순수 JWT 토큰만 추출한다.
         String token = authHeader.substring(7);
 

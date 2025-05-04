@@ -25,6 +25,7 @@ public class AuthCommandController {
             @AuthenticationPrincipal CustomUserDetail userDetail,
             @CookieValue(name = "refreshToken", required = false) String refreshToken
     ) {
+        System.out.println(refreshToken);
         if (refreshToken != null) {
             authCommandService.logout(userDetail, refreshToken);
         }
