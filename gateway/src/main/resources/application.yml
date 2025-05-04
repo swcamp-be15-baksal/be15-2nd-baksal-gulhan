@@ -9,6 +9,20 @@ spring:
     import: optional:configserver:http://localhost:8888
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:5173"
+              - "http://localhost:8000"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowed-headers:
+              - "*"
+            allow-credentials: true
       httpclient:
         response-timeout: 5000
       routes:

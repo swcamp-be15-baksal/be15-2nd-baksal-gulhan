@@ -9,7 +9,7 @@ public interface UserCommandService {
 
     void registerUser(@Valid UserCreateRequest request) throws MessagingException;
 
-    void verifyByEmail(String uuid);
+    boolean verifyByEmail(String uuid);
 
     void updateUserInfo(CustomUserDetail userDetail, UpdateUserInfoRequest request);
 
