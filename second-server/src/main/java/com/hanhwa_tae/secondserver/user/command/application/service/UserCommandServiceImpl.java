@@ -73,6 +73,11 @@ public class UserCommandServiceImpl implements UserCommandService {
             throw new BusinessException(ErrorCode.DUPLICATE_EMAIL_EXISTS);
         }
 
+        // 비밀번호가 일치하지 않을 경우
+        if(!request.getPassword().equals(request.getConfirmPassword())){
+            throw new BusinessException(ErrorCode.PASSWORD_MISMATCH);
+        }
+
         // 1. Redis에 데이터 저장
         String uuid = UUID.randomUUID().toString();
 
@@ -92,9 +97,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         }
 
         // 2. 이메일 보내기
+        String verifyUrl = "http://localhost:8000/api/v1/s2/users/verify-email?uuid=" + uuid;
+
         StringBuilder sb = new StringBuilder();
-        sb.append("<h1>이메일 인증<h1>");
-        sb.append("<h2>인증 코드 : ").append(uuid).append("<h2>");
+        sb.append("<h1>이메일 인증</h1>");
+        sb.append("<p>아래 버튼을 클릭하면 이메일 인증이 완료됩니다.</p>");
+        sb.append("<a href=\"").append(verifyUrl).append("\" style=\"display: inline-block; padding: 12px 24px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 6px; font-size: 16px;\">이메일 인증하기</a>");
 
 
         emailUtil.sendEmail(request.getEmail(), "[걸한] 이메일 인증 입니다.", sb.toString());
@@ -106,58 +114,60 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     @Override
     @Transactional
-    public void verifyByEmail(String uuid) {
-        // 1. 일치하는 uuid가 redis에 존재하는지 확인
-//        String userData = redisTemplate.opsForValue().get(uuid);
-        RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
-                () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
-        );
-
-        // 2. redis 데이터 지워주기
-        redisUserRepository.deleteById(uuid);
-        UserCreateRequest userRequestDto = null;
+    public boolean verifyByEmail(String uuid) {
         try {
-            userRequestDto = objectMapper.readValue(userData.getUserData(), UserCreateRequest.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            // 1. redis에서 uuid로 데이터 조회
+            RedisUser userData = redisUserRepository.findById(uuid).orElseThrow(
+                    () -> new BusinessException(ErrorCode.EMAIL_CODE_EXPIRED)
+            );
+
+            // 2. redis에서 삭제
+            redisUserRepository.deleteById(uuid);
+
+            // 3. JSON 문자열 → 객체 변환
+            UserCreateRequest userRequestDto = objectMapper.readValue(userData.getUserData(), UserCreateRequest.class);
+
+            // 4. 중복 가입 여부 확인
+            User duplicateUser = userMapper.findUserByUserId(userRequestDto.getUserId()).orElse(null);
+            if (duplicateUser != null) {
+                return false; // 이미 가입된 경우 false
+            }
+
+            // 5. 유저 생성
+            Rank defaultRank = userMapper.findRankIdByRankName(RankType.COMMONER.name());
+
+            UserCreateDTO userDto = UserCreateDTO.builder()
+                    .userId(userRequestDto.getUserId())
+                    .password(userRequestDto.getPassword())
+                    .username(userRequestDto.getUsername())
+                    .email(userRequestDto.getEmail())
+                    .gender(userRequestDto.getGender())
+                    .rankId((long) defaultRank.getRankId())
+                    .loginType(LoginType.GENERAL)
+                    .build();
+
+            User user = modelMapper.map(userDto, User.class);
+            user.setDefaultRank(defaultRank);
+            userRepository.save(user);
+
+            // 6. 유저 상세 정보 저장
+            UserInfoCreateDTO userInfoDto = UserInfoCreateDTO.builder()
+                    .user(user)
+                    .birth(userRequestDto.getBirth())
+                    .phone(userRequestDto.getPhone())
+                    .address(userRequestDto.getAddress() + " " + userRequestDto.getDetailAddress())
+                    .countryCode(userRequestDto.getCountryCode())
+                    .build();
+
+            UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
+            userInfoRepository.save(userInfo);
+
+            return true;
+        } catch (Exception e) {
+            // 로그 기록 (선택)
+            log.warn("이메일 인증 중 오류 발생: {}", e.getMessage(), e);
+            return false;
         }
-        // ! 이미 가입된 계정의 경우
-        User duplicateUser = userMapper.findUserByUserId(userRequestDto.getUserId()).orElse(null);
-
-        if (duplicateUser != null) {
-            throw new RuntimeException("이미 가입이 완료 되었습니다.");
-        }
-
-        // 2. DB에 value 값 가져와서 저장하기
-        Rank defaultRank = userMapper.findRankIdByRankName(RankType.COMMONER.name());
-
-        UserCreateDTO userDto = UserCreateDTO.builder()
-                .userId(userRequestDto.getUserId())
-                .password(userRequestDto.getPassword())
-                .username(userRequestDto.getUsername())
-                .email(userRequestDto.getEmail())
-                .gender(userRequestDto.getGender())
-                .rankId((long) defaultRank.getRankId())
-                .loginType(LoginType.GENERAL)
-                .build();
-
-        User user = modelMapper.map(userDto, User.class);
-        user.setDefaultRank(defaultRank);
-
-        userRepository.save(user);
-
-        /* 유저 상세 정보 저장 */
-        /* ??? 유저 상세 정보 저장을 따로 빼서 구현하기? */
-        UserInfoCreateDTO userInfoDto = UserInfoCreateDTO.builder()
-                .user(user)
-                .birth(userRequestDto.getBirth())
-                .phone(userRequestDto.getPhone())
-                .address(userRequestDto.getAddress())
-                .countryCode(userRequestDto.getCountryCode())
-                .build();
-
-        UserInfo userInfo = modelMapper.map(userInfoDto, UserInfo.class);
-        userInfoRepository.save(userInfo);
     }
 
     @Override

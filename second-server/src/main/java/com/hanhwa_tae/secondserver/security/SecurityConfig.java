@@ -36,8 +36,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // CSRF 처리 비활성화
         http
-                .cors(cors -> cors
-                        .configurationSource(corsConfigurationSource()))
+//                .cors(cors -> cors
+//                        .configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 // 세션 로그인 x -> 토큰 로그인 설정으로 진행한다
                 .sessionManagement(session
@@ -149,23 +149,23 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter();
     }
 
-    @Bean
-    public CorsFilter corsFilter() {
-        return new CorsFilter(corsConfigurationSource());
-    }
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        return new CorsFilter(corsConfigurationSource());
+//    }
 
-    @Bean
-    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
-        config.addAllowedOrigin("http://localhost:8000");
-        config.addAllowedHeader("*"); // 모든 헤더 허용
-        config.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+//    @Bean
+//    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("http://localhost:5173"); // 허용할 도메인
+//        config.addAllowedOrigin("http://localhost:8000");
+//        config.addAllowedHeader("*"); // 모든 헤더 허용
+//        config.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
 }
 
