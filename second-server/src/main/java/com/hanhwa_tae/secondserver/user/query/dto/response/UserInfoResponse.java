@@ -1,7 +1,6 @@
 package com.hanhwa_tae.secondserver.user.query.dto.response;
 
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.GenderType;
-import com.hanhwa_tae.secondserver.user.command.domain.aggregate.RankType;
 import lombok.Builder;
 import lombok.Getter;
 
