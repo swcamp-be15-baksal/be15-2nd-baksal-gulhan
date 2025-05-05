@@ -185,14 +185,16 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         String rawPassword = request.getPassword();
 
-        String newPassword = passwordEncoder.encode(rawPassword);
+        if (rawPassword != null && !rawPassword.isBlank()) {
+            String newPassword = passwordEncoder.encode(rawPassword);
+            user.setUpdateUser(newPassword);
+        }
 
         userDetail.getAuthorities().forEach(v ->
                 log.info(v.toString()));
 
         boolean isSlave = userDetail.getAuthorities()
                 .contains(new SimpleGrantedAuthority("SLAVE"));
-        user.setUpdateUser(newPassword);
 
         log.info("관리자 여부 : " + isSlave);
         if (!isSlave) {
