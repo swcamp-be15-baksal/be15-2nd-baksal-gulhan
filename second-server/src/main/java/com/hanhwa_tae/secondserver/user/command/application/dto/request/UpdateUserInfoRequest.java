@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class UpdateUserInfoRequest {
-    @NotBlank
     private final String password;
 
     @ValidPhone
