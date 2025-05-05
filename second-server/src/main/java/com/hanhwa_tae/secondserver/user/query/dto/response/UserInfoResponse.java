@@ -1,6 +1,7 @@
 package com.hanhwa_tae.secondserver.user.query.dto.response;
 
 import com.hanhwa_tae.secondserver.user.command.domain.aggregate.GenderType;
+import com.hanhwa_tae.secondserver.user.command.domain.aggregate.RankType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,11 +11,13 @@ import java.util.Date;
 @Builder
 public class UserInfoResponse {
     private final String userId;
-
     private final String username;
     private final String email;
     private final GenderType gender;
     private final Date birth;
     private final String phone;
     private final String address;
+    private final String rankName;
+    private final int pointRate;
+    private final int point;
 }

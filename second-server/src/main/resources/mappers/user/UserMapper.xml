@@ -50,8 +50,12 @@
         , b.birth
         , b.phone
         , b.address
+        , c.rank_name
+        , c.point_rate
+        , b.point
         FROM user a
         JOIN user_info b ON (a.user_no = b.user_no)
+        JOIN rank c ON (a.rank_id = c.rank_id)
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
     </select>
