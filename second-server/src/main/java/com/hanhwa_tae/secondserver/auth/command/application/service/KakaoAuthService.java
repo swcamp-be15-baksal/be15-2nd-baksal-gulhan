@@ -123,6 +123,7 @@ public class KakaoAuthService {
             throw new BusinessException(ErrorCode.ALREADY_ADDITIONAL_INFO_EXISTS);
         }
 
+        user.setGender(request.getGender());
         user.setEmail(request.getEmail());
 
         // 생년월일 String → Date 변환
