@@ -3,6 +3,8 @@ package com.hanhwa_tae.secondserver.notice.command.application.service;
 import com.hanhwa_tae.secondserver.common.domain.DeleteType;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.image.dto.request.SaveImageRequest;
+import com.hanhwa_tae.secondserver.image.service.ImageService;
 import com.hanhwa_tae.secondserver.notice.command.application.dto.request.NoticeInsertRequest;
 import com.hanhwa_tae.secondserver.notice.command.application.dto.request.NoticeUpdateRequest;
 import com.hanhwa_tae.secondserver.notice.command.domain.aggregate.Notice;
@@ -14,6 +16,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NoticeCommandService {
@@ -21,6 +25,7 @@ public class NoticeCommandService {
     private final JpaNoticeRepository jpaNoticeRepository;
     private final ModelMapper modelMapper;
     private final UserMapper userMapper;
+    private final ImageService imageService;
 
     /* 공지사항 등록 */
     public Long createNotice(String id, NoticeInsertRequest request) {
@@ -30,6 +35,12 @@ public class NoticeCommandService {
 
         Notice newNotice = modelMapper.map(request, Notice.class);
         newNotice.setUser(user);
+
+        List<String> imageUrls = request.getImageUrls();
+
+        if(!imageUrls.isEmpty()){
+            imageService.saveImage(SaveImageRequest.builder().imageList(imageUrls).build());
+        }
 
         Notice notice = jpaNoticeRepository.save(newNotice);
 
@@ -45,6 +56,12 @@ public class NoticeCommandService {
 
         Notice notice = jpaNoticeRepository.findById(noticeId)
                         .orElseThrow(() -> new BusinessException(ErrorCode.NOTICE_NOT_FOUND));
+
+        List<String> imageUrls = request.getImageUrls();
+
+        if(!imageUrls.isEmpty()){
+            imageService.saveImage(SaveImageRequest.builder().imageList(imageUrls).build());
+        }
 
         notice.updateNotice(
                 request.getTitle(),

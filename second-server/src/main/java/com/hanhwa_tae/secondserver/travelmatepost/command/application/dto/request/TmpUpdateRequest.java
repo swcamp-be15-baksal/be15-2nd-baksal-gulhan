@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @RequiredArgsConstructor
 public class TmpUpdateRequest {
@@ -13,4 +15,5 @@ public class TmpUpdateRequest {
     @NotBlank(message = "내용을 입력하세요.")
     private final String content;
 
+    private List<String> imageUrls;
 }

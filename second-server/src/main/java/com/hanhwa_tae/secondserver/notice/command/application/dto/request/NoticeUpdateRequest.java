@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @Builder
 public class NoticeUpdateRequest {
@@ -13,5 +15,7 @@ public class NoticeUpdateRequest {
 
     @NotBlank(message = "내용입력필수")
     private String content;
+
+    private List<String> imageUrls;
 
 }
