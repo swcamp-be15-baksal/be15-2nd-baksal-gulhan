@@ -9,6 +9,7 @@ import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressRe
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.service.MyPageQueryService;
+import com.hanhwa_tae.secondserver.user.query.dto.response.UserBoardResponse;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentResponse;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserReviewResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,6 +74,16 @@ public class MyPageQueryController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
+    @Operation(summary = "내 동행글  조회", description = "회원은 내 동행글을 확인할 수 있다.")
+    @GetMapping("/board")
+    public ResponseEntity<ApiResponse<UserBoardResponse>> getUserBoard(
+            @AuthenticationPrincipal CustomUserDetail userDetail
+    ){
+        UserBoardResponse response = myPageQueryService.getUserBoard(userDetail);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
     @Operation(summary = "내 동행글 댓글 조회", description = "회원은 내 동행글 댓글을 확인할 수 있다.")
     @GetMapping("/comment")
     public ResponseEntity<ApiResponse<UserCommentResponse>> getUserComment(
@@ -82,6 +93,8 @@ public class MyPageQueryController {
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+
 
     @Operation(summary = "배송지 목록 조회", description = "회원은 자신이 등록한 배송지의 목록을 확인할 수 있다.")
     @GetMapping("/delivery-address")

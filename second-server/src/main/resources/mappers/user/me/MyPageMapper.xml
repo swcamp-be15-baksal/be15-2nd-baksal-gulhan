@@ -66,21 +66,33 @@
         is_deleted = 'N'
         ORDER BY updated_at DESC
     </select>
+    <!-- 내 게시글 조회-->
+    <select id="findBoardByUserNo" resultType="com.hanhwa_tae.secondserver.user.query.dto.response.UserBoardDTO">
+        SELECT
+        travel_mate_post_id
+        , title
+        , created_at
+        FROM
+        travel_mate_post
+        WHERE
+        user_no = #{userNo}
+        AND
+        is_deleted = 'N'
+        ORDER BY created_at DESC;
+    </select>
     <!-- 내 댓글 조회-->
     <select id="findCommentByUserNo" resultType="com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentDTO">
         SELECT
         comment_id
         , content
         , created_at
-        , updated_at
-        , travel_mate_post_id
-        , parent_comment_id
         FROM
         comment
         WHERE
-        user_no = #{user_no}
+        user_no = #{userNo}
         AND
         is_deleted = 'N'
+        ORDER BY created_at DESC;
     </select>
 
     <!-- 배송지 목록 조회 -->

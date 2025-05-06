@@ -70,8 +70,8 @@ public class SecurityConfig {
                                         ).hasAuthority("SLAVE")
 
                                         /* 회원 권한 */
-                                        .requestMatchers(HttpMethod.GET,
-                                                "/notice/**"
+                                        .requestMatchers(HttpMethod.GET
+//                                                "/notice/**"
                                                 , "/like/likes"
                                                 , "/comment"
                                                 , "/board/list/**"
