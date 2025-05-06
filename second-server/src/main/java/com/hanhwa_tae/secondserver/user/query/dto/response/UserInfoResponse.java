@@ -10,11 +10,13 @@ import java.util.Date;
 @Builder
 public class UserInfoResponse {
     private final String userId;
-
     private final String username;
     private final String email;
     private final GenderType gender;
     private final Date birth;
     private final String phone;
     private final String address;
+    private final String rankName;
+    private final int pointRate;
+    private final int point;
 }
