@@ -21,4 +21,8 @@ public class GoodsDTO {
     private Timestamp createdAt;
     private int goodsCategoryId;
     private String goodsCategoryName;
+
+    private Integer likeCount;
+
+    private Integer reviewCount;
 }
