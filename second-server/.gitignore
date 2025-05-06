@@ -40,3 +40,4 @@ out/
 
 # IntelliJ IDEA 설정 파일
 .idea/
+.idea/dataSources.local.xml
