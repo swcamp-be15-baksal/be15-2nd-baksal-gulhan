@@ -1,6 +1,5 @@
 package com.hanhwa_tae.secondserver.delivery.query.dto.response;
 
-import com.hanhwa_tae.secondserver.delivery.command.domain.aggregate.DefaultAddress;
 import lombok.Builder;
 import lombok.Getter;
 
