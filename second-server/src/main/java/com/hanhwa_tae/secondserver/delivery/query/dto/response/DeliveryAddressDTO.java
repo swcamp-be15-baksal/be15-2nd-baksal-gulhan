@@ -8,10 +8,11 @@ import lombok.Getter;
 @Builder
 public class DeliveryAddressDTO {
     private int userNo;
+    private int deliveryAddressId;
     private String address;
     private String receiver;
     private String receiverPhone;
-    private DefaultAddress defaultAddress;
+    private String defaultAddress;
     private String zipcode;
     private String detailAddress;
 }
