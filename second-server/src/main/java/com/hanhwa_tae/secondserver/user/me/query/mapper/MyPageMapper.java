@@ -22,4 +22,6 @@ public interface MyPageMapper {
     List<UserCommentDTO> findCommentByUserNo(Long userNo);
 
     List<DeliveryAddressDTO> findDeliveryAddressByUserNo(Long userNo);
+
+    DeliveryAddressDTO findDeliveryAddressById(Long userNo, int deliveryAddressId);
 }

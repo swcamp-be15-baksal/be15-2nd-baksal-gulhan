@@ -12,4 +12,6 @@ public class DeliveryAddressDTO {
     private String receiver;
     private String receiverPhone;
     private DefaultAddress defaultAddress;
+    private String zipcode;
+    private String detailAddress;
 }
