@@ -32,11 +32,12 @@ public class DeliveryCommandService {
         }
 
         DeliveryAddress address = DeliveryAddress.builder()
+                .zipcode(request.getZipcode())
                 .address(request.getAddress())
+                .detailAddress(request.getDetailAddress())
                 .receiver(request.getReceiver())
                 .receiverPhone(request.getReceiverPhone())
                 .user(user)
-                // 기본 배송지 설정 시 Y 아니면 N
                 .defaultAddress(request.getDefaultAddress())
                 .build();
 
@@ -57,7 +58,9 @@ public class DeliveryCommandService {
         DeliveryAddress foundAddress = deliveryAddressRepository.findByDeliveryAddressIdAndUser(deliveryAddressId, user)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
 
+        foundAddress.setZipcode(request.getZipcode());
         foundAddress.setAddress(request.getAddress());
+        foundAddress.setDetailAddress(request.getDetailAddress());
         foundAddress.setReceiver(request.getReceiver());
         foundAddress.setReceiverPhone(request.getReceiverPhone());
 
@@ -69,15 +72,15 @@ public class DeliveryCommandService {
     }
 
     @Transactional
-    public void deleteDeliveryAddress(String id) {
+    public void deleteDeliveryAddress(String id, int deliveryAddressId) {
         User user = userMapper.findUserByUserId(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        DeliveryAddress foundAddress = deliveryAddressRepository.findByUser(user)
+        DeliveryAddress foundAddress = deliveryAddressRepository.findByDeliveryAddressIdAndUser(deliveryAddressId, user)
                 .orElseThrow(() -> new BusinessException(ErrorCode.ADDRESS_NOT_FOUND));
 
         deliveryAddressRepository.delete(foundAddress);
 
-        log.info("배송지 삭제 완료: 회원 ID={}", id);
+        log.info("배송지 삭제 완료: 회원 ID={}", id, deliveryAddressId);
     }
 }
