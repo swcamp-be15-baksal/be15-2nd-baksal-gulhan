@@ -99,13 +99,32 @@
     <select id="findDeliveryAddressByUserNo" resultType="com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO">
         SELECT
             u.user_no,
+            da.delivery_address_id,
+            da.address,
             da.receiver,
             da.receiver_phone,
-            da.address,
-            da.default_address
+            da.default_address,
+            da.zipcode,
+            da.detail_address
         FROM delivery_address da
         JOIN user u
             ON u.user_no = da.user_no
         WHERE da.user_no = #{userNo}
+    </select>
+
+    <!-- 개별 배송지 조회 -->
+    <select id="findDeliveryAddressById" resultType="com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO">
+        SELECT
+            u.user_no,
+            da.delivery_address_id,
+            da.address,
+            da.receiver,
+            da.receiver_phone,
+            da.default_address,
+            da.zipcode,
+            da.detail_address
+        FROM delivery_address da
+        JOIN user u ON u.user_no = da.user_no
+        WHERE da.delivery_address_id = #{deliveryAddressId}
     </select>
 </mapper>

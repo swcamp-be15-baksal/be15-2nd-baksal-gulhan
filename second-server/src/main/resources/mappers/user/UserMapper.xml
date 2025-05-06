@@ -34,6 +34,7 @@
     <select id="findUserByEmail" resultType="com.hanhwa_tae.secondserver.user.command.domain.aggregate.User">
         SELECT user_id, email FROM user WHERE email = #{ email } AND is_deleted = 'N'
     </select>
+
     <select id="findUserByPhone" resultType="com.hanhwa_tae.secondserver.user.command.domain.aggregate.User">
         SELECT
         b.phone as "user_info.phone"
@@ -41,6 +42,7 @@
         JOIN user_info b ON (a.user_no = b.user_no)
         WHERE b.phone = #{ phone }
     </select>
+
     <select id="findUserInfoByUserId" resultType="com.hanhwa_tae.secondserver.user.query.dto.response.UserInfoResponse">
         SELECT
         a.user_id
@@ -59,6 +61,7 @@
         WHERE a.user_id = #{ userId }
         AND a.is_deleted = 'N'
     </select>
+
     <select id="findUserByUserNo" resultType="com.hanhwa_tae.secondserver.user.command.domain.aggregate.User">
         SELECT
         user_no
@@ -74,10 +77,12 @@
         user
         WHERE user_no = #{userNo} AND is_deleted = 'N'
     </select>
+
     <select id="findAllRank" resultType="com.hanhwa_tae.secondserver.user.command.domain.aggregate.Rank">
         SELECT
         rank_name
         , point_rate
         FROM rank
     </select>
+
 </mapper>

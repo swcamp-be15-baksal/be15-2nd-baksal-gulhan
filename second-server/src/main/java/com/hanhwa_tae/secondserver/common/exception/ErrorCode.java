@@ -68,9 +68,9 @@ public enum ErrorCode {
     EMAIL_AUTHORIZATION_ERROR("50005", "이메일 인증에 실패하였습니다.",HttpStatus.BAD_REQUEST),
     IMAGE_FORMAT_ERROR("50006","지원하지 않는 이미지 형식 입니다.",HttpStatus.BAD_REQUEST),
     IMAGE_TOO_BIG("50007", "이미지 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
-    IMAGE_NOT_FOUND("50008", "이미지를 찾지 못하였습니다.", HttpStatus.NOT_FOUND);
-
-
+    IMAGE_NOT_FOUND("50008", "이미지를 찾지 못하였습니다.", HttpStatus.NOT_FOUND),
+    INVALID_IMAGE_URL("50009","유효하지 않은 이미지입니다.", HttpStatus.BAD_REQUEST),
+    S3_IMAGE_MOVE_FAIL("50010", "이미지 저장에 실패하였습니다.", HttpStatus.BAD_REQUEST);
     private final String code;
     private final String message;
     private final HttpStatus httpStatus;

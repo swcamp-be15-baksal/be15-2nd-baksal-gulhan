@@ -81,7 +81,7 @@ public class MyPageQueryService {
     }
 
     @Transactional(readOnly = true)
-    public DeliveryAddressResponse getDeliveryAddress(CustomUserDetail userDetail) {
+    public DeliveryAddressResponse getDeliveryAddressList(CustomUserDetail userDetail) {
 
         Long userNo = userDetail.getUserNo();
 
@@ -91,5 +91,12 @@ public class MyPageQueryService {
                 .addressList(addressList)
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public DeliveryAddressDTO getDeliveryAddress(CustomUserDetail userDetail, int deliveryAddressId) {
+        Long userNo = userDetail.getUserNo();
+        return myPageMapper.findDeliveryAddressById(userNo, deliveryAddressId);
+    }
+
 
 }

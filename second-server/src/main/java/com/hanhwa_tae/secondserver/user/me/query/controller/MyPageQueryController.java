@@ -5,6 +5,7 @@ import com.hanhwa_tae.secondserver.common.domain.TargetType;
 import com.hanhwa_tae.secondserver.common.dto.ApiResponse;
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO;
 import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressResponse;
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
@@ -17,10 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -98,12 +96,24 @@ public class MyPageQueryController {
 
     @Operation(summary = "배송지 목록 조회", description = "회원은 자신이 등록한 배송지의 목록을 확인할 수 있다.")
     @GetMapping("/delivery-address")
-    public ResponseEntity<ApiResponse<DeliveryAddressResponse>> getDeliveryAddress(
+    public ResponseEntity<ApiResponse<DeliveryAddressResponse>> getDeliveryAddressList(
             @AuthenticationPrincipal CustomUserDetail userDetail
     ){
-        DeliveryAddressResponse response = myPageQueryService.getDeliveryAddress(userDetail);
+        DeliveryAddressResponse response = myPageQueryService.getDeliveryAddressList(userDetail);
 
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    @Operation(summary = "배송지 ID로 개별 배송지 조회", description = "배송지 ID로 단일 배송지 정보를 확인할 수 있다.")
+    @GetMapping("/delivery-address/{deliveryAddressId}")
+    public ResponseEntity<ApiResponse<DeliveryAddressDTO>> getDeliveryAddress(
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @PathVariable int deliveryAddressId
+    ){
+        DeliveryAddressDTO response = myPageQueryService.getDeliveryAddress(userDetail, deliveryAddressId);
+
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
 
 }

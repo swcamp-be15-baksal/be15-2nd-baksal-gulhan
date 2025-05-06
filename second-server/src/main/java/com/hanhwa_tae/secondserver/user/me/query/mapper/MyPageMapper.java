@@ -24,5 +24,7 @@ public interface MyPageMapper {
 
     List<DeliveryAddressDTO> findDeliveryAddressByUserNo(Long userNo);
 
+    DeliveryAddressDTO findDeliveryAddressById(Long userNo, int deliveryAddressId);
+
     List<UserBoardDTO> findBoardByUserNo(Long userNo);
 }
