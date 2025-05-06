@@ -8,12 +8,12 @@
     <!-- 패키지 목록 조회 -->
     <select id="selectGoods" resultType="com.hanhwa_tae.firstserver.goods.query.dto.response.GoodsDTO">
         SELECT
-            g.goods_id,
-            g.goods_category_id,
+            g.goods_id ,
+            g.goods_category_id AS goodsCategoryId,
             g.title,
             g.quantity,
             g.price,
-            gc.category_name,
+            gc.category_name AS goodsCategoryName,
             COUNT(DISTINCT l.like_id) AS like_count,
             COUNT(DISTINCT r.review_id) AS review_count,
             ROUND(AVG(r.rating), 1) AS avg_rating
