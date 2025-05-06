@@ -12,6 +12,8 @@ public class PhoneValidator implements ConstraintValidator<ValidPhone, String> {
 
     @Override
     public boolean isValid(String phone, ConstraintValidatorContext context) {
-        return phone != null && PHONE_REGEX.matcher(phone).matches();
-    }
+        if (phone == null || phone.trim().isEmpty()) {
+            return true;
+        }
+        return PHONE_REGEX.matcher(phone).matches();    }
 }

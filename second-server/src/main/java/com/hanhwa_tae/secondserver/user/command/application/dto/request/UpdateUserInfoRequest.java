@@ -1,7 +1,6 @@
 package com.hanhwa_tae.secondserver.user.command.application.dto.request;
 
 import com.hanhwa_tae.secondserver.user.annotation.ValidPhone;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class UpdateUserInfoRequest {
-    @NotBlank
     private final String password;
 
     @ValidPhone
