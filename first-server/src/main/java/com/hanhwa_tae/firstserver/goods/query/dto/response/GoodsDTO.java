@@ -10,16 +10,16 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class GoodsDTO {
-    private int goodsId;
+    private Integer goodsId;
     private String title;
     private String detail;
-    private int quantity;
-    private int sold;
-    private int remaining;
-    private int price;
+    private Integer quantity;
+    private Integer sold;
+    private Integer remaining;
+    private Integer price;
     private BigDecimal avgRating;
     private Timestamp createdAt;
-    private int goodsCategoryId;
+    private Integer goodsCategoryId;
     private String goodsCategoryName;
 
     private Integer likeCount;

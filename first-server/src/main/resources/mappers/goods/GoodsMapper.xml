@@ -9,6 +9,7 @@
     <select id="selectGoods" resultType="com.hanhwa_tae.firstserver.goods.query.dto.response.GoodsDTO">
         SELECT
             g.goods_id,
+            g.goods_category_id,
             g.title,
             g.quantity,
             g.price,

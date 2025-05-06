@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8248f76e-ee91-4163-aa40-4c17bc08b72b" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/goods/command/domain/aggregate/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/goods/command/domain/aggregate/Goods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/goods/query/dto/response/GoodsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/java/com/hanhwa_tae/firstserver/goods/query/dto/response/GoodsDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/config/AwsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/second-server/src/main/java/com/hanhwa_tae/secondserver/config/AwsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/first-server/src/main/resources/mappers/goods/GoodsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/first-server/src/main/resources/mappers/goods/GoodsMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +101,7 @@
       <updated>1744876300987</updated>
       <workItem from="1744879447903" duration="2813000" />
       <workItem from="1745914112650" duration="2111000" />
-      <workItem from="1746528117832" duration="115000" />
+      <workItem from="1746528117832" duration="1643000" />
     </task>
     <servers />
   </component>
