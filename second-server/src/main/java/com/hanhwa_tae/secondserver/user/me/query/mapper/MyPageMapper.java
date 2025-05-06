@@ -4,6 +4,7 @@ import com.hanhwa_tae.secondserver.common.domain.TargetType;
 import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
+import com.hanhwa_tae.secondserver.user.query.dto.response.UserBoardDTO;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentDTO;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserReviewDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,4 +25,6 @@ public interface MyPageMapper {
     List<DeliveryAddressDTO> findDeliveryAddressByUserNo(Long userNo);
 
     DeliveryAddressDTO findDeliveryAddressById(Long userNo, int deliveryAddressId);
+
+    List<UserBoardDTO> findBoardByUserNo(Long userNo);
 }

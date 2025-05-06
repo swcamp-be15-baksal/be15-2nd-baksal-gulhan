@@ -9,6 +9,8 @@ import com.hanhwa_tae.secondserver.delivery.query.dto.response.DeliveryAddressRe
 import com.hanhwa_tae.secondserver.user.me.query.dto.GoodsOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.dto.PackageOrderHistoryDTO;
 import com.hanhwa_tae.secondserver.user.me.query.mapper.MyPageMapper;
+import com.hanhwa_tae.secondserver.user.query.dto.response.UserBoardDTO;
+import com.hanhwa_tae.secondserver.user.query.dto.response.UserBoardResponse;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentDTO;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserCommentResponse;
 import com.hanhwa_tae.secondserver.user.query.dto.response.UserReviewDTO;
@@ -51,6 +53,17 @@ public class MyPageQueryService {
 
         return UserReviewResponse.builder()
                 .userReviewList(userReview)
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public UserBoardResponse getUserBoard(CustomUserDetail userDetail) {
+        Long userNo = userDetail.getUserNo();
+
+        List<UserBoardDTO> boardList = myPageMapper.findBoardByUserNo(userNo);
+
+        return UserBoardResponse.builder()
+                .BoardList(boardList)
                 .build();
     }
 
