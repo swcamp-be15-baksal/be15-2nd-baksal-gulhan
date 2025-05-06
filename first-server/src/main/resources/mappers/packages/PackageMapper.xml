@@ -23,7 +23,7 @@
         <where>
             p.is_deleted = 'N'
             <if test="area != null">
-                area = #{area}
+                AND g.area LIKE CONCAT('%', #{area}, '%')
             </if>
             <if test="startDate != null">
                 AND start_date &gt;= #{startDate}
