@@ -23,6 +23,7 @@
         a.place_id,
         a.title,
         a.image,
+        a.address,
         b.area_name
         FROM place a
         JOIN area b ON (a.area_id = b.area_id)
