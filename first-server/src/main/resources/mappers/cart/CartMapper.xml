@@ -13,7 +13,8 @@
        WHEN c.target_type = 'goods' THEN g.price
        ELSE p.price
        END AS price,
-       c.target_type
+       c.target_type,
+       c.target_id
        FROM cart c
        LEFT JOIN goods g ON c.target_type = 'goods' AND c.target_id = g.goods_id
        LEFT JOIN package p ON c.target_type = 'package' AND c.target_id = p.package_id

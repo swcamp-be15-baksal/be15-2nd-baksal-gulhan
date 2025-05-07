@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class CreateOrderHistoryRequest {
-    private Long cartId;
+    private int cartId;
     private int price;
     private int quantity;
     private int targetId;
