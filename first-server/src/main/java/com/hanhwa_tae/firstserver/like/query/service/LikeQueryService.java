@@ -36,4 +36,12 @@ public class LikeQueryService {
                         .build())
                 .build();
     }
+
+    public boolean exists(String userId, LikeSearchRequest likeSearchRequest) {
+        return likeMapper.existsLike(userId, likeSearchRequest);
+    }
+
+    public long countByTarget(LikeSearchRequest likeSearchRequest) {
+        return likeMapper.countByTarget(likeSearchRequest);
+    }
 }

@@ -11,5 +11,9 @@ import java.util.List;
 public interface LikeMapper {
     List<LikeDto> selectLikes(String userId, LikeSearchRequest req);
 
+    boolean existsLike(String userId, LikeSearchRequest req);
+
     long countLikes(String userId, LikeSearchRequest req);
+
+    long countByTarget(LikeSearchRequest likeSearchRequest);
 }

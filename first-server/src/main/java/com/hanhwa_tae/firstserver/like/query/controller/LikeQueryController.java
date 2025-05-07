@@ -32,4 +32,24 @@ public class LikeQueryController {
         LikeListResponse response = likeQueryService.getLikes(userId, likeSearchRequest);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
+
+    @Operation(summary = "특정 대상에 대한 좋아요 여부 확인", description = "사용자가 해당 대상에 대해 좋아요를 눌렀는지 여부를 반환합니다.")
+    @GetMapping("/check")
+    public ResponseEntity<ApiResponse<Boolean>> checkLike(
+            @AuthenticationPrincipal CustomUserDetail userDetails,
+            LikeSearchRequest likeSearchRequest
+    ) {
+        String userId = userDetails.getUserId();
+        boolean exists = likeQueryService.exists(userId, likeSearchRequest);
+        return ResponseEntity.ok(ApiResponse.success(exists));
+    }
+
+    @Operation(summary = "대상 좋아요 수 조회", description = "특정 대상의 좋아요 개수를 조회합니다.")
+    @GetMapping("/count")
+    public ResponseEntity<ApiResponse<Long>> countLikeByTarget(
+            LikeSearchRequest likeSearchRequest
+    ) {
+        long count = likeQueryService.countByTarget(likeSearchRequest);
+        return ResponseEntity.ok(ApiResponse.success(count));
+    }
 }
