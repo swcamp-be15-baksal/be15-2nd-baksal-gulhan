@@ -9,5 +9,6 @@ public class PlacesDto {
     private Long placeId;
     private String title;
     private String image;
+    private String address;
     private String areaName;
 }

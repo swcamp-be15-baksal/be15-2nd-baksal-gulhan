@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class PlaceSearchRequest {
     private Integer page = 1;
-    private Integer size = 10;
+    private Integer size = 12;
     /* 부모 지역 아이디 ex) 강원도 1, 경기도 2, 충청북도 3, 경상북도 4 ... */
     private Long parentAreaId;
     /* 지역 아이디 ex) 철원 11, 수원 22, 청주 33, 상주 44 ... */

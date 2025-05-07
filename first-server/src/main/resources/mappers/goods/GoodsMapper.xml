@@ -88,7 +88,7 @@
             g.sold,
             g.price,
             g.created_at,
-            gc.category_name,
+            gc.category_name  AS goodsCategoryName,
             COUNT(DISTINCT l.like_id) AS like_count,
             COUNT(DISTINCT r.review_id) AS review_count,
             ROUND(AVG(r.rating), 1) AS avg_rating
