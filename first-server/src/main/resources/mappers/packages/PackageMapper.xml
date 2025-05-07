@@ -22,12 +22,16 @@
         LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
         <where>
             p.is_deleted = 'N'
-            <if test="area != null">
+            <if test="area != null and area != ''">
+                AND (
+                p.area IS NOT NULL
                 AND (
                 p.area LIKE CONCAT('%', #{area}, '%')
                 OR #{area} LIKE CONCAT('%', p.area, '%')
                 )
+                )
             </if>
+
             <if test="startDate != null">
                 AND start_date &gt;= #{startDate}
             </if>
