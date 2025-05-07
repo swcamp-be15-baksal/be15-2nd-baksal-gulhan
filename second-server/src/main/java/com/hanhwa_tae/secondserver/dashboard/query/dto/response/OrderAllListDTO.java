@@ -25,7 +25,7 @@ public class OrderAllListDTO {
 
     private String orderCode;
 
-    private int userNo;
+    private String userId;
 
     private String userName;
 }
