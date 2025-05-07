@@ -9,6 +9,5 @@ import java.util.List;
 @Builder
 @Getter
 public class UserCommentResponse {
-
     private List<UserCommentDTO> commentList;
 }
