@@ -37,10 +37,6 @@ public class PackageInsertRequest {
 
     private String guidePhone;
 
-<<<<<<< HEAD
-    private String firstImage;
-=======
     private List<String> imageUrls;
->>>>>>> main
 
 }

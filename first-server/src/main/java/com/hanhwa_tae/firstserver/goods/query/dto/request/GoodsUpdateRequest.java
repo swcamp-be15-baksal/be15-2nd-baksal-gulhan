@@ -15,9 +15,5 @@ public class GoodsUpdateRequest {
     private int remaining;
     private int price;
     private int goodsCategoryId;
-<<<<<<< HEAD
-    private String firstImage;
-=======
     private List<String> imageUrls;
->>>>>>> main
 }
