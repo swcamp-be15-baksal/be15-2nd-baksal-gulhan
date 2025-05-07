@@ -2,6 +2,8 @@ package com.hanhwa_tae.secondserver.travelmatepost.command.application.service;
 
 import com.hanhwa_tae.secondserver.common.exception.BusinessException;
 import com.hanhwa_tae.secondserver.common.exception.ErrorCode;
+import com.hanhwa_tae.secondserver.image.dto.request.SaveImageRequest;
+import com.hanhwa_tae.secondserver.image.service.ImageService;
 import com.hanhwa_tae.secondserver.travelmatepost.command.application.dto.request.TmpInsertRequest;
 import com.hanhwa_tae.secondserver.travelmatepost.command.application.dto.request.TmpUpdateRequest;
 import com.hanhwa_tae.secondserver.travelmatepost.command.domain.aggregate.TravelMatePost;
@@ -14,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TmpCmdService {
@@ -21,7 +25,7 @@ public class TmpCmdService {
     private final ModelMapper modelMapper;
     private final JpaTravelMatePostRepository  jpaTravelMatePostRepository;
     private final UserMapper userMapper;
-
+    private final ImageService imageService;
     /* 동행글 등록 */
     @Transactional
         public int createTmp(String id, TmpInsertRequest request) {
@@ -31,6 +35,14 @@ public class TmpCmdService {
                     .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
             travelMatePost.setUser(user);
+
+        List<String> imageUrls = request.getImageUrls();
+
+        if (!imageUrls.isEmpty()) {
+            imageService.saveImage(SaveImageRequest.builder()
+                    .imageList(imageUrls)
+                    .build());
+        }
 
             TravelMatePost saved = jpaTravelMatePostRepository.save(travelMatePost);
 
@@ -48,6 +60,14 @@ public class TmpCmdService {
 
         if(!user.getUserNo().equals(travelMatePost.getUser().getUserNo())) {
             throw new BusinessException(ErrorCode.POST_NOT_OWNED);
+        }
+
+        List<String> imageUrls = request.getImageUrls();
+
+        if (!imageUrls.isEmpty()) {
+            imageService.saveImage(SaveImageRequest.builder()
+                    .imageList(imageUrls)
+                    .build());
         }
 
         travelMatePost.updateProductDetails(
