@@ -13,4 +13,5 @@ public class GoodsInsertRequest {
     private int remaining;
     private int price;
     private int goodsCategoryId;
+    private String firstImage;
 }

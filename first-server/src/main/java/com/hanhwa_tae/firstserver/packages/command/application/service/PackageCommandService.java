@@ -38,7 +38,8 @@ public class PackageCommandService {
                 request.getGuideEmail(),
                 request.getGuideGender(),
                 request.getGuidePhone(),
-                request.getRemaining()
+                request.getRemaining(),
+                request.getFirstImage()
         );
     }
 

@@ -46,7 +46,8 @@ public class GoodsCommandService {
                 request.getQuantity(),
                 request.getRemaining(),
                 request.getPrice(),
-                categoryRef
+                categoryRef,
+                request.getFirstImage()
         );
 
 

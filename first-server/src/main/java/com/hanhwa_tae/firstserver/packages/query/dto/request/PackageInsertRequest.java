@@ -36,4 +36,6 @@ public class PackageInsertRequest {
 
     private String guidePhone;
 
+    private String firstImage;
+
 }
