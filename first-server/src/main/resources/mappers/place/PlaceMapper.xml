@@ -23,6 +23,7 @@
         a.place_id,
         a.title,
         a.image,
+        a.category,
         a.address,
         b.area_name
         FROM place a

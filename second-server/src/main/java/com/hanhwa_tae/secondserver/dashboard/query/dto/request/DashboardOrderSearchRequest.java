@@ -8,6 +8,7 @@ public class DashboardOrderSearchRequest {
 
     private Integer page = 1;
     private Integer size = 20;
+    private String ordercode;
 
     public int getOffset() {
         return (page - 1) * size;
