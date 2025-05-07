@@ -14,6 +14,7 @@
         p.area,
         p.start_date,
         p.end_date,
+        p.first_image,
         COUNT(DISTINCT l.like_id) AS like_count,
         COUNT(DISTINCT r.review_id) AS review_count,
         ROUND(AVG(r.rating), 1) AS avg_rating
@@ -100,6 +101,7 @@
             p.created_at,
             p.guide_name,
             p.guide_phone,
+            p.first_image,
             COUNT(DISTINCT l.like_id) AS like_count,
             COUNT(DISTINCT r.review_id) AS review_count,
             ROUND(AVG(r.rating), 1) AS avg_rating

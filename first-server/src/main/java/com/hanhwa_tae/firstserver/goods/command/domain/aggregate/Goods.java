@@ -33,6 +33,8 @@ public class Goods {
 
     private int price;
 
+    private String firstImage;
+
 
     @CreatedDate
     private Timestamp createdAt;
@@ -45,12 +47,13 @@ public class Goods {
     private GoodsCategory goodsCategoryId; // FK
 
     public void updateGoods(@NotBlank String title, @NotBlank String detail, @NotBlank int quantity,
-                            @NotBlank int remaining, @NotBlank int price, @NotBlank GoodsCategory goodsCategoryId) {
+                            @NotBlank int remaining, @NotBlank int price, @NotBlank GoodsCategory goodsCategoryId, String firstImage) {
         this.title = title;
         this.detail = detail;
         this.quantity = quantity;
         this.remaining = remaining;
         this.price = price;
         this.goodsCategoryId = goodsCategoryId;
+        this.firstImage = firstImage;
     }
 }

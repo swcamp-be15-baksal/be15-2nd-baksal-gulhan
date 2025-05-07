@@ -18,6 +18,7 @@ public class GoodsSearchRequest {
     private Integer price;
     private Integer goodsCategoryId;
     private Timestamp createdAt;
+    private String firstImage;
 
     private Integer page = 1;
     private Integer size = 20;

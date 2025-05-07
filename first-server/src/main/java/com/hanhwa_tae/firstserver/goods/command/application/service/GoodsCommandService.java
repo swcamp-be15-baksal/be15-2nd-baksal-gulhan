@@ -37,6 +37,7 @@ public class GoodsCommandService {
         List<String> imageUrls = request.getImageUrls();
 
         if (!imageUrls.isEmpty()) {
+            goods.setFirstImage(imageUrls.get(0).replace("/temp/", "/image/"));
             userClient.saveImage(SaveImageRequest.builder()
                     .imageList(imageUrls)
                     .build());
@@ -56,6 +57,7 @@ public class GoodsCommandService {
         List<String> imageUrls = request.getImageUrls();
 
         if (!imageUrls.isEmpty()) {
+            goods.setFirstImage(imageUrls.get(0));
             userClient.saveImage(SaveImageRequest.builder()
                             .imageList(imageUrls)
                     .build());
@@ -67,7 +69,8 @@ public class GoodsCommandService {
                 request.getQuantity(),
                 request.getRemaining(),
                 request.getPrice(),
-                categoryRef
+                categoryRef,
+                imageUrls.get(0).replace("/temp/", "/image/")
         );
 
 
