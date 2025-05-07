@@ -86,6 +86,7 @@
         comment_id
         , content
         , created_at
+        , travel_mate_post_id
         FROM
         comment
         WHERE

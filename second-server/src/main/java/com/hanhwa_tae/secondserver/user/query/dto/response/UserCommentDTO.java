@@ -13,4 +13,5 @@ public class UserCommentDTO {
     private String commentId;
     private String content;
     private String createdAt;
+    private String travelMatePostId;
 }
