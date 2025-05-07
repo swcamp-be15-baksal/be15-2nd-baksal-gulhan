@@ -38,6 +38,7 @@ public class TossPaymentController {
     @Operation(summary = "토스페이먼츠 API에 확인 정보 보내기",description = "order_id, amount를 확인하고, paymentkey를 tosspayment Api에 보낸다.")
     @PostMapping(value = {"/confirm/widget"})
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
+        System.out.println("ASDFSDFASDFASDfasdf");
         boolean is_paid = paymentService.validatePayment((String)parseRequestData(jsonBody).get("orderId"),
                 Integer.parseInt((String) parseRequestData(jsonBody).get("amount")));
         JSONObject response = sendRequest(parseRequestData(jsonBody), tossPaymentConfig.getTestSecretApiKey(), TossPaymentConfig.URL + "/confirm");

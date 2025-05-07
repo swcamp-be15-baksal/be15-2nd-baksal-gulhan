@@ -12,4 +12,6 @@ public class CartResponse {
     private int quantity;
     private TargetType targetType;
     private int targetId;
+    private String title;
+    private int price;
 }

@@ -12,6 +12,7 @@ import com.hanhwa_tae.firstserver.common.exception.BusinessException;
 import com.hanhwa_tae.firstserver.common.exception.ErrorCode;
 import com.hanhwa_tae.firstserver.goods.command.domain.repository.JpaGoodsRepository;
 import com.hanhwa_tae.firstserver.packages.command.domain.repository.JpaPackageRepository;
+import com.hanhwa_tae.firstserver.payment.command.application.dto.request.CreateOrderHistoryRequest;
 import com.hanhwa_tae.firstserver.payment.command.application.dto.request.CreateOrderRequest;
 import com.hanhwa_tae.firstserver.payment.query.mapper.PaymentMapper;
 import com.hanhwa_tae.firstserver.review.query.mapper.OrderMapper;
@@ -82,16 +83,16 @@ public class OrderCommandService {
     }
 
 
-    public String registerOrderHistory(Long userNo, List<CartResponse> cartList) {
+    public String registerOrderHistory(Long userNo, List<CreateOrderHistoryRequest> createOrderHistoryRequests) {
         Order order = paymentMapper.findOrderByUserNo(userNo).
                 orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        for(CartResponse cart : cartList){
+        for(CreateOrderHistoryRequest orderHistory : createOrderHistoryRequests){
             orderHistoryRepository.save(
                     OrderHistory.builder().
-                            targetType(cart.getTargetType()).
-                            targetId(cart.getTargetId()).
-                            quantity(cart.getQuantity()).
+                            targetType(orderHistory.getTargetType()).
+                            targetId(orderHistory.getTargetId()).
+                            quantity(orderHistory.getQuantity()).
                             orderId(order).build());
         }
 

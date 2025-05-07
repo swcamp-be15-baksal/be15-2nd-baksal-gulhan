@@ -8,6 +8,7 @@ import com.hanhwa_tae.firstserver.cart.query.mapper.CartMapper;
 import com.hanhwa_tae.firstserver.common.dto.ApiResponse;
 import com.hanhwa_tae.firstserver.common.exception.BusinessException;
 import com.hanhwa_tae.firstserver.common.exception.ErrorCode;
+import com.hanhwa_tae.firstserver.payment.command.application.dto.request.CreateOrderHistoryRequest;
 import com.hanhwa_tae.firstserver.payment.command.application.dto.request.CreateOrderRequest;
 import com.hanhwa_tae.firstserver.payment.command.application.service.PaymentService;
 import com.hanhwa_tae.firstserver.security.model.CustomUserDetail;
@@ -49,13 +50,14 @@ public class SuccessPaymentController {
     @Operation(summary = "구매내역 저장", description = "장바구니 내용을 바탕으로 구매내역 저장")
     @PostMapping("/order-history")
     public ApiResponse<String> createMyOrderHistory(
-            @AuthenticationPrincipal CustomUserDetail userDetail
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @RequestBody List<CreateOrderHistoryRequest> createOrderHistoryRequests
     ){
         Long userNo = userDetail.getUserNo();
-        List<CartResponse> cartList = cartMapper.selectAllCartByUserNo(userNo);
+
 
         return ApiResponse.success(
-                orderCommandService.registerOrderHistory(userNo, cartList)
+                orderCommandService.registerOrderHistory(userNo, createOrderHistoryRequests)
         );
 
     }

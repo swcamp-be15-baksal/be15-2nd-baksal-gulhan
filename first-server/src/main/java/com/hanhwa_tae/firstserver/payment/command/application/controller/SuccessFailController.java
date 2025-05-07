@@ -1,3 +1,4 @@
+/*
 package com.hanhwa_tae.firstserver.payment.command.application.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,3 +22,4 @@ public class SuccessFailController {
         return "/widget/fail";
     }
 }
+*/
