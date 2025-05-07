@@ -1,0 +1,7 @@
+
+# macOS 시스템 파일
+.DS_Store
+
+# IntelliJ IDEA 설정 파일
+.idea/
+.idea/

@@ -51,10 +51,24 @@ public class KakaoUserController {
     // 카카오 로그인 콜백 처리 (인가 코드로 로그인 요청)
     @Operation(summary = "카카오 엑세스 토큰 요청", description = "회원은 카카오 로그인에 성공 시 인가 코드로 토큰을 발급 받을 수 있다.")
     @GetMapping("/callback")
-    public ResponseEntity<ApiResponse<KakaoLoginResponse>> kakaoCallback(@RequestParam("code") String code) {
-        log.info("카카오 로그인 요청 시작: code={}", code);
+    public RedirectView kakaoCallback(@RequestParam("code") String code) {
         KakaoLoginResponse response = kakaoAuthService.login(code);
-        return ResponseEntity.ok(ApiResponse.success(response));
+
+        String accessToken = response.getToken().getAccessToken();
+        String refreshToken = response.getToken().getRefreshToken();
+        boolean needsAdditionalInfo = response.isNeedsAdditionalInfo();
+
+        String redirectUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:5173/kakao/callback")
+                .queryParam("accessToken", accessToken)
+                .queryParam("refreshToken", refreshToken)
+                .queryParam("needsAdditionalInfo", needsAdditionalInfo)
+                .queryParam("userId", response.getUserId())
+                .queryParam("username", response.getUsername())
+                .build()
+                .toUriString();
+
+        return new RedirectView(redirectUrl);
     }
 
     // 추가 정보 입력
