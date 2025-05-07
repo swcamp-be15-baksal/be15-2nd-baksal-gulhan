@@ -43,12 +43,13 @@ public class DeliveryCommandController {
     }
 
     @Operation(summary = "배송지 삭제", description = "회원은 등록한 배송지를 삭제할 수 있다.")
-    @PostMapping("/delivery-address/delete")
+    @PostMapping("/delivery-address/delete/{deliveryAddressId}")
     public ResponseEntity<ApiResponse<Void>> deleteDeliveryAddress(
-            @AuthenticationPrincipal CustomUserDetail userDetail
+            @AuthenticationPrincipal CustomUserDetail userDetail,
+            @PathVariable int deliveryAddressId
     ) {
         String userId = userDetail.getUserId();
-        deliveryCommandService.deleteDeliveryAddress(userId);
+        deliveryCommandService.deleteDeliveryAddress(userId, deliveryAddressId);
         return ResponseEntity.ok(ApiResponse.success(null));
     }
 }

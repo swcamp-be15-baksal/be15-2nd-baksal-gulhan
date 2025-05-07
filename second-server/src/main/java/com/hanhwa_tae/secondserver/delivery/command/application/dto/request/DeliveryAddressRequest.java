@@ -10,7 +10,11 @@ import lombok.Getter;
 @Builder
 public class DeliveryAddressRequest {
     @NotNull
+    private String zipcode;
+    @NotNull
     private String address;
+    @NotNull
+    private String detailAddress;
     @NotNull
     private String receiver;
     @NotNull

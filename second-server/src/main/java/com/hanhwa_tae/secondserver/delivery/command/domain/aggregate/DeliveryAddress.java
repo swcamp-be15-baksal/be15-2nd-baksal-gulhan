@@ -17,7 +17,11 @@ public class DeliveryAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int deliveryAddressId;
 
+    private String zipcode;
+
     private String address;
+
+    private String detailAddress;
 
     private String receiver;
 
@@ -29,4 +33,5 @@ public class DeliveryAddress {
 
     @Enumerated(EnumType.STRING)
     private DefaultAddress defaultAddress;
+
 }
