@@ -20,7 +20,7 @@ public class DashboardCommandController {
     @Operation(summary = "주문내역 수정사항 입력", description = "받는 사람 정보 수정 및 운송장 번호를 입력한다. ")
     @PutMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> updateOrder(
-            @PathVariable Long orderId,
+            @PathVariable String orderId,
             @RequestBody OrderUpdateRequest orderUpdateRequest
             ) {
 
