@@ -1,6 +1,7 @@
 package com.hanhwa_tae.firstserver.payment.query.mapper;
 import com.hanhwa_tae.firstserver.cart.command.domain.aggregate.Order;
 import com.hanhwa_tae.firstserver.cart.query.dto.response.OrderHistoryResponse;
+import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoriesResponse;
 import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderResponse;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,6 @@ public interface PaymentMapper {
     List<OrderHistoryResponse> findOrderByOrderId(String orderId);
 
     List<OrderResponse> findOrderInfoByUserNo(Long userNo);
+
+    List<OrderHistoriesResponse> findOrderHistoryByUserNo(Long userNo);
 }

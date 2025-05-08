@@ -40,7 +40,30 @@
         order_code,
         is_confirmed
         FROM `order`
-        WHERE user_no = #{user_no}
+        WHERE user_no = #{userNo}
+
+    </select>
+
+    <select id="findOrderHistoryByUserNo" resultType="com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoriesResponse">
+        SELECT
+        oh.order_history_type,
+        oh.target_id,
+        oh.quantity,
+        oh.is_confirmed,
+        o.order_id,
+        o.order_at,
+        CASE
+        WHEN oh.order_history_type = 'GOODS' THEN g.price
+        WHEN oh.order_history_type = 'PACKAGE' THEN p.price
+        ELSE NULL
+        END AS price
+        FROM `order` o
+        JOIN order_history oh ON o.order_id = oh.order_id
+        LEFT JOIN goods g ON oh.order_history_type = 'GOODS' AND oh.target_id = g.goods_id
+        LEFT JOIN package p ON oh.order_history_type = 'PACKAGE' AND oh.target_id = p.package_id
+        WHERE o.user_no = #{userNo}
+
+
 
     </select>
 </mapper>

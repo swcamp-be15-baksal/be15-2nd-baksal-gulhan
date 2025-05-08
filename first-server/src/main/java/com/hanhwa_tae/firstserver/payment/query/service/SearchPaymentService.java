@@ -1,9 +1,7 @@
 package com.hanhwa_tae.firstserver.payment.query.service;
 
 import com.hanhwa_tae.firstserver.cart.query.dto.response.OrderHistoryResponse;
-import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderDetailResponse;
-import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoryDetailResponse;
-import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderResponse;
+import com.hanhwa_tae.firstserver.payment.query.dto.response.*;
 import com.hanhwa_tae.firstserver.payment.query.mapper.PaymentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,5 +24,12 @@ public class SearchPaymentService {
 
         return OrderDetailResponse.builder().
                 orders(orders).build();
+    }
+
+    public OrderHistoriesDetailResponse findOrderHistoryByUserNo(Long userNo) {
+        List<OrderHistoriesResponse> orderHistoryList= paymentMapper.findOrderHistoryByUserNo(userNo);
+
+        return OrderHistoriesDetailResponse.builder().
+                orderHistories(orderHistoryList).build();
     }
 }

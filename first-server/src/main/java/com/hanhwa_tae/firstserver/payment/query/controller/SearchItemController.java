@@ -3,8 +3,7 @@ package com.hanhwa_tae.firstserver.payment.query.controller;
 
 import com.hanhwa_tae.firstserver.common.dto.ApiResponse;
 import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderDetailResponse;
-import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoryDetailResponse;
-import com.hanhwa_tae.firstserver.payment.query.dto.response.RefundResponseDetail;
+import com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoriesDetailResponse;
 import com.hanhwa_tae.firstserver.payment.query.service.SearchPaymentService;
 import com.hanhwa_tae.firstserver.security.model.CustomUserDetail;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,13 +22,12 @@ public class SearchItemController {
     private final SearchPaymentService searchPaymentService;
     /*구매내역 조회*/
     @Operation(summary = "구매내역 조회", description = "사용자는 본인의 구매내역을 order_id를 통해 조회한다.")
-    @GetMapping("/order_history/{order_id}")
-    public ResponseEntity<ApiResponse<OrderHistoryDetailResponse>> searchOrderHistory(
-            @AuthenticationPrincipal CustomUserDetail userDetail,
-            @PathVariable String order_id
+    @GetMapping("/order_history")
+    public ResponseEntity<ApiResponse<OrderHistoriesDetailResponse>> searchOrderHistory(
+            @AuthenticationPrincipal CustomUserDetail userDetail
             ){
         Long userNo = userDetail.getUserNo();
-        OrderHistoryDetailResponse orderHistoryDetail = searchPaymentService.findHistory(order_id);
+        OrderHistoriesDetailResponse orderHistoryDetail = searchPaymentService.findOrderHistoryByUserNo(userNo);
 
         return ResponseEntity.ok(ApiResponse.success(orderHistoryDetail));
     }
