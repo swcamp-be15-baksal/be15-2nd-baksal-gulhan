@@ -9,7 +9,7 @@ public class LikeSearchRequest {
     private Integer page = 1;
     private Integer size = 10;
 
-    private String targetType;
+    private String targetType = null;
 
     public int getOffset() { return (page - 1) * size; }
 
