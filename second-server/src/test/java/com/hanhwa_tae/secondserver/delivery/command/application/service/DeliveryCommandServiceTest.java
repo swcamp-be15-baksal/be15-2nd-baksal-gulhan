@@ -83,8 +83,8 @@ class DeliveryCommandServiceTest {
         Mockito.when(deliveryAddressRepository.findByUser(testUser)).thenReturn(Optional.of(address));
 
         // when
-        deliveryCommandService.updateDeliveryAddress("user101", request);
-
+        deliveryCommandService.updateDeliveryAddress("user101",1, request);
+//
         // then
         Assertions.assertEquals(request.getAddress(), address.getAddress());
         Assertions.assertEquals(request.getReceiver(), address.getReceiver());

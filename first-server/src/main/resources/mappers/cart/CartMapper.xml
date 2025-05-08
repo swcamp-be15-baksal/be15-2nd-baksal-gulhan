@@ -3,14 +3,26 @@
 <mapper namespace="com.hanhwa_tae.firstserver.cart.query.mapper.CartMapper">
    <select id="selectCartsByUserNo" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.CartResponse">
        SELECT
-            c.cart_id,
-            c.quantity,
-            c.target_type,
-            c.target_id
+       c.cart_id AS cart_id,
+       c.quantity,  -- 장바구니에 담긴 개수
+       CASE
+       WHEN c.target_type = 'goods' THEN g.title
+       ELSE p.title
+       END AS title,
+       CASE
+       WHEN c.target_type = 'goods' THEN g.price
+       ELSE p.price
+       END AS price,
+       c.target_type,
+       c.target_id
        FROM cart c
-<!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능
- 아래 내용이란 다른 점은 limit, offset 부분이 성립한다면 내용 수정-->
-       WHERE user_no = #{ userNo }
+       LEFT JOIN goods g ON c.target_type = 'goods' AND c.target_id = g.goods_id
+       LEFT JOIN package p ON c.target_type = 'package' AND c.target_id = p.package_id
+       WHERE c.user_no = #{userNo};
+
+
+       <!--       JOIN image a ON(c.target_id = a.target_id) -> 나중에 image테이블도 작성하면 가능
+        아래 내용이란 다른 점은 limit, offset 부분이 성립한다면 내용 수정-->
 
    </select>
     <select id="selectAllCartByUserNo" resultType="com.hanhwa_tae.firstserver.cart.query.dto.response.CartResponse">

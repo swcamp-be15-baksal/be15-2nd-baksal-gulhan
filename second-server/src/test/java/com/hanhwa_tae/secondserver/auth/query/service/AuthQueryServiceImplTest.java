@@ -138,7 +138,7 @@ class AuthQueryServiceImplTest {
         when(jwtTokenProvider.createAccessToken(userId, userNo, rank.getRankName().getRankName())).thenReturn("newAccessToken");
 
         // when
-        AccessTokenResponse response = authQueryService.reissue(request);
+        TokenResponse response = authQueryService.reissue(request);
 
         // then
         assertNotNull(response.getAccessToken());

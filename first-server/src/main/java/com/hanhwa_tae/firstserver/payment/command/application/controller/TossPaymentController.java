@@ -23,9 +23,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 
 @RequestMapping("/payment")
-
 @Controller
 @RequiredArgsConstructor
 public class TossPaymentController {
@@ -36,18 +36,20 @@ public class TossPaymentController {
     private final TossPaymentConfig tossPaymentConfig;
 
     @Operation(summary = "토스페이먼츠 API에 확인 정보 보내기",description = "order_id, amount를 확인하고, paymentkey를 tosspayment Api에 보낸다.")
-    @PostMapping(value = {"/confirm/widget"})
-    public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
-        boolean is_paid = paymentService.validatePayment((String)parseRequestData(jsonBody).get("orderId"),
-                Integer.parseInt((String) parseRequestData(jsonBody).get("amount")));
-        JSONObject response = sendRequest(parseRequestData(jsonBody), tossPaymentConfig.getTestSecretApiKey(), TossPaymentConfig.URL + "/confirm");
-        if(!is_paid) {
-            response.put("payerror","잘못된 결제요청입니다.");
-        }
-        int statusCode = (response.containsKey("error") || response.containsKey("payerror"))
-                ? 400
-                : 200;
+    @PostMapping(path = "/confirm/widget", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<JSONObject> confirmPayment(@RequestBody Map<String, Object> requestData) throws Exception {
+        logger.info("Received request data: {}", requestData);
+        String orderId = (String) requestData.get("orderId");
+        int amount = Integer.parseInt(requestData.get("amount").toString());
 
+        boolean is_paid = paymentService.validatePayment(orderId, amount);
+        JSONObject response = sendRequest(new JSONObject(requestData), tossPaymentConfig.getTestSecretApiKey(), TossPaymentConfig.URL + "/confirm");
+        System.out.println(is_paid);
+        if (!is_paid) {
+            response.put("payerror", "잘못된 결제요청입니다.");
+        }
+
+        int statusCode = (response.containsKey("error") || response.containsKey("payerror")) ? 400 : 200;
         return ResponseEntity.status(statusCode).body(response);
     }
     @Operation(summary = "사용자의 취소 정보 보내기",description = "Paymentkey와 취소사유를 함께 보내준다.")
