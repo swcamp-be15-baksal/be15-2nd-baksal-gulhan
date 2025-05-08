@@ -25,6 +25,16 @@
         LIMIT #{req.limit} OFFSET #{req.offset}
     </select>
 
+    <select id="existsLike" resultType="boolean">
+        SELECT EXISTS (
+        SELECT 1
+        FROM `like`
+        WHERE user_id = #{userId}
+        AND target_id = #{targetId}
+        AND target_type = #{targetType}
+        )
+    </select>
+
     <select id="countLikes" resultType="long">
         SELECT COUNT(*)
         FROM `like` a
@@ -50,5 +60,12 @@
                 AND a.user_id = #{userId}
             </if>
         </where>
+    </select>
+
+    <select id="countByTarget" resultType="long">
+        SELECT COUNT(*)
+        FROM `like`
+        WHERE target_id = #{targetId}
+        AND target_type = #{targetType}
     </select>
 </mapper>
