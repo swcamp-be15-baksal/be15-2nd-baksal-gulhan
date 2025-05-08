@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DashboardOrderMapper {
-    int updateOrder(@Param("orderId") Long orderId,
+    int updateOrder(@Param("orderId") String orderId,
                     @Param("request") OrderUpdateRequest request);
 }
