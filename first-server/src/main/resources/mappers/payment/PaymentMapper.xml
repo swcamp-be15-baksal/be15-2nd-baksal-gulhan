@@ -44,14 +44,25 @@
 
     </select>
 
-    <select id="findOrderHistoryByUserNo" resultType="com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoriesResponse">
+    <resultMap id="OrderHistoriesResultMap" type="com.hanhwa_tae.firstserver.payment.query.dto.response.OrderHistoriesResponse">
+        <result property="orderHistoryType" column="order_history_type"/>
+        <result property="targetId" column="target_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="isConfirmed" column="is_confirmed"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderedAt" column="ordered_at"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+    <select id="findOrderHistoryByUserNo"
+            resultMap="OrderHistoriesResultMap">
         SELECT
         oh.order_history_type,
         oh.target_id,
         oh.quantity,
         oh.is_confirmed,
         o.order_id,
-        o.order_at,
+        o.ordered_at,
         CASE
         WHEN oh.order_history_type = 'GOODS' THEN g.price
         WHEN oh.order_history_type = 'PACKAGE' THEN p.price
@@ -62,8 +73,5 @@
         LEFT JOIN goods g ON oh.order_history_type = 'GOODS' AND oh.target_id = g.goods_id
         LEFT JOIN package p ON oh.order_history_type = 'PACKAGE' AND oh.target_id = p.package_id
         WHERE o.user_no = #{userNo}
-
-
-
     </select>
 </mapper>
