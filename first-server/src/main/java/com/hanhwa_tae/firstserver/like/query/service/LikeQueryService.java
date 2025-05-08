@@ -37,11 +37,11 @@ public class LikeQueryService {
                 .build();
     }
 
-    public boolean exists(String userId, LikeSearchRequest likeSearchRequest) {
-        return likeMapper.existsLike(userId, likeSearchRequest);
+    public boolean exists(String userId, LikeSearchRequest req) {
+        return likeMapper.existsLike(userId, req.getTargetId(), req.getTargetType());
     }
 
-    public long countByTarget(LikeSearchRequest likeSearchRequest) {
-        return likeMapper.countByTarget(likeSearchRequest);
+    public long countByTarget(LikeSearchRequest req) {
+        return likeMapper.countByTarget(req.getTargetId(), req.getTargetType());
     }
 }
