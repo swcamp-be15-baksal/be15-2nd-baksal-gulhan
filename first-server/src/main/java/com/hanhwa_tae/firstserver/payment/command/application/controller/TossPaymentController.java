@@ -36,7 +36,7 @@ public class TossPaymentController {
     private final TossPaymentConfig tossPaymentConfig;
 
     @Operation(summary = "토스페이먼츠 API에 확인 정보 보내기",description = "order_id, amount를 확인하고, paymentkey를 tosspayment Api에 보낸다.")
-    @PostMapping("/confirm/widget")
+    @PostMapping(path = "/confirm/widget", produces = "application/json; charset=UTF-8")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody Map<String, Object> requestData) throws Exception {
         logger.info("Received request data: {}", requestData);
         String orderId = (String) requestData.get("orderId");
