@@ -16,3 +16,4 @@ public class GoodsQuantityDTO {
 
     private int totalPrice;
 }
+

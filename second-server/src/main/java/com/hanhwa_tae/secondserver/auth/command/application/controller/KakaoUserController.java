@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Tag(name = "소셜 회원")
 @Slf4j
 @RestController
@@ -64,9 +67,13 @@ public class KakaoUserController {
                 .queryParam("refreshToken", refreshToken)
                 .queryParam("needsAdditionalInfo", needsAdditionalInfo)
                 .queryParam("userId", response.getUserId())
-                .queryParam("username", response.getUsername())
+                .queryParam(
+                        "username",
+                        URLEncoder.encode(response.getUsername(), StandardCharsets.UTF_8)
+                )
                 .build()
                 .toUriString();
+        System.out.println("Redirecting to: " + redirectUrl); // 리다이렉트 URL 확인
 
         return new RedirectView(redirectUrl);
     }

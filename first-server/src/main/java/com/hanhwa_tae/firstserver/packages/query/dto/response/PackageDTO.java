@@ -43,4 +43,6 @@ public class PackageDTO {
 
     private Integer reviewCount;
 
+    private String firstImage;
+
 }

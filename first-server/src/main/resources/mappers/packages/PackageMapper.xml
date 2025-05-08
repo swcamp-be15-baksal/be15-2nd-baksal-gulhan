@@ -14,6 +14,7 @@
         p.area,
         p.start_date,
         p.end_date,
+        p.first_image,
         COUNT(DISTINCT l.like_id) AS like_count,
         COUNT(DISTINCT r.review_id) AS review_count,
         ROUND(AVG(r.rating), 1) AS avg_rating
@@ -22,12 +23,16 @@
         LEFT JOIN review r ON p.package_id = r.target_id AND r.target_type = 'PACKAGE' AND r.is_deleted = 'N'
         <where>
             p.is_deleted = 'N'
-            <if test="area != null">
+            <if test="area != null and area != ''">
+                AND (
+                p.area IS NOT NULL
                 AND (
                 p.area LIKE CONCAT('%', #{area}, '%')
                 OR #{area} LIKE CONCAT('%', p.area, '%')
                 )
+                )
             </if>
+
             <if test="startDate != null">
                 AND start_date &gt;= #{startDate}
             </if>
@@ -96,6 +101,7 @@
             p.created_at,
             p.guide_name,
             p.guide_phone,
+            p.first_image,
             COUNT(DISTINCT l.like_id) AS like_count,
             COUNT(DISTINCT r.review_id) AS review_count,
             ROUND(AVG(r.rating), 1) AS avg_rating
